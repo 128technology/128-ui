@@ -15,9 +15,11 @@ Example (with data):
     }];
 
     const dataSource = [{
+      key: 'US-Conductor',
       routerName: 'US-Conductor',
       status: 'UP'
     }, {
+      key: 'US-E-Boston',
       routerName: 'US-E-Boston',
       status: 'UP'
     }];

@@ -2,7 +2,6 @@ import React from 'react';
 import { Table as AntdTable } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 
-import '../../styles/_common.scss';
 import './Table.scss';
 
 /**

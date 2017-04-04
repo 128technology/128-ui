@@ -1,25 +1,25 @@
 @mixin define-font($filename, $weight, $name) {
   @font-face {
     font-family: $name;
-    src: url(../fonts/#{$filename}.eot);
-    src: url(../fonts/#{$filename}.eot?#iefix) format('embedded-opentype'), url(../fonts/#{$filename}.woff) format('woff'), url(../fonts/#{$filename}.ttf) format('truetype');
+    src: url(#{$filename}.eot);
+    src: url(#{$filename}.eot?#iefix) format('embedded-opentype'), url(#{$filename}.woff) format('woff'), url(#{$filename}.ttf) format('truetype');
     font-weight: $weight;
     font-style: normal;
   }
 }
 
-@include define-font("montserrat/montserrat-hairline-webfont", 100, "Montserrat");
-@include define-font("montserrat/montserrat-ultralight-webfont", 200, "Montserrat");
-@include define-font("montserrat/montserrat-light-webfont", 300, "Montserrat");
-@include define-font("montserrat/montserrat-regular-webfont", 400, "Montserrat");
-@include define-font("montserrat/montserrat-semibold-webfont", 500, "Montserrat");
-@include define-font("montserrat/montserrat-bold-webfont", 600, "Montserrat");
-@include define-font("montserrat/montserrat-extrabold-webfont", 700, "Montserrat");
-@include define-font("montserrat/montserrat-black-webfont", 800, "Montserrat");
-@include define-font("RbNo31/RbNo31_ExtraLight", 100, "RbNo31");
-@include define-font("RbNo31/RbNo31_Light", 200, "RbNo31");
-@include define-font("RbNo31/RbNo31_Book", 300, "RbNo31");
-@include define-font("128t/128t", 500, "128t");
+@include define-font("montserrat-hairline-webfont", 100, "Montserrat");
+@include define-font("montserrat-ultralight-webfont", 200, "Montserrat");
+@include define-font("montserrat-light-webfont", 300, "Montserrat");
+@include define-font("montserrat-regular-webfont", 400, "Montserrat");
+@include define-font("montserrat-semibold-webfont", 500, "Montserrat");
+@include define-font("montserrat-bold-webfont", 600, "Montserrat");
+@include define-font("montserrat-extrabold-webfont", 700, "Montserrat");
+@include define-font("montserrat-black-webfont", 800, "Montserrat");
+@include define-font("RbNo31_ExtraLight", 100, "RbNo31");
+@include define-font("RbNo31_Light", 200, "RbNo31");
+@include define-font("RbNo31_Book", 300, "RbNo31");
+@include define-font("128t", 500, "128t");
 
 .ic {
   font-family: "128t";

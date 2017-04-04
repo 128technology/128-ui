@@ -43,7 +43,18 @@ module.exports = {
       use: [
         'style-loader',
         'css-loader',
-        'sass-loader'
+        {
+          loader: 'resolve-url-loader',
+          options: {
+            root: APP_PATH
+          }
+        }, {
+          loader: 'sass-loader',
+          options: {
+            data: '@import "./src/styles/common";',
+            sourceMap: true
+          }
+        }
       ]
     }]
   }
