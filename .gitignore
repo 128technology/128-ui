@@ -60,8 +60,5 @@ typings/
 # Styleguide
 styleguide
 
-# Dist
-dist
-
 # VSCode
 .vscode
