@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const path = require('path');
 
 const APP_PATH = path.join(__dirname, 'src');
@@ -44,11 +43,6 @@ module.exports = {
         'style-loader',
         'css-loader',
         {
-          loader: 'resolve-url-loader',
-          options: {
-            root: APP_PATH
-          }
-        }, {
           loader: 'sass-loader',
           options: {
             data: '@import "./src/styles/common";',
