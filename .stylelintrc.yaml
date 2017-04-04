@@ -1,0 +1,18 @@
+extends:
+  - stylelint-config-standard
+
+rules:
+  function-comma-space-after: always
+  indentation: 2
+  max-nesting-depth: 4
+  number-no-trailing-zeros: true
+  number-leading-zero: never
+  no-missing-end-of-source-newline: true
+  no-extra-semicolons: true
+  length-zero-no-unit: true
+  color-named: never
+  color-hex-case: lower
+
+  # Uses autoprefixer's supported prefixes
+  value-no-vendor-prefix: true
+  property-no-vendor-prefix: true

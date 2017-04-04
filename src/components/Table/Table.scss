@@ -1,0 +1,36 @@
+@import "../../styles/variables";
+
+.ui-128-table {
+
+  .ant-table-wrapper {
+    font-family: $montserrat-family;
+
+    .ant-table-thead th{
+      font-size: 13px;
+      font-weight: 300;
+      background-color: #fff;
+      border-bottom: 1px solid rgba(0, 0, 0, .12);
+      color: #646464;
+    }
+
+    .ant-table-tbody tr {
+      td {
+        font-size: 14px;
+        font-weight: 300;
+        border-bottom: 0;
+
+        > .disabled {
+          color: #c8c9c7;
+        }
+      }
+
+      &:hover td {
+        background-color: #f2f3f2;
+      }
+    }
+
+    .ant-table-placeholder {
+      border-bottom: 0;
+    }
+  }
+}

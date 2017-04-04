@@ -1,0 +1,48 @@
+{
+  "name": "128-ui",
+  "version": "0.0.1",
+  "description": "128 Technology user-interface component library.",
+  "main": "dist/128-ui.js",
+  "scripts": {
+    "build": "webpack -p --config=webpack.config",
+    "styleguide": "styleguidist server",
+    "styleguide:build": "styleguidist build",
+    "prepublish": "npm run lint",
+    "lint:js": "eslint --ext .js --ext .jsx src",
+    "lint:style": "stylelint src/**/*.scss",
+    "lint": "npm run lint:js && npm run lint:style",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@bitbucket.128technology.com:7000/t128/node_modules.git"
+  },
+  "author": "128 Technology",
+  "private": true,
+  "license": "SEE LICENSE IN LICENSE",
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-eslint": "^7.2.1",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-import": "^1.1.1",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-react": "^6.23.0",
+    "css-loader": "^0.28.0",
+    "eslint": "^3.19.0",
+    "eslint-plugin-react": "^6.10.3",
+    "loaders": "^1.1.3",
+    "node-sass": "^4.5.2",
+    "react-styleguidist": "^5.0.4",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.16.1",
+    "stylelint": "^7.10.1",
+    "stylelint-config-standard": "^16.0.0",
+    "url-loader": "^0.5.8",
+    "webpack": "^2.3.3"
+  },
+  "dependencies": {
+    "antd": "^2.9.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  }
+}
