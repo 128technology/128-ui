@@ -62,3 +62,6 @@ styleguide
 
 # Dist
 dist
+
+# VSCode
+.vscode
