@@ -3,13 +3,14 @@ const path = require('path');
 const APP_PATH = path.join(__dirname, 'src');
 
 module.exports = {
-  entry: [
-    path.join(APP_PATH, 'index.js')
-  ],
+  entry: {
+    '128UIFonts': path.join(APP_PATH, 'fonts.js'),
+    '128UI': path.join(APP_PATH, 'index.js')
+  },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '128-ui.js',
-    library: '128-ui',
+    filename: '[name].js',
+    library: '128UI',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
@@ -22,7 +23,8 @@ module.exports = {
       use: [{
         loader: 'url-loader',
         options: {
-          limit: 10000
+          limit: 10000,
+          name: './fonts/[name].[ext]'
         }
       }]
     }, {
@@ -51,5 +53,19 @@ module.exports = {
         }
       ]
     }]
-  }
+  },
+  externals: [{
+    react: {
+      root: 'React',
+      commonjs2: 'react',
+      commonjs: 'react',
+      amd: 'react'
+    },
+    'react-dom': {
+      root: 'ReactDOM',
+      commonjs2: 'react-dom',
+      commonjs: 'react-dom',
+      amd: 'react-dom'
+    }
+  }]
 };

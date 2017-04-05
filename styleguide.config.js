@@ -5,5 +5,6 @@ module.exports = {
     path.join(__dirname, 'src', 'fonts', '_fonts.scss')
   ],
   components: 'src/components/**/[A-Z]*.jsx',
-  title: '128 UI Style Guide'
+  title: '128 UI Style Guide',
+  webpackConfig: require('./webpack.development.config.js')
 };

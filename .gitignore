@@ -60,5 +60,8 @@ typings/
 # Styleguide
 styleguide
 
+# dist
+dist
+
 # VSCode
 .vscode

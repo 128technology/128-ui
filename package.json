@@ -1,16 +1,22 @@
 {
   "name": "128-ui",
   "version": "0.0.1",
-  "description": "128 Technology user-interface component library.",
-  "main": "dist/128-ui.js",
+  "description": "128 Technology UI component library.",
+  "main": "dist/128UI.js",
   "scripts": {
-    "build": "rimraf dist/ && webpack -p --config=webpack.config",
+    "build:dev": "webpack --config webpack.development.config.js",
+    "build:prod": "webpack --config webpack.production.config.js",
+    "build": "npm run clean:dist && npm run build:dev && npm run build:prod",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
     "lint:js": "eslint --ext .js --ext .jsx src",
     "lint:style": "stylelint src/**/*.scss",
     "lint": "npm run lint:js && npm run lint:style",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "npm run build",
+    "clean:dist": "rimraf dist/",
+    "clean:styleguide": "rimraf styleguide/",
+    "clean": "npm run clean:dist && npm run clean:styleguide"
   },
   "repository": {
     "type": "git",
@@ -38,11 +44,16 @@
     "stylelint": "^7.10.1",
     "stylelint-config-standard": "^16.0.0",
     "url-loader": "^0.5.8",
-    "webpack": "^2.3.3"
-  },
-  "dependencies": {
-    "antd": "^2.9.0",
+    "webpack": "^2.3.3",
+    "webpack-merge": "^4.1.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
+  },
+  "peerDependencies": {
+    "react": "^15.0.0",
+    "react-dom": "^15.0.0"
+  },
+  "dependencies": {
+    "antd": "^2.9.0"
   }
 }
