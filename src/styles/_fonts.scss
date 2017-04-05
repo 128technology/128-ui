@@ -1,8 +1,8 @@
 @mixin define-font($filename, $weight, $name) {
   @font-face {
     font-family: $name;
-    src: url(#{$filename}.eot);
-    src: url(#{$filename}.eot?#iefix) format('embedded-opentype'), url(#{$filename}.woff) format('woff'), url(#{$filename}.ttf) format('truetype');
+    src: url(../fonts/#{$filename}.eot);
+    src: url(../fonts/#{$filename}.eot?#iefix) format('embedded-opentype'), url(../fonts/#{$filename}.woff) format('woff'), url(../fonts/#{$filename}.ttf) format('truetype');
     font-weight: $weight;
     font-style: normal;
   }

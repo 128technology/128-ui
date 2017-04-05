@@ -8,7 +8,7 @@ module.exports = {
     '128UI': path.join(APP_PATH, 'index.js')
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'dist', 'lib'),
     filename: '[name].js',
     library: '128UI',
     libraryTarget: 'umd',
@@ -24,7 +24,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: './fonts/[name].[ext]'
+          name: '../fonts/[name].[ext]'
         }
       }]
     }, {
