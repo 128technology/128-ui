@@ -4,11 +4,10 @@ const APP_PATH = path.join(__dirname, 'src');
 
 module.exports = {
   entry: {
-    '128UIFonts': path.join(APP_PATH, 'fonts.js'),
     '128UI': path.join(APP_PATH, 'index.js')
   },
   output: {
-    path: path.join(__dirname, 'dist', 'lib'),
+    path: path.join(__dirname, 'dist'),
     filename: '[name].js',
     library: '128UI',
     libraryTarget: 'umd',
@@ -23,8 +22,7 @@ module.exports = {
       use: [{
         loader: 'url-loader',
         options: {
-          limit: 10000,
-          name: '../fonts/[name].[ext]'
+          limit: 10000
         }
       }]
     }, {
