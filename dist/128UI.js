@@ -24918,6 +24918,8 @@ var _tabs = __webpack_require__(74);
 
 var _tabs2 = _interopRequireDefault(_tabs);
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
@@ -24934,11 +24936,7 @@ var AntdTabPane = _tabs2.default.TabPane;
  * Please see the [Ant Design Tabs documentation](https://ant.design/components/tabs/)
  */
 var TabPane = function TabPane(props) {
-  return _react2.default.createElement(AntdTabPane, props);
-};
-
-TabPane.defaultProps = {
-  className: 'ui-128__tab-pane ui-128'
+  return _react2.default.createElement(AntdTabPane, _extends({}, props, { className: 'ui-128__tab-pane ui-128' }));
 };
 
 exports.default = TabPane;
@@ -24958,6 +24956,8 @@ var _table = __webpack_require__(249);
 
 var _table2 = _interopRequireDefault(_table);
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
@@ -24976,15 +24976,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Please see the [Ant Design Table documentation](https://ant.design/components/table/)
  */
 var Table = function Table(props) {
-  return _react2.default.createElement(_table2.default, props);
+  return _react2.default.createElement(_table2.default, _extends({}, props, { className: 'ui-128__table ui-128' }));
 };
 
 Table.defaultProps = {
   locale: _en_US2.default.Table,
   pagination: {
     locale: _en_US2.default.Pagination
-  },
-  className: 'ui-128__table ui-128'
+  }
 };
 
 exports.default = Table;
@@ -25004,6 +25003,8 @@ var _tabs = __webpack_require__(74);
 
 var _tabs2 = _interopRequireDefault(_tabs);
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
@@ -25018,11 +25019,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Please see the [Ant Design Tabs documentation](https://ant.design/components/tabs/)
  */
 var Tabs = function Tabs(props) {
-  return _react2.default.createElement(_tabs2.default, props);
-};
-
-Tabs.defaultProps = {
-  className: 'ui-128__tabs ui-128'
+  return _react2.default.createElement(_tabs2.default, _extends({}, props, { className: 'ui-128__tabs ui-128' }));
 };
 
 exports.default = Tabs;
