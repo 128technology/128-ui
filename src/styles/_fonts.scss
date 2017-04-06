@@ -1,3 +1,5 @@
+@import "../fonts/anticon/iconfont.css";
+
 @mixin define-font($filename, $weight, $name) {
   @font-face {
     font-family: $name;

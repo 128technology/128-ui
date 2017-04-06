@@ -27,7 +27,6 @@ module.exports = {
       }]
     }, {
       test: /\.css$/,
-      include: [ APP_PATH ],
       use: [
         'style-loader',
         'css-loader'
@@ -38,7 +37,6 @@ module.exports = {
       use: ['babel-loader']
     }, {
       test: /\.scss$/,
-      include: [ APP_PATH ],
       use: [
         'style-loader',
         'css-loader',

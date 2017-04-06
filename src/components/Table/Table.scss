@@ -1,9 +1,8 @@
-.ui-128-table {
-
-  .ant-table-wrapper {
+.ui-128__table {
+  &.ant-table-wrapper {
     font-family: $montserrat-family;
 
-    .ant-table-thead th{
+    .ant-table-thead th {
       font-size: 13px;
       font-weight: 300;
       background-color: #fff;

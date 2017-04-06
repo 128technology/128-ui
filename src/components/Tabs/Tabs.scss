@@ -1,0 +1,9 @@
+.ui-128__tabs {
+  font-family: $montserrat-family;
+
+  &.ant-tabs {
+    .ant-tabs-nav .ant-tabs-tab {
+      margin-right: 0;
+    }
+  }
+}
