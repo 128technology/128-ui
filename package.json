@@ -9,7 +9,7 @@
     "build": "npm run clean:dist && npm run build:dev && npm run build:prod",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
-    "lint:js": "eslint --ext .js --ext .jsx src",
+    "lint:js": "eslint --ext .js --ext .jsx src/components",
     "lint:style": "stylelint src/**/*.scss",
     "lint": "npm run lint:js && npm run lint:style",
     "test": "echo \"Error: no test specified\" && exit 1",
