@@ -28068,7 +28068,7 @@ exports.i(__webpack_require__(57), "");
 exports.i(__webpack_require__(59), "");
 
 // module
-exports.push([module.i, ".ui-128__tabs {\n  font-family: Montserrat, sans-serif; }\n  .ui-128__tabs.ant-tabs .ant-tabs-nav .ant-tabs-tab {\n    margin-right: 0; }\n", ""]);
+exports.push([module.i, ".ui-128__tabs {\n  font-family: Montserrat, sans-serif; }\n  .ui-128__tabs.ant-tabs .ant-tabs-ink-bar {\n    background-color: #00adef; }\n  .ui-128__tabs.ant-tabs .ant-tabs-nav .ant-tabs-tab-active {\n    color: #00adef; }\n  .ui-128__tabs.ant-tabs .ant-tabs-nav .ant-tabs-tab {\n    height: 48px;\n    line-height: 48px;\n    margin-right: 0;\n    padding: 0 20px; }\n    .ui-128__tabs.ant-tabs .ant-tabs-nav .ant-tabs-tab:hover {\n      color: #00adef; }\n", ""]);
 
 // exports
 
