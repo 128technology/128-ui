@@ -2,8 +2,23 @@
   font-family: $montserrat-family;
 
   &.ant-tabs {
+    .ant-tabs-ink-bar {
+      background-color: $cyan-128;
+    }
+
+    .ant-tabs-nav .ant-tabs-tab-active {
+      color: $cyan-128;
+    }
+
     .ant-tabs-nav .ant-tabs-tab {
+      height: 48px;
+      line-height: 48px;
       margin-right: 0;
+      padding: 0 20px;
+
+      &:hover {
+        color: $cyan-128;
+      }
     }
   }
 }
