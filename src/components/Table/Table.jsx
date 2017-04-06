@@ -10,7 +10,15 @@ import './Table.scss';
  * Please see the [Ant Design Table documentation](https://ant.design/components/table/)
  */
 const Table = (props) => (
-  <AntdTable {...props} locale={enUS.Table} pagination={{ locale: enUS.Pagination }} className="ui-128__table ui-128" />
+  <AntdTable {...props} />
 );
+
+Table.defaultProps = {
+  locale: enUS.Table,
+  pagination: {
+    locale: enUS.Pagination
+  },
+  className: 'ui-128__table ui-128'
+};
 
 export default Table;

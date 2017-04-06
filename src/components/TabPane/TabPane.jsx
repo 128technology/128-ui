@@ -11,7 +11,11 @@ const AntdTabPane = AntdTabs.TabPane;
  * Please see the [Ant Design Tabs documentation](https://ant.design/components/tabs/)
  */
 const TabPane = (props) => (
-  <AntdTabPane {...props} className="ui-128__tab-pane ui-128" />
+  <AntdTabPane {...props} />
 );
+
+TabPane.defaultProps = {
+  className: 'ui-128__tab-pane ui-128'
+};
 
 export default TabPane;

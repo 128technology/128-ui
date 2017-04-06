@@ -9,7 +9,11 @@ import './Tabs.scss';
  * Please see the [Ant Design Tabs documentation](https://ant.design/components/tabs/)
  */
 const Tabs = (props) => (
-  <AntdTabs {...props} className="ui-128__tabs ui-128" />
+  <AntdTabs {...props} />
 );
+
+Tabs.defaultProps = {
+  className: 'ui-128__tabs ui-128'
+};
 
 export default Tabs;
