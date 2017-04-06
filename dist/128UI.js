@@ -24936,7 +24936,7 @@ var AntdTabPane = _tabs2.default.TabPane;
  * Please see the [Ant Design Tabs documentation](https://ant.design/components/tabs/)
  */
 var TabPane = function TabPane(props) {
-  return _react2.default.createElement(AntdTabPane, _extends({}, props, { className: 'ui-128__tab-pane ui-128' }));
+  return _react2.default.createElement(AntdTabPane, _extends({}, props, { className: props.className + ' ui-128__tab-pane ui-128' }));
 };
 
 exports.default = TabPane;
@@ -24976,7 +24976,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Please see the [Ant Design Table documentation](https://ant.design/components/table/)
  */
 var Table = function Table(props) {
-  return _react2.default.createElement(_table2.default, _extends({}, props, { className: 'ui-128__table ui-128' }));
+  return _react2.default.createElement(_table2.default, _extends({}, props, { className: props.className + ' ui-128__table ui-128' }));
 };
 
 Table.defaultProps = {
@@ -25019,7 +25019,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Please see the [Ant Design Tabs documentation](https://ant.design/components/tabs/)
  */
 var Tabs = function Tabs(props) {
-  return _react2.default.createElement(_tabs2.default, _extends({}, props, { className: 'ui-128__tabs ui-128' }));
+  return _react2.default.createElement(_tabs2.default, _extends({}, props, { className: props.className + ' ui-128__tabs ui-128' }));
 };
 
 exports.default = Tabs;
