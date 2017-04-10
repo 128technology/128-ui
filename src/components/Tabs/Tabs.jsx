@@ -8,8 +8,23 @@ import './Tabs.scss';
  * 
  * Please see the [Ant Design Tabs documentation](https://ant.design/components/tabs/)
  */
-const Tabs = (props) => (
-  <AntdTabs {...props} className={`${props.className} ui-128__tabs ui-128`} />
-);
+const Tabs = (props) => {
+  let className = `${props.className} ui-128__tabs ui-128`;
+
+  if (props.inline) {
+    className = `${className} ui-128__tabs--inline`;
+  }
+
+  return (
+    <AntdTabs {...props} className={className} />
+  );
+};
+
+Tabs.propTypes = {
+  /**
+   * Sets the tab bar style to inline.
+   */
+  inline: React.PropTypes.bool
+};
 
 export default Tabs;

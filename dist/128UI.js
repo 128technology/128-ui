@@ -25019,7 +25019,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Please see the [Ant Design Tabs documentation](https://ant.design/components/tabs/)
  */
 var Tabs = function Tabs(props) {
-  return _react2.default.createElement(_tabs2.default, _extends({}, props, { className: props.className + ' ui-128__tabs ui-128' }));
+  var className = props.className + ' ui-128__tabs ui-128';
+
+  if (props.inline) {
+    className = className + ' ui-128__tabs--inline';
+  }
+
+  return _react2.default.createElement(_tabs2.default, _extends({}, props, { className: className }));
+};
+
+Tabs.propTypes = {
+  /**
+   * Sets the tab bar style to inline.
+   */
+  inline: _react2.default.PropTypes.bool
 };
 
 exports.default = Tabs;
@@ -28051,7 +28064,7 @@ exports.i(__webpack_require__(57), "");
 exports.i(__webpack_require__(59), "");
 
 // module
-exports.push([module.i, ".ui-128__table.ant-table-wrapper {\n  font-family: Montserrat, sans-serif; }\n  .ui-128__table.ant-table-wrapper .ant-table-thead th {\n    font-size: 13px;\n    font-weight: 300;\n    background-color: #fff;\n    border-bottom: 1px solid rgba(0, 0, 0, 0.12);\n    color: #646464; }\n  .ui-128__table.ant-table-wrapper .ant-table-tbody tr td {\n    font-size: 14px;\n    font-weight: 300;\n    border-bottom: 0; }\n    .ui-128__table.ant-table-wrapper .ant-table-tbody tr td > .disabled {\n      color: #c8c9c7; }\n  .ui-128__table.ant-table-wrapper .ant-table-tbody tr:hover td {\n    background-color: #f2f3f2; }\n  .ui-128__table.ant-table-wrapper .ant-table-placeholder {\n    border-bottom: 0; }\n", ""]);
+exports.push([module.i, ".ui-128__table.ant-table-wrapper {\n  font-family: Montserrat, sans-serif; }\n  .ui-128__table.ant-table-wrapper .ant-table-thead th {\n    font-size: 13px;\n    font-weight: 400;\n    background-color: #fff;\n    border-bottom: 1px solid rgba(0, 0, 0, 0.12);\n    color: #646464; }\n  .ui-128__table.ant-table-wrapper .ant-table-tbody tr td {\n    font-size: 14px;\n    font-weight: 300;\n    border-bottom: 0; }\n    .ui-128__table.ant-table-wrapper .ant-table-tbody tr td > .disabled {\n      color: #c8c9c7; }\n  .ui-128__table.ant-table-wrapper .ant-table-tbody tr:hover td {\n    background-color: #f2f3f2; }\n  .ui-128__table.ant-table-wrapper .ant-table-placeholder {\n    border-bottom: 0; }\n", ""]);
 
 // exports
 
@@ -28068,7 +28081,7 @@ exports.i(__webpack_require__(57), "");
 exports.i(__webpack_require__(59), "");
 
 // module
-exports.push([module.i, ".ui-128__tabs {\n  font-family: Montserrat, sans-serif; }\n  .ui-128__tabs.ant-tabs .ant-tabs-ink-bar {\n    background-color: #00adef; }\n  .ui-128__tabs.ant-tabs .ant-tabs-nav .ant-tabs-tab-active {\n    color: #00adef; }\n  .ui-128__tabs.ant-tabs .ant-tabs-nav .ant-tabs-tab {\n    height: 48px;\n    line-height: 48px;\n    margin-right: 0;\n    padding: 0 20px; }\n    .ui-128__tabs.ant-tabs .ant-tabs-nav .ant-tabs-tab:hover {\n      color: #00adef; }\n", ""]);
+exports.push([module.i, ".ui-128__tabs {\n  font-family: Montserrat, sans-serif; }\n  .ui-128__tabs.ant-tabs .ant-tabs-ink-bar {\n    background-color: #00adef; }\n  .ui-128__tabs.ant-tabs .ant-tabs-nav .ant-tabs-tab-active {\n    color: #00adef; }\n  .ui-128__tabs.ant-tabs .ant-tabs-nav .ant-tabs-tab {\n    height: 48px;\n    line-height: 48px;\n    padding: 0 20px;\n    margin-right: 0; }\n    .ui-128__tabs.ant-tabs .ant-tabs-nav .ant-tabs-tab:hover {\n      color: #00adef; }\n\n.ui-128__tabs--inline.ant-tabs .ant-tabs-bar {\n  display: table;\n  margin-bottom: 0; }\n", ""]);
 
 // exports
 
