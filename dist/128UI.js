@@ -24981,8 +24981,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 /**
- * A simple utility component for displaying durations of time in 
- * days, hours, minutes, and seconds.
+ * Utility component for displaying durations of time in the format:
+ * 
+ * {days}d {hours}h {minutes}m {seconds}s.
  */
 var Duration = _react2.default.createClass({
   displayName: 'Duration',
