@@ -4,8 +4,9 @@ import React from 'react';
 import './Duration.scss';
 
 /**
- * A simple utility component for displaying durations of time in 
- * days, hours, minutes, and seconds.
+ * Utility component for displaying durations of time in the format:
+ * 
+ * {days}d {hours}h {minutes}m {seconds}s.
  */
 const Duration = React.createClass({
   propTypes: {
