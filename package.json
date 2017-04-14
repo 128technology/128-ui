@@ -23,7 +23,6 @@
     "url": "ssh://git@bitbucket.128technology.com:7000/t128/node_modules.git"
   },
   "author": "128 Technology",
-  "private": true,
   "license": "SEE LICENSE IN LICENSE",
   "devDependencies": {
     "babel-core": "^6.24.0",
