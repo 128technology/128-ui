@@ -18,6 +18,9 @@
     "clean:styleguide": "rimraf styleguide/",
     "clean": "npm run clean:dist && npm run clean:styleguide"
   },
+  "publishConfig": {
+    "registry": "http://npm.128technology.com:4873"
+  },
   "repository": {
     "type": "git",
     "url": "ssh://git@bitbucket.128technology.com:7000/t128/node_modules.git"
