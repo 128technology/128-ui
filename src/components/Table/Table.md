@@ -1,6 +1,8 @@
 Example (no data):
 
-    <Table />
+    <Provider locale="enUS">
+      <Table />
+    </Provider>
 
 Example (with data):
 
@@ -26,7 +28,9 @@ Example (with data):
 
     const rowSelection = {};
     
-    <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} />
+    <Provider locale="enUS">
+      <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} />
+    </Provider>
 
 Example (no pagination):
 
@@ -52,4 +56,6 @@ Example (no pagination):
 
     const rowSelection = {};
     
-    <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} pagination={false} />
+    <Provider locale="enUS">
+      <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} pagination={false} />
+    </Provider>
