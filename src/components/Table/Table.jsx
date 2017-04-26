@@ -8,8 +8,8 @@ import './Table.scss';
  * 
  * Please see the [Ant Design Table documentation](https://ant.design/components/table/)
  */
-const Table = (props) => (
-  <AntdTable {...props} className={`${props.className} ui-128__table ui-128`} />
+const Table = ({ className = '', ...otherProps }) => (
+  <AntdTable {...otherProps} className={`${className} ui-128__table ui-128`} />
 );
 
 export default Table;

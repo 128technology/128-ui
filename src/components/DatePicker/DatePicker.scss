@@ -1,0 +1,13 @@
+.ui-128__date-picker {
+  .ant-calendar-picker-input,
+  .ant-calendar-input,
+  .ant-calendar-range-picker-input,
+  .ant-calendar-picker-container {
+    font-family: $montserrat-family;
+  }
+
+  .ant-calendar-picker-container > .ant-calendar {
+    border-radius: 0;
+    border: 0;
+  }
+}

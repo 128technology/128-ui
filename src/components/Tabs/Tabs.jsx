@@ -8,15 +8,15 @@ import './Tabs.scss';
  * 
  * Please see the [Ant Design Tabs documentation](https://ant.design/components/tabs/)
  */
-const Tabs = (props) => {
-  let className = `${props.className} ui-128__tabs ui-128`;
+const Tabs = ({ className, inline, ...otherProps }) => {
+  let newClassName = `${className} ui-128__tabs ui-128`;
 
-  if (props.inline) {
-    className = `${className} ui-128__tabs--inline`;
+  if (inline) {
+    newClassName = `${newClassName} ui-128__tabs--inline`;
   }
 
   return (
-    <AntdTabs {...props} className={className} />
+    <AntdTabs {...otherProps} className={newClassName} />
   );
 };
 

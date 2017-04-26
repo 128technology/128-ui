@@ -30,11 +30,11 @@ const Duration = React.createClass({
   },
 
   render() {
-    const { duration, ...otherProps } = this.props;
+    const { duration, className = '', ...otherProps } = this.props;
     const durationString = this.getDurationString(duration);
 
     return (
-      <span {...otherProps} className={`${this.props.className} ui-128__duration ui-128`}>
+      <span {...otherProps} className={`${className} ui-128__duration ui-128`}>
         {durationString}
       </span>
     );

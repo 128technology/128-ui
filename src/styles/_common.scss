@@ -1,2 +1,8 @@
 @import "./variables";
 @import "./vendor";
+
+.ui-128 {
+  *, & {
+    box-sizing: border-box;
+  }
+}

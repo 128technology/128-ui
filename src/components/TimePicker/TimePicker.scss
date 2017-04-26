@@ -1,0 +1,12 @@
+.ui-128__time-picker {
+  .ant-time-picker-panel-inner,
+  .ant-time-picker-input,
+  .ant-time-picker-panel-input {
+    font-family: $montserrat-family;
+  }
+
+  .ant-time-picker-panel-inner {
+    border-radius: 0;
+    border: 0;
+  }
+}
