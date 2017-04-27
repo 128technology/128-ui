@@ -6,6 +6,12 @@
     font-family: $montserrat-family;
   }
 
+  .ant-calendar-picker-input {
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+  }
+
   .ant-calendar-picker-container > .ant-calendar {
     border-radius: 0;
     border: 0;
