@@ -45842,7 +45842,8 @@ var getCalendarContainer = function getCalendarContainer(trigger) {
 var DatePicker = function DatePicker(_ref) {
   var _ref$className = _ref.className,
       className = _ref$className === undefined ? '' : _ref$className,
-      rangePicker = _ref.rangePicker,
+      _ref$rangePicker = _ref.rangePicker,
+      rangePicker = _ref$rangePicker === undefined ? false : _ref$rangePicker,
       otherProps = _objectWithoutProperties(_ref, ['className', 'rangePicker']);
 
   otherProps = _extends({
@@ -45862,6 +45863,13 @@ var DatePicker = function DatePicker(_ref) {
     { className: className + ' ui-128 ui-128__date-picker' },
     _react2.default.createElement(_datePicker2.default, otherProps)
   );
+};
+
+DatePicker.propTypes = {
+  /**
+   * When true, transforms the DatePicker component into a Range Picker.
+   */
+  rangePicker: _react2.default.PropTypes.bool
 };
 
 exports.default = DatePicker;
@@ -46004,6 +46012,18 @@ var MatchText = function MatchText(_ref) {
     { className: 'ui-128 ui-128__match-text' },
     text
   );
+};
+
+MatchText.propTypes = {
+  /**
+   * The text string to be searched.
+   */
+  text: _react2.default.PropTypes.string.isRequired,
+
+  /**
+   * The search string to search for.
+   */
+  searchString: _react2.default.PropTypes.string.isRequired
 };
 
 exports.default = MatchText;

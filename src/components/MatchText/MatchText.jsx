@@ -32,4 +32,16 @@ const MatchText = ({ text, searchString }) => {
   );
 };
 
+MatchText.propTypes = {
+  /**
+   * The text string to be searched.
+   */
+  text: React.PropTypes.string.isRequired,
+  
+  /**
+   * The search string to search for.
+   */
+  searchString: React.PropTypes.string.isRequired
+};
+
 export default MatchText;
