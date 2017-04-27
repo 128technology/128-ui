@@ -1,0 +1,27 @@
+.ui-128__split-button {
+  .ant-btn {
+    font-family: $rbno31-family;
+    font-size: 13px;
+    font-weight: 300;
+    color: $brownish-grey;
+    height: 37px;
+    border-color: #ddd;
+
+    &:first-child {
+      padding-right: 15px !important;
+    }
+  }
+
+  .ant-dropdown-trigger > i::after {
+    font-family: "Material Design Icons";
+    content: "\F140";
+    color: $brownish-grey;
+    font-weight: 400;
+    font-size: 26px;
+    vertical-align: middle;
+  }
+
+  .ant-dropdown-trigger {
+    padding: 0 !important;
+  }
+}
