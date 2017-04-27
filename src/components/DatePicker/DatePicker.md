@@ -12,9 +12,14 @@ Example (Range):
 
 Example (Preset Ranges):
 
+    const moment = require('moment');
+
     <Provider locale="enUS">
       <DatePicker
         rangePicker
-        randges={{}}
+        ranges={{
+          'Today': [moment(), moment()],
+          'This Month': [moment(), moment().endOf('month')]
+        }}
       />
     </Provider>

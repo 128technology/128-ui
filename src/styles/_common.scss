@@ -2,6 +2,10 @@
 @import "./vendor";
 
 .ui-128 {
+  a {
+    cursor: pointer;
+  }
+  
   *, & {
     box-sizing: border-box;
   }
