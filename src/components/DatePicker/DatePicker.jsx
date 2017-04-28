@@ -8,7 +8,7 @@ const getCalendarContainer = (trigger) => {
   return trigger.parentNode.parentNode;
 };
 
-const DatePicker = ({ className = '', rangePicker, ...otherProps }) => {
+const DatePicker = ({ className = '', rangePicker = false, ...otherProps }) => {
   otherProps = {
     getCalendarContainer,
     ...otherProps
@@ -27,6 +27,13 @@ const DatePicker = ({ className = '', rangePicker, ...otherProps }) => {
       <AntdDatePicker {...otherProps} />
     </span>
   );
+};
+
+DatePicker.propTypes = {
+  /**
+   * When true, transforms the DatePicker component into a Range Picker.
+   */
+  rangePicker: React.PropTypes.bool
 };
 
 export default DatePicker;
