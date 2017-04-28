@@ -16,6 +16,7 @@ Example (Preset Ranges):
 
     <Provider locale="enUS">
       <DatePicker
+        showTime
         rangePicker
         ranges={{
           'Today': [moment(), moment()],

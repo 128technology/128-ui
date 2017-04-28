@@ -4,12 +4,27 @@
   .ant-calendar-range-picker-input,
   .ant-calendar-picker-container {
     font-family: $montserrat-family;
+    font-weight: 300;
   }
 
   .ant-calendar-picker-input {
     border: 0;
     border-radius: 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+  }
+
+  .ant-calendar-range-part .ant-calendar-input {
+    text-align: center;
+  }
+
+  .ant-calendar-range-picker-separator,
+  .ant-calendar-range-middle {
+    color: transparent;
+
+    &::after {
+      color: $warm-grey;
+      content: "\2015";
+    }
   }
 
   .ant-calendar-picker-container > .ant-calendar {
