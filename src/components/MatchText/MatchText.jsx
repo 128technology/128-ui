@@ -4,13 +4,12 @@ import React from 'react';
 import './MatchText.scss';
 
 const MatchText = ({ text, searchString }) => {
-  text = _.toString(text);
-  searchString = _.escapeRegExp(searchString);
+  const textStr = _.toString(text);
 
   if (/\S+/.test(searchString)) {
-    const searchExp = new RegExp(searchString, 'ig');
-    const unmatchedPieces = text.split(searchExp);
-    const matchedPieces = text.match(searchExp);
+    const searchExp = new RegExp(_.escapeRegExp(searchString), 'ig');
+    const unmatchedPieces = textStr.split(searchExp);
+    const matchedPieces = textStr.match(searchExp);
 
     const unmatched = _.map(unmatchedPieces, (str, i) => (
       <span className="ui-128__matched-text--unmatched" key={`unmatched/${str}/${i}`}>{str}</span>
@@ -28,7 +27,7 @@ const MatchText = ({ text, searchString }) => {
   }
 
   return (
-    <span className="ui-128 ui-128__match-text">{text}</span>
+    <span className="ui-128 ui-128__match-text">{textStr}</span>
   );
 };
 
