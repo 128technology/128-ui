@@ -12,6 +12,12 @@
     }
   }
 
+  .ant-btn-clicked::after {
+    animation: none;
+    -webkit-animation: none;
+    border-color: transparent;
+  }
+
   .ant-dropdown-trigger > i::after {
     font-family: "Material Design Icons";
     content: "\F140";

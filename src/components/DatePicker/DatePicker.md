@@ -22,5 +22,6 @@ Example (Preset Ranges):
           'Today': [moment(), moment()],
           'This Month': [moment(), moment().endOf('month')]
         }}
+        format="YYYY/MM/DD HH:mm:ss"
       />
     </Provider>
