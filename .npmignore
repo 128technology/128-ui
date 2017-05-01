@@ -1,0 +1,6 @@
+# Output of 'npm pack'
+*.tgz
+
+# Source/ and dist/ are needed
+!/dist
+!/src
