@@ -23,7 +23,7 @@ const MatchText = ({ text, searchString }) => {
     ));
 
     const matched = _.map(matchedPieces, (str, i) => (
-      <span className="ui-128__match-text--match" key={`matched/${str}/${i}`}>{str}</span>
+      <span className="ui-128__match-text--matched" key={`matched/${str}/${i}`}>{str}</span>
     ));
 
     const components = _.chain(unmatched).zip(matched).flatten().value();
