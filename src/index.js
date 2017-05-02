@@ -1,3 +1,4 @@
+export { Autocomplete } from './components/Autocomplete';
 export { DatePicker } from './components/DatePicker';
 export { Duration } from './components/Duration';
 export { locales } from './components/Provider/locales';
