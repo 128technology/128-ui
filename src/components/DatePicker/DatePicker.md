@@ -16,10 +16,12 @@ Example (Preset Ranges):
 
     <Provider locale="enUS">
       <DatePicker
+        showTime
         rangePicker
         ranges={{
           'Today': [moment(), moment()],
           'This Month': [moment(), moment().endOf('month')]
         }}
+        format="YYYY/MM/DD HH:mm:ss"
       />
     </Provider>

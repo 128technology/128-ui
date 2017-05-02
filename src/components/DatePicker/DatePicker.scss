@@ -4,16 +4,200 @@
   .ant-calendar-range-picker-input,
   .ant-calendar-picker-container {
     font-family: $montserrat-family;
+    font-weight: 300;
+  }
+
+  .ant-calendar-picker-input,
+  .ant-calendar-picker-input:hover {
+    border-bottom: 2px solid rgba(0,0,0,0.12) !important;
+  }
+
+  .ant-calendar-picker-input,
+  .ant-calendar-input,
+  .ant-calendar-range-picker-input {
+    font-size: 14px;
+    font-weight: 200;
+    border-radius: 0;
+  }
+
+  .ant-calendar.ant-calendar-range {
+    width: 513px;
+  }
+
+  .ant-calendar-range-quick-selector {
+    padding: 10.5px 15px;
+
+    > a {
+      color: $cyan-128;
+      font-size: 13px;
+    }
   }
 
   .ant-calendar-picker-input {
     border: 0;
-    border-radius: 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.16);
   }
 
-  .ant-calendar-picker-container > .ant-calendar {
-    border-radius: 0;
+  .ant-calendar-next-month-btn-day .ant-calendar-date,
+  .ant-calendar-last-month-cell .ant-calendar-date {
+    color: #c8c9c7;
+  }
+
+  .ant-calendar-today > .ant-calendar-date {
+    color: $cyan-128;
+    font-weight: 400;
     border: 0;
+  }
+
+  .ant-calendar-decade-panel-selected-cell > .ant-calendar-decade-panel-decade,
+  .ant-calendar-year-panel-selected-cell > .ant-calendar-year-panel-year,
+  .ant-calendar-month-panel-selected-cell > .ant-calendar-month-panel-month,
+  .ant-calendar-selected-day > .ant-calendar-date {
+    background-color: $cyan-128;
+    color: $white;
+    border-radius: 3px;
+  }
+
+  .ant-calendar-in-range-cell::before {
+    background: #f2f2f2;
+    top: 3px;
+    bottom: 3px;
+    border-radius: 3px;
+    margin: 0 -2px;
+  }
+
+  .ant-calendar-picker-icon::after {
+    font-family: "Material Design Icons";
+    content: "\F678";
+    font-size: 16px;
+  }
+
+  .ant-calendar-picker-clear {
+    width: 16px;
+    height: 16px;
+    right: 5px;
+    
+    &::after {
+      font-family: "Material Design Icons";
+      font-size: 16px;
+      content: "\F159";
+    }
+  }
+
+  .ant-calendar-date {
+    color: $charcoal-128;
+  }
+
+  .ant-calendar-prev-year-btn,
+  .ant-calendar-prev-month-btn,
+  .ant-calendar-next-month-btn,
+  .ant-calendar-next-year-btn,
+  .ant-calendar-month-panel-prev-year-btn,
+  .ant-calendar-month-panel-next-year-btn,
+  .ant-calendar-year-panel-prev-decade-btn,
+  .ant-calendar-year-panel-next-decade-btn,
+  .ant-calendar-decade-panel-prev-century-btn,
+  .ant-calendar-decade-panel-next-century-btn {
+    font-size: 20px;
+  }
+
+  .ant-calendar-my-select > a,
+  .ant-calendar-year-panel-header > a span,
+  .ant-calendar-month-panel-header > a span,
+  .ant-calendar-decade-panel-header .ant-calendar-decade-panel-century {
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(0,0,0,0.87);
+  }
+
+  .ant-calendar-column-header-inner {
+    font-weight: 300;
+    color: $warm-grey;
+  }
+
+  .ant-calendar-range-part .ant-calendar-input {
+    text-align: center;
+  }
+
+  .ant-calendar-range-picker-separator,
+  .ant-calendar-range-middle {
+    color: transparent;
+    margin-left: -12px;
+
+    &::after {
+      color: $warm-grey;
+      content: "\2015";
+    }
+  }
+
+  .ant-calendar-input-wrap {
+    border-bottom-width: 2px;
+  }
+
+  .ant-calendar-range-right .ant-calendar-date-input-wrap {
+    margin-left: 0;
+  }
+
+  .ant-calendar-picker-container > .ant-calendar {
+    border-radius: 3px;
+    box-shadow: 0 0 2px 0 rgba(0,0,0,0.12), 0 2px 2px 0 rgba(55,58,54,0.24);
+    border: 0;
+  }
+
+  .ant-calendar-time-picker-btn,
+  .ant-calendar-today-btn {
+    font-weight: 300;
+    font-size: 14px;
+    color: $cyan-128;
+    text-transform: uppercase;
+  }
+
+  .ant-calendar-time-picker-btn {
+    float: left;
+    padding: 8px 0 0 0;
+  }
+
+  .ant-calendar-footer-btn {
+    border-top-width: 2px;
+    padding: 9px 15px !important;
+  }
+
+  .ant-calendar-time-picker-select > ul > li {
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.87);
+
+    &:hover,
+    &.ant-calendar-time-picker-select-option-selected {
+      background-color: #f2f3f2;
+    }
+  }
+
+  .ant-calendar-ok-btn {
+    font-size: 0;
+    padding: 8px 22px;
+    border: 0;
+    background-color: #f2f3f2;
+    height: auto !important;
+    color: transparent;
+
+    &::after {
+      font-weight: 400;
+      font-size: 14px;
+      content: "APPLY";
+      color: $cyan-128;
+    }
+
+    &:hover {
+      background-color: #e7e8e7;
+    }
+
+    &.ant-calendar-ok-btn-disabled {
+      background-color: $white;
+
+      &::after {
+        color: #c8c9c7;
+      }
+    }
   }
 }
