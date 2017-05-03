@@ -1,3 +1,5 @@
+$basic-border: 1px solid rgba(0, 0, 0, .12);
+
 .ui-128__table {
   &.ant-table-wrapper {
     font-family: $montserrat-family;
@@ -6,7 +8,7 @@
       font-size: 13px;
       font-weight: 400;
       background-color: #fff;
-      border-bottom: 1px solid rgba(0, 0, 0, .12);
+      border-bottom: $basic-border;
       color: #646464;
     }
 
@@ -28,6 +30,106 @@
 
     .ant-table-placeholder {
       border-bottom: 0;
+    }
+  }
+}
+
+.ui-128__table--bordered {
+  background-color: $white;
+
+  .ant-table {
+    border-radius: 0;
+  }
+
+  &.ant-table-wrapper .ant-table .ant-table-content .ant-table-body {
+    table {
+      border-radius: 0;
+
+      .ant-table-row-expanded::after,
+      .ant-table-row-collapsed::after {
+        font-family: "Material Design Icons";
+        content: "";
+        font-size: 24px;
+        color: $warm-grey;
+      }
+
+      .ant-table-row-expanded::after {
+        content: "\F140";
+      }
+
+      .ant-table-row-collapsed::after {
+        content: "\F142";
+      }
+
+      .ant-table-row-expand-icon-cell,
+      .ant-table-expand-icon-th,
+      .ant-table-selection-column {
+        width: 50px !important;
+      }
+
+      .ant-table-row-expand-icon {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        border: 0;
+        vertical-align: middle;
+        background: transparent;
+        margin: 0;
+      }
+
+      th,
+      .ant-table-row td,
+      .ant-table-expanded-row,
+      .ant-table-expanded-row td,
+      .ant-table-expanded-row:hover td {
+        background-color: transparent !important;
+      }
+
+      .ant-table-expanded-row > td:last-child {
+        background-color: rgba(0, 0, 0, 0.02) !important;
+      }
+      
+      .ant-table-expanded-row > td:first-child {
+        background-color: $white !important;
+      }
+
+      .ant-table-row td:first-child {
+        border-left: $basic-border;
+      }
+
+      .ant-table-row td:last-child {
+        border-right: $basic-border;
+      }
+
+      tr:last-child > td {
+        border-bottom: 0;
+      }
+
+      .ant-table-row td,
+      .ant-table-expanded-row td {
+        border-bottom: $basic-border;
+        background-color: $white;
+      }
+
+      > .ant-table-tbody > .ant-table-expanded-row > td:last-child {
+        padding: 0;
+        border-right: $basic-border;
+      }
+    }
+  }
+}
+
+.ui-128__table--bordered .ant-table-expanded-row .ui-128__table--bordered {
+  background-color: transparent;
+
+  &.ant-table-wrapper .ant-table .ant-table-content .ant-table-body table {
+    .ant-table-expanded-row td,
+    .ant-table-row td {
+      border-right: 0;
+    }
+
+    th:first-child {
+      border-left: $basic-border;
     }
   }
 }

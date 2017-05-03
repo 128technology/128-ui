@@ -8,8 +8,8 @@ import './Table.scss';
  * 
  * Please see the [Ant Design Table documentation](https://ant.design/components/table/)
  */
-const Table = ({ className = '', ...otherProps }) => (
-  <AntdTable {...otherProps} className={`${className} ui-128__table ui-128`} />
+const Table = ({ className = '', borderedTable = false, ...otherProps }) => (
+  <AntdTable {...otherProps} className={`${className} ${borderedTable ? 'ui-128__table--bordered' : ''} ui-128__table ui-128`} />
 );
 
 export default Table;
