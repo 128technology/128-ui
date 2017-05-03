@@ -105,7 +105,6 @@ Example (Bordered Table):
     const expandedRowRender = () => (
       <Table 
         borderedTable 
-        rowSelection={rowSelection} 
         dataSource={subDataSource} 
         columns={subColumns} 
         pagination={false} 
