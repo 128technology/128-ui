@@ -27,7 +27,7 @@ const Duration = React.createClass({
     const minutes = Math.floor(ms / 60000) - hours * 60 - days * 24 * 60 - years * 365 * 24 * 60;
     const seconds = Math.floor(ms / 1000) - minutes * 60 - hours * 3600 - days * 24 * 3600 - years * 365 * 24 * 3600;
 
-    return `${years > 0 ? `${years}y `: ''}${days}d ${hours}h ${minutes}m ${seconds}s`;
+    return `${years > 0 ? `${years}y ` : ''}${days}d ${hours}h ${minutes}m ${seconds}s`;
   },
 
   render() {

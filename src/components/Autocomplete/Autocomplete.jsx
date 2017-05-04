@@ -43,6 +43,7 @@ class Autocomplete extends React.Component {
   }
 
   render() {
+    // eslint-disable-next-line no-unused-vars
     const { className, value, onSelect, ...rest} = this.props;
 
     const classes = this._buildClass(className);

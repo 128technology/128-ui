@@ -54,7 +54,6 @@ rules:
   no-dupe-class-members: 2
   no-multi-spaces: 2
   no-shadow: 2
-  no-unused-expressions: 2
   no-unused-vars: [2, {args: none}]
   padded-blocks: [2, never]
   quotes: [2, single, avoid-escape]
