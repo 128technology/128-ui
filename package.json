@@ -1,6 +1,10 @@
 {
   "name": "128-ui",
+<<<<<<< HEAD
   "version": "0.0.14",
+=======
+  "version": "0.0.13",
+>>>>>>> master
   "description": "128 Technology UI component library.",
   "main": "dist/128UI.js",
   "scripts": {
@@ -46,8 +50,10 @@
     "mocha": "^3.3.0",
     "node-sass": "^4.5.2",
     "react": "15.4.2",
+    "react-addons-shallow-compare": "15.4.2",
     "react-addons-test-utils": "15.4.2",
     "react-dom": "15.4.2",
+    "react-input-autosize": "^1.1.0",
     "react-styleguidist": "^5.0.4",
     "rimraf": "^2.6.1",
     "sass-loader": "^6.0.3",
@@ -64,6 +70,8 @@
   },
   "dependencies": {
     "antd": "^2.9.0",
-    "mdi": "^1.9.33"
+    "mdi": "^1.9.33",
+    "react-virtualized": "^8.0.13",
+    "react-virtualized-select": "^3.0.0"
   }
 }
