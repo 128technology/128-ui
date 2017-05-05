@@ -25,7 +25,18 @@ globals:
   module: true,
   exports: true,
   require: true,
-  process: true
+  process: true,
+
+  # For Testing
+  describe: true,
+  it: true,
+  beforeEach: true,
+  afterEach: true,
+  sinon: true,
+  before: true,
+  after: true,
+  global: true
+
 
 # We're stricter than the default config, mostly. We'll override a few rules and
 # then enable some React specific ones.
@@ -43,7 +54,6 @@ rules:
   no-dupe-class-members: 2
   no-multi-spaces: 2
   no-shadow: 2
-  no-unused-expressions: 2
   no-unused-vars: [2, {args: none}]
   padded-blocks: [2, never]
   quotes: [2, single, avoid-escape]
@@ -58,6 +68,9 @@ rules:
   no-constant-condition: [2, {checkLoops: false}]
   prefer-const: [2, {destructuring: all, ignoreReadBeforeAssign: true}]
   no-var: 2
+
+  # For testing
+  no-unused-expressions: 0
 
   # JSX
   # Our transforms set this automatically

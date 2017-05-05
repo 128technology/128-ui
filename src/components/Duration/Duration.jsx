@@ -17,16 +17,17 @@ const Duration = React.createClass({
   },
 
   getDurationString(ms) {
-    if (!ms || !_.isNumber(ms)) {
+    if (_.isNil(ms) || !_.isNumber(ms)) {
       return '';
     }
 
-    const days = Math.floor(ms / 86400000);
-    const hours = Math.floor(ms / 3600000) - days * 24;
-    const minutes = Math.floor(ms / 60000) - hours * 60 - days * 24 * 60;
-    const seconds = Math.floor(ms / 1000) - minutes * 60 - hours * 3600 - days * 24 * 3600;
+    const years = Math.floor(ms / 31536000000);
+    const days = Math.floor(ms / 86400000) - years * 365;
+    const hours = Math.floor(ms / 3600000) - days * 24 - years * 365 * 24;
+    const minutes = Math.floor(ms / 60000) - hours * 60 - days * 24 * 60 - years * 365 * 24 * 60;
+    const seconds = Math.floor(ms / 1000) - minutes * 60 - hours * 3600 - days * 24 * 3600 - years * 365 * 24 * 3600;
 
-    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    return `${years > 0 ? `${years}y ` : ''}${days}d ${hours}h ${minutes}m ${seconds}s`;
   },
 
   render() {

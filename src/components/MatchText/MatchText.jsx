@@ -3,6 +3,13 @@ import React from 'react';
 
 import './MatchText.scss';
 
+/**
+ * Performs a case-insensitive search against an input string and highlights
+ * the matches.
+ * 
+ * Matches can be selected with css using `.ui-128__match-text--match`.
+ * "Unmatched" text can also be selected using `.ui-128__match-text--unmatched`.
+ */
 const MatchText = ({ text, searchString }) => {
   const textString = _.toString(text);
 
@@ -12,11 +19,11 @@ const MatchText = ({ text, searchString }) => {
     const matchedPieces = textString.match(searchExp);
 
     const unmatched = _.map(unmatchedPieces, (str, i) => (
-      <span className="ui-128__matched-text--unmatched" key={`unmatched/${str}/${i}`}>{str}</span>
+      <span className="ui-128__match-text--unmatched" key={`unmatched/${str}/${i}`}>{str}</span>
     ));
 
     const matched = _.map(matchedPieces, (str, i) => (
-      <span className="ui-128__match-text--match" key={`matched/${str}/${i}`}>{str}</span>
+      <span className="ui-128__match-text--matched" key={`matched/${str}/${i}`}>{str}</span>
     ));
 
     const components = _.chain(unmatched).zip(matched).flatten().value();

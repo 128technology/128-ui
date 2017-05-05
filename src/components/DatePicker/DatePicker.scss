@@ -1,4 +1,8 @@
 .ui-128__date-picker {
+  .ant-input {
+    background-color: transparent !important;
+  }
+
   .ant-calendar-picker-input,
   .ant-calendar-input,
   .ant-calendar-range-picker-input,
