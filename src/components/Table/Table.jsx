@@ -25,4 +25,8 @@ const Table = ({ className = '', borderedTable = false, expandedRowRender, ...ot
   );
 };
 
+Table.propTypes = {
+  borderedTable: React.PropTypes.bool
+};
+
 export default Table;
