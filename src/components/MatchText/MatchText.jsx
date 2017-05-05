@@ -42,7 +42,10 @@ MatchText.propTypes = {
   /**
    * The text string to be searched.
    */
-  text: React.PropTypes.string.isRequired,
+  text: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number
+  ]).isRequired,
   
   /**
    * The search string to search for.
