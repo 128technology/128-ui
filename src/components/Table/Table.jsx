@@ -10,11 +10,9 @@ import './Table.scss';
  * Please see the [Ant Design Table documentation](https://ant.design/components/table/)
  */
 const Table = ({ className = '', borderedTable = false, expandedRowRender, ...otherProps }) => {
-  let newExpandedRowRender = null;
-
-  if (_.isFunction(expandedRowRender)) {
-    newExpandedRowRender = () => (<span className='ui-128 ui-128__table--nested'>{expandedRowRender()}</span>);
-  }
+  const newExpandedRowRender = _.isFunction(expandedRowRender)
+    ? () => (<span className='ui-128 ui-128__table--nested'>{expandedRowRender()}</span>)
+    : null;
 
   return (
     <AntdTable
