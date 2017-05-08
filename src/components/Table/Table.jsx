@@ -11,7 +11,7 @@ import './Table.scss';
  */
 const Table = ({ className = '', borderedTable = false, expandedRowRender, ...otherProps }) => {
   const newExpandedRowRender = _.isFunction(expandedRowRender)
-    ? () => (<span className='ui-128 ui-128__table--nested'>{expandedRowRender()}</span>)
+    ? (...args) => (<span className='ui-128 ui-128__table--nested'>{expandedRowRender(...args)}</span>)
     : null;
 
   return (
