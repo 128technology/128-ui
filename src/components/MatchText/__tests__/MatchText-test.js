@@ -11,6 +11,12 @@ describe('MatchText Component', function() {
     expect(matchText).to.have.lengthOf(1);
   });
 
+  it('should accept numbers for text prop without error', function() {
+    const matchText = shallow(<MatchText text={2} searchString="2" />);
+
+    expect(matchText).to.have.lengthOf(1);
+  });
+
   it('should render matched items', function() {
     const matchText = shallow(<MatchText text="A matchable search string..." searchString="search" />);
 
