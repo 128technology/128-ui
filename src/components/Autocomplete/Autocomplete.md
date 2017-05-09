@@ -7,4 +7,6 @@ Example:
 
     const onSelect = (selection) => { console && console.log('Selection: '+selection) };
 
-    <Autocomplete placeholder="Type or select..." options={options} onSelect={onSelect} />
+    <div style={{width: 'min-content'}}>
+      <Autocomplete placeholder="Type or select..." options={options} onSelect={onSelect} />
+    </div>

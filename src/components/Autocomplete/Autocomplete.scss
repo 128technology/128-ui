@@ -4,26 +4,14 @@
 
   &.Select {
     box-sizing: border-box;
-    margin-top: 14px;
-    position: relative;
 
     /* Essentially, the input box */
     .Select-control {
-      position: absolute;
-      top: 15px;
       border-radius: 0;
       border-top: none;
       border-right: none;
       border-left: none;
       border-bottom: 1px solid rgba(224, 224, 224, 1);
-
-      .Select-value {
-        line-height: 43px; /* Move the text down within its div, so it's closer to the bottom border. */
-      }
-
-      .Select-placeholder {
-        line-height: 43px; /* Move the text down within its div, so it's closer to the bottom border. */
-      }
 
       &:hover {
         box-shadow: 0 0px 0 rgba(0, 0, 0, 0.06); /* This overrides settings from react-select control.scss */
@@ -88,8 +76,6 @@
 
   /* This controls the container for the menu options */
   .Select-menu-outer {
-    position: absolute;
-    top: 50px;
     background-color: $white;
     box-sizing: border-box;
     font-family: Montserrat, sans-serif;

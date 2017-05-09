@@ -56,6 +56,7 @@ class Autocomplete extends React.Component {
           ignoreAccents={false}
           clearable={false}
           className={classes}
+          autosize={true}
           {...rest}
         />
     );
