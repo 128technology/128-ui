@@ -10,6 +10,39 @@ $basic-border: 1px solid #e2e2e2;
       background-color: #fff;
       border-bottom: $basic-border;
       color: #646464;
+
+      .anticon-caret-up::before {
+        content: "\e607";
+      }
+
+      .anticon-caret-down::before {
+        content: "\e606";
+      }
+
+      .ant-table-column-sorter-down,
+      .ant-table-column-sorter-up {
+        &.on > i {
+          color: $cyan-128;
+        }
+      }
+    }
+
+    .ant-pagination-prev,
+    .ant-pagination-next {
+      border: 0;
+    }
+
+    .ant-pagination-item {
+      border: 0;
+
+      &.ant-pagination-item-active {
+        background-color: transparent;
+      }
+
+      &.ant-pagination-item-active > a {
+        color: $cyan-128;
+        font-weight: bold;
+      }
     }
 
     .ant-table-tbody tr {

@@ -9,7 +9,8 @@ Example (with data):
     const columns = [{
       title: 'Router',
       dataIndex: 'routerName',
-      key: 'routerName'
+      key: 'routerName',
+      sorter: true
     }, {
       title: 'Status',
       dataIndex: 'status',
