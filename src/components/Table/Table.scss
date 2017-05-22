@@ -69,6 +69,7 @@ $basic-border: 1px solid #e2e2e2;
 
 .ui-128__table--bordered {
   background-color: $white;
+  border-bottom: none;
 
   * {
     overflow: visible !important;
@@ -146,7 +147,7 @@ $basic-border: 1px solid #e2e2e2;
         pointer-events: none;
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.15);
       }
-      
+
       .ant-table-expanded-row > td:first-child {
         background-color: $white !important;
         position: relative;
@@ -165,7 +166,7 @@ $basic-border: 1px solid #e2e2e2;
 
       .ant-table-expanded-row + .ant-table-row > td {
         position: relative;
-        
+
         &::before {
           position: absolute;
           width: 100%;
@@ -200,7 +201,9 @@ $basic-border: 1px solid #e2e2e2;
 }
 
 *:not(.ui-128__table--nested) > .ui-128__table--bordered {
-  border-bottom: $basic-border;
+  .ant-table {
+    border-bottom: $basic-border;
+  }
 }
 
 .ui-128__table--bordered .ant-table-expanded-row .ui-128__table--bordered {
