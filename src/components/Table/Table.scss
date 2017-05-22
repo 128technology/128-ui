@@ -69,7 +69,6 @@ $basic-border: 1px solid #e2e2e2;
 
 .ui-128__table--bordered {
   background-color: $white;
-  border-bottom: none;
 
   * {
     overflow: visible !important;
@@ -201,7 +200,7 @@ $basic-border: 1px solid #e2e2e2;
 }
 
 *:not(.ui-128__table--nested) > .ui-128__table--bordered {
-  .ant-table {
+  & > .ant-spin-nested-loading > .ant-spin-container > .ant-table {
     border-bottom: $basic-border;
   }
 }
