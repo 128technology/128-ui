@@ -146,6 +146,22 @@ Example (Bordered Table):
       key: 'US-E-Boston',
       routerName: 'US-E-Boston',
       status: 'UP'
+    }, {
+      key: 'US-SW-SanDiego',
+      routerName: 'US-W-SanDiego',
+      status: 'UP'
+    }, {
+      key: 'US-S-Miami',
+      routerName: 'US-S-Miami',
+      status: 'UP'
+    }, {
+      key: 'US-W-Sacramento',
+      routerName: 'US-W-Sacramento',
+      status: 'UP'
+    }, {
+      key: 'US-NW-Juneau',
+      routerName: 'US-NW-Juneau',
+      status: 'UP'
     }];
 
     const subColumns = [{
@@ -186,7 +202,9 @@ Example (Bordered Table):
         rowSelection={rowSelection} 
         dataSource={dataSource} 
         columns={columns} 
-        pagination={true} 
+        pagination={{
+          pageSize: 3
+        }} 
         expandedRowRender={expandedRowRender} 
       />
     </Provider>
