@@ -43,11 +43,21 @@
 
   &.Select.has-error {
     .Select-control {
-      border-bottom: 1px solid $pinkish-red;
+      border-bottom: 2px solid $pinkish-red;
     }
 
     .Select-control::after {
       background-color: $pinkish-red;
+    }
+  }
+
+  &.Select.is-valid {
+    .Select-control {
+      border-bottom: 2px solid $shamrock-green;
+    }
+
+    .Select-control::after {
+      background-color: $shamrock-green;
     }
   }
 
@@ -79,9 +89,20 @@
     background-color: $white;
     box-sizing: border-box;
     font-family: Montserrat, sans-serif;
+    font-size: 14px;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+    border: #d9d9d9;
     border-radius: 2px;
+
+    .VirtualizedSelectOption {
+      cursor: pointer;
+      padding: 10px 25px;
+    }
+
+    .VirtualizedSelectFocusedOption {
+      background-color: #f2f3f2;
+    }
 
     .VirtualizedSelectSelectedOption {
       color: $azure;
