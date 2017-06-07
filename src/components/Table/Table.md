@@ -1,7 +1,19 @@
+
 Example (no data):
 
+    const columns = [{
+      title: 'Router',
+      dataIndex: 'routerName',
+      key: 'routerName',
+      sorter: true
+    }, {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status'
+    }];
+
     <Provider locale="enUS">
-      <Table />
+      <Table columns={columns} />
     </Provider>
 
 Example (with data):
@@ -61,7 +73,23 @@ Example (no pagination):
       <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} pagination={false} />
     </Provider>
 
-Example (Bordered Table):
+Example (Bordered Table, No Data):
+
+    const columns = [{
+      title: 'Router',
+      dataIndex: 'routerName',
+      key: 'routerName'
+    }, {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status'
+    }];
+    
+    <Provider locale="enUS">
+      <Table borderedTable columns={columns} pagination={false} />
+    </Provider>
+
+Example (Bordered Table With Expansions):
 
     const columns = [{
       title: 'Router',
@@ -126,7 +154,7 @@ Example (Bordered Table):
       />
     </Provider>
 
-Example (Bordered Table):
+Example (Bordered Table With Expansions and Pagination):
 
     const columns = [{
       title: 'Router',
@@ -208,3 +236,5 @@ Example (Bordered Table):
         expandedRowRender={expandedRowRender} 
       />
     </Provider>
+
+
