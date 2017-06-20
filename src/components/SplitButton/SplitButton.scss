@@ -10,6 +10,16 @@
     &:first-child {
       padding-right: 15px !important;
     }
+
+    &:hover {
+      border-color: #c8c9c7;
+      background-color: #fdfdfd;
+    }
+
+    &:active {
+      border-color: #c8c9c7;
+      background-color: rgba(153, 153, 153, 0.1);
+    }
   }
 
   .ant-btn-clicked::after {
