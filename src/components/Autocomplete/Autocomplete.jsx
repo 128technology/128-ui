@@ -1,11 +1,56 @@
 import React from 'react';
 import VirtualizedSelect from 'react-virtualized-select';
+import TetherComponent from 'react-tether';
+import Select from 'react-select';
 
 import './Autocomplete.scss';
 import 'react-virtualized/styles.css';
 import 'react-virtualized-select/styles.css';
 
 const DEFAULT_CLASS = 'ui-128__autocomplete';
+
+/**
+ * This is a custom version of the react-select component
+ * that will allow the options menu to overflow and be visible
+ * in containers that have overflow: hidden, scroll, etc.
+ * 
+ * https://github.com/JedWatson/react-select/issues/810#issuecomment-284573308
+ */
+class TetheredSelect extends Select {
+  constructor(props) {
+    super(props);
+
+    this.renderOuter = this._renderOuter;
+  }
+
+  _renderOuter() {
+    const menu = super.renderOuter.apply(this, arguments);
+
+    if (!menu) {
+      return undefined;
+    }
+
+    const selectWidth = this.wrapper ? this.wrapper.offsetWidth : null;
+
+    return (
+      <TetherComponent
+        renderElementTo="body"
+        ref="tethered-component"
+        attachment="top left"
+        targetAttachment="top left"
+        className="ui-128__autocomplete--options"
+        constraints={[{
+          to: 'window',
+          attachment: 'together',
+          pin: ['top']
+        }]}
+      >
+        <div />
+        {React.cloneElement(menu, { style: { position: 'static', width: selectWidth } })}
+      </TetherComponent>
+    );
+  }
+}
 
 /**
  * This component is essentially a text field combined with
@@ -57,6 +102,7 @@ class Autocomplete extends React.Component {
           clearable={false}
           className={classes}
           autosize={true}
+          selectComponent={TetheredSelect}
           {...rest}
         />
     );

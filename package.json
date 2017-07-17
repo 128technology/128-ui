@@ -1,6 +1,6 @@
 {
   "name": "128-ui",
-  "version": "0.0.24",
+  "version": "0.0.25",
   "description": "128 Technology UI component library.",
   "main": "dist/128UI.js",
   "scripts": {
@@ -68,6 +68,8 @@
   "dependencies": {
     "antd": "^2.9.0",
     "mdi": "^1.9.33",
+    "react-select": "http://npm.128technology.com:4873/react-select/-/react-select-1.0.0-rc.3.tgz",
+    "react-tether": "^0.5.7",
     "react-virtualized": "^8.0.13",
     "react-virtualized-select": "^3.0.0"
   }
