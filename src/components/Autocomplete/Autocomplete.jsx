@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import VirtualizedSelect from 'react-virtualized-select';
 import TetherComponent from 'react-tether';
@@ -8,6 +9,7 @@ import 'react-virtualized/styles.css';
 import 'react-virtualized-select/styles.css';
 
 const DEFAULT_CLASS = 'ui-128__autocomplete';
+const ERROR_CLASS = 'ui-128__autocomplete--error';
 
 /**
  * This is a custom version of the react-select component
@@ -78,36 +80,51 @@ class Autocomplete extends React.Component {
   }
 
   _buildClass(className) {
+    const { errorText } = this.props;
+    const classes = [DEFAULT_CLASS];
+
     if (className) {
-      const classes = [DEFAULT_CLASS];
       classes.push(className);
-      return classes.join(' ');
-    } else {
-      return DEFAULT_CLASS;
     }
+
+    if (errorText) {
+      classes.push(ERROR_CLASS);
+    }
+
+    return classes.join(' ');
   }
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { className, value, onSelect, ...rest} = this.props;
+    const { className, value, onSelect, errorText, ...rest} = this.props;
 
     const classes = this._buildClass(className);
 
+    const errorTextComponent = !_.isNil(errorText)
+      ? (<div className="ui-128__autocomplete--error-text">{errorText}</div>)
+      : null;
+
     return (
+      <div className={classes}>
         <VirtualizedSelect
           value={this.state.selectValue}
           onChange={this._handleChange}
           ignoreCase={true}
           ignoreAccents={false}
           clearable={false}
-          className={classes}
           autosize={true}
           selectComponent={TetheredSelect}
           {...rest}
         />
+        {errorTextComponent}
+      </div>
     );
   }
 }
+
+Autocomplete.defaultProps = {
+  errorText: null
+};
 
 Autocomplete.propTypes = {
   /**
@@ -134,7 +151,11 @@ Autocomplete.propTypes = {
   /**
    * function that accepts selected value
    */
-  onSelect: React.PropTypes.func
+  onSelect: React.PropTypes.func,
+  /**
+   * Error text shown below the select input
+   */
+  errorText: React.PropTypes.string
 };
 
 export default Autocomplete;

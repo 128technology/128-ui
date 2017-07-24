@@ -10,13 +10,20 @@ Example (time until midnight tonight):
       constructor() {
         this.state = {
           midnight: 0,
-          duration: 0
+          duration: 0,
+          interval: null
         };
       }
       
       componentWillMount() {
         this.setMidnight();
-        setInterval(() => this.setDuration(), 500);
+        const interval = setInterval(() => this.setDuration(), 500);
+        this.setState({ interval });
+      }
+
+      componentWillUnmount() {
+        const { interval } = this.state;
+        clearInterval(interval);
       }
 
       setDuration() {
