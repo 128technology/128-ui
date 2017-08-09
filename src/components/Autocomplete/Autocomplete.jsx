@@ -15,7 +15,7 @@ const ERROR_CLASS = 'ui-128__autocomplete--error';
  * This is a custom version of the react-select component
  * that will allow the options menu to overflow and be visible
  * in containers that have overflow: hidden, scroll, etc.
- * 
+ *
  * https://github.com/JedWatson/react-select/issues/810#issuecomment-284573308
  */
 class TetheredSelect extends Select {
@@ -96,7 +96,7 @@ class Autocomplete extends React.Component {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { className, value, onSelect, errorText, ...rest} = this.props;
+    const { id, className, value, onSelect, errorText, ...rest} = this.props;
 
     const classes = this._buildClass(className);
 
@@ -105,7 +105,7 @@ class Autocomplete extends React.Component {
       : null;
 
     return (
-      <div className={classes}>
+      <div id={id} className={classes}>
         <VirtualizedSelect
           value={this.state.selectValue}
           onChange={this._handleChange}
@@ -127,6 +127,7 @@ Autocomplete.defaultProps = {
 };
 
 Autocomplete.propTypes = {
+  id: React.PropTypes.string,
   /**
    * Class name to append to the root element
    */
