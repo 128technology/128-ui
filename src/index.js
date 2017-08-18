@@ -1,5 +1,6 @@
 export { Autocomplete } from './components/Autocomplete';
 export { DatePicker } from './components/DatePicker';
+export { Dropdown } from './components/Dropdown';
 export { Duration } from './components/Duration';
 export { locales } from './components/Provider/locales';
 export { MatchText } from './components/MatchText';

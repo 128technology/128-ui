@@ -1,6 +1,6 @@
 {
   "name": "128-ui",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "description": "128 Technology UI component library.",
   "main": "dist/128UI.js",
   "scripts": {
@@ -67,7 +67,9 @@
   },
   "dependencies": {
     "antd": "^2.9.0",
+    "classnames": "http://npm.128technology.com:4873/classnames/-/classnames-2.2.5.tgz",
     "mdi": "^1.9.33",
+    "prop-types": "http://npm.128technology.com:4873/prop-types/-/prop-types-15.5.8.tgz",
     "react-select": "http://npm.128technology.com:4873/react-select/-/react-select-1.0.0-rc.3.tgz",
     "react-tether": "^0.5.7",
     "react-virtualized": "^8.0.13",

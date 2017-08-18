@@ -1,14 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { LocaleProvider } from 'antd';
+
 import * as locales from './locales';
 
 /**
- * 128 provider component. This component encapsulates sub-module providers 
+ * 128 provider component. This component encapsulates sub-module providers
  * such as the ant design locale provider.
  *
  * Please see the [Ant Design LocaleProvider documentation](https://ant.design/components/locale-provider/)
  */
-const Provider = ({ locale, children }) => {
+function Provider({ locale, children }) {
   let providerLocale = locales.enUS;
 
   if (locales[locale]) {
@@ -18,11 +20,11 @@ const Provider = ({ locale, children }) => {
   return (
     <LocaleProvider locale={providerLocale.antd}>{children}</LocaleProvider>
   );
-};
+}
 
-Provider.PropTypes = {
-  locale: React.PropTypes.string,
-  children:  React.PropTypes.node
+Provider.propTypes = {
+  locale: PropTypes.string,
+  children: PropTypes.node
 };
 
 export default Provider;

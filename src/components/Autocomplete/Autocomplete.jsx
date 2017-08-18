@@ -1,8 +1,10 @@
-import _ from 'lodash';
 import React from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 import VirtualizedSelect from 'react-virtualized-select';
 import TetherComponent from 'react-tether';
 import Select from 'react-select';
+import classNames from 'classnames';
 
 import './Autocomplete.scss';
 import 'react-virtualized/styles.css';
@@ -60,14 +62,15 @@ class TetheredSelect extends Select {
  * be presented with a list of matching options.
  */
 class Autocomplete extends React.Component {
-
   constructor(props) {
     super(props);
+
     this.state = { selectValue: props.value };
-    this._handleChange = this._handleChange.bind(this);
+
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  _handleChange(selected) {
+  handleChange(selected) {
     const newValue = selected.value;
     this.props.onSelect && this.props.onSelect.call(this, newValue);
     this.setState({ selectValue: newValue });
@@ -91,7 +94,7 @@ class Autocomplete extends React.Component {
       classes.push(ERROR_CLASS);
     }
 
-    return classes.join(' ');
+    return classNames(classes);
   }
 
   render() {
@@ -108,7 +111,7 @@ class Autocomplete extends React.Component {
       <div id={id} className={classes}>
         <VirtualizedSelect
           value={this.state.selectValue}
-          onChange={this._handleChange}
+          onChange={this.handleChange}
           ignoreCase={true}
           ignoreAccents={false}
           clearable={false}
@@ -127,20 +130,20 @@ Autocomplete.defaultProps = {
 };
 
 Autocomplete.propTypes = {
-  id: React.PropTypes.string,
+  id: PropTypes.string,
   /**
    * Class name to append to the root element
    */
-  className: React.PropTypes.string,
-  initialValue: React.PropTypes.any,
-  placeholder: React.PropTypes.oneOfType([ // displayed when there's no value
-    React.PropTypes.string,
-    React.PropTypes.node
+  className: PropTypes.string,
+  initialValue: PropTypes.any,
+  placeholder: PropTypes.oneOfType([ // displayed when there's no value
+    PropTypes.string,
+    PropTypes.node
   ]),
-  options: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      label: React.PropTypes.string,
-      value: React.PropTypes.node
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.node
     })
   ),
   /**
@@ -148,15 +151,15 @@ Autocomplete.propTypes = {
    * labelKey, option, optionIndex, options, selectValue, style, valueArray })
    * and returns an element
    */
-  optionRenderer: React.PropTypes.func,
+  optionRenderer: PropTypes.func,
   /**
    * function that accepts selected value
    */
-  onSelect: React.PropTypes.func,
+  onSelect: PropTypes.func,
   /**
    * Error text shown below the select input
    */
-  errorText: React.PropTypes.string
+  errorText: PropTypes.string
 };
 
 export default Autocomplete;

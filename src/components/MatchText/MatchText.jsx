@@ -1,16 +1,17 @@
-import _ from 'lodash';
 import React from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import './MatchText.scss';
 
 /**
  * Performs a case-insensitive search against an input string and highlights
  * the matches.
- * 
+ *
  * Matches can be selected with css using `.ui-128__match-text--match`.
  * "Unmatched" text can also be selected using `.ui-128__match-text--unmatched`.
  */
-const MatchText = ({ text, searchString }) => {
+function MatchText({ text, searchString }) {
   const textString = _.toString(text);
 
   if (/\S+/.test(searchString)) {
@@ -36,21 +37,20 @@ const MatchText = ({ text, searchString }) => {
   return (
     <span className="ui-128 ui-128__match-text">{textString}</span>
   );
-};
+}
 
 MatchText.propTypes = {
   /**
    * The text string to be searched.
    */
-  text: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number
+  text: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
   ]).isRequired,
-  
   /**
    * The search string to search for.
    */
-  searchString: React.PropTypes.string.isRequired
+  searchString: PropTypes.string.isRequired
 };
 
 export default MatchText;

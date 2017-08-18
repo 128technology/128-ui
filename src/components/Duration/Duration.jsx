@@ -1,21 +1,15 @@
-import _ from 'lodash';
 import React from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
+import classNames from 'classnames';
 
 import './Duration.scss';
 
 /**
  * Utility component for displaying durations of time in the format:
- * 
  * {days}d {hours}h {minutes}m {seconds}s.
  */
-const Duration = React.createClass({
-  propTypes: {
-    /**
-     * A duration of time in milliseconds.
-     */
-    duration: React.PropTypes.number
-  },
-
+class Duration extends React.Component {
   getDurationString(ms) {
     if (_.isNil(ms) || !_.isNumber(ms)) {
       return '';
@@ -28,18 +22,26 @@ const Duration = React.createClass({
     const seconds = Math.floor(ms / 1000) - minutes * 60 - hours * 3600 - days * 24 * 3600 - years * 365 * 24 * 3600;
 
     return `${years > 0 ? `${years}y ` : ''}${days}d ${hours}h ${minutes}m ${seconds}s`;
-  },
+  }
 
   render() {
     const { duration, className = '', ...otherProps } = this.props;
     const durationString = this.getDurationString(duration);
 
     return (
-      <span {...otherProps} className={`${className} ui-128__duration ui-128`}>
+      <span {...otherProps} className={classNames(className, 'ui-128__duration', 'ui-128')}>
         {durationString}
       </span>
     );
   }
-});
+}
+
+Duration.propTypes = {
+  /**
+   * A duration of time in milliseconds.
+   */
+  duration: PropTypes.number
+};
+
 
 export default Duration;
