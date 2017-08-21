@@ -39,7 +39,7 @@
     },
     "classnames": {
       "version": "2.2.5",
-      "from": "classnames@>=2.2.0 <2.3.0",
+      "from": "http://npm.128technology.com:4873/classnames/-/classnames-2.2.5.tgz",
       "resolved": "http://npm.128technology.com:4873/classnames/-/classnames-2.2.5.tgz"
     },
     "component-classes": {
@@ -263,7 +263,7 @@
     },
     "prop-types": {
       "version": "15.5.8",
-      "from": "prop-types@>=15.5.4 <16.0.0",
+      "from": "http://npm.128technology.com:4873/prop-types/-/prop-types-15.5.8.tgz",
       "resolved": "http://npm.128technology.com:4873/prop-types/-/prop-types-15.5.8.tgz"
     },
     "rc-align": {

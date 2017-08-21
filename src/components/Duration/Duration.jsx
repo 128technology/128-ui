@@ -25,7 +25,7 @@ class Duration extends React.Component {
   }
 
   render() {
-    const { duration, className = '', ...otherProps } = this.props;
+    const { duration, className, ...otherProps } = this.props;
     const durationString = this.getDurationString(duration);
 
     return (
