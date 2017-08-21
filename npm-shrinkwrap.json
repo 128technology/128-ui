@@ -1,6 +1,6 @@
 {
   "name": "128-ui",
-  "version": "0.0.28",
+  "version": "0.0.27",
   "dependencies": {
     "add-dom-event-listener": {
       "version": "1.0.2",
@@ -39,7 +39,7 @@
     },
     "classnames": {
       "version": "2.2.5",
-      "from": "http://npm.128technology.com:4873/classnames/-/classnames-2.2.5.tgz",
+      "from": "classnames@>=2.2.0 <2.3.0",
       "resolved": "http://npm.128technology.com:4873/classnames/-/classnames-2.2.5.tgz"
     },
     "component-classes": {
@@ -263,7 +263,7 @@
     },
     "prop-types": {
       "version": "15.5.8",
-      "from": "http://npm.128technology.com:4873/prop-types/-/prop-types-15.5.8.tgz",
+      "from": "prop-types@>=15.5.4 <16.0.0",
       "resolved": "http://npm.128technology.com:4873/prop-types/-/prop-types-15.5.8.tgz"
     },
     "rc-align": {
