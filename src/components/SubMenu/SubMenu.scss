@@ -1,0 +1,20 @@
+.ui-128__submenu {
+  font-size: 13px;
+  font-weight: 300;
+  font-family: $rbno31-family;
+
+  &.ant-dropdown-menu-item:hover,
+  &.ant-dropdown-menu-item-active,
+  &.ant-dropdown-menu-item-selected {
+    background-color: #f2f3f2;
+  }
+
+  &.ant-dropdown-menu-item-selected {
+    background-color: #fff;
+  }
+
+  .ant-dropdown-menu-submenu-title {
+    font-size: 13px;
+    font-weight: 300;
+  }
+}
