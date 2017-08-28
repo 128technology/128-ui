@@ -1,6 +1,30 @@
 $basic-border: 1px solid #e2e2e2;
 
 .ui-128__table {
+  th,
+  td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 0;
+  }
+
+  td {
+    height: 22px;
+  }
+
+  .ant-table {
+    color: $brownish-grey;
+  }
+
+  .ant-table-thead,
+  .ant-table-tbody {
+    & > tr > td {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  }
+
   &.ant-table-wrapper {
     font-family: $montserrat-family;
 
@@ -47,7 +71,7 @@ $basic-border: 1px solid #e2e2e2;
 
     .ant-table-tbody tr {
       td {
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 300;
         border-bottom: 0;
 
