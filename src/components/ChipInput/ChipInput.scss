@@ -1,0 +1,48 @@
+.ui-128--chip-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, .16);
+  font-size: 16px;
+
+  &::after {
+    position: absolute;
+    left: 50%;
+    bottom: -1px;
+    content: '';
+    height: 2px;
+    width: 0;
+    background-color: $cyan-128;
+    transition: all .2s;
+  }
+
+  &.ui-128--chip-input_underlined::after {
+    left: 0;
+    width: 100%;
+  }
+
+  .ui-128--chip-input-dropdown {
+    position: absolute;
+  }
+
+  input {
+    outline: none;
+    border: 0;
+    width: 100%;
+    font-size: inherit;
+    line-height: 24px;
+    padding: 10px 0 10px 0;
+  }
+
+  .ui-128--chip-input-autocomplete {
+    flex-grow: 2;
+  }
+
+  .ui-128--chip-input-chip {
+    background: none;
+    outline: none;
+    border: 0;
+    padding: 0;
+    margin: 0 5px 0 0;
+  }
+}

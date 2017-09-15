@@ -68,9 +68,12 @@
   "dependencies": {
     "antd": "^2.9.0",
     "classnames": "^2.2.5",
+    "material-ui": "^0.17.1",
     "mdi": "^1.9.33",
     "prop-types": "^15.5.8",
+    "react-autocomplete": "^1.7.1",
     "react-select": "^1.0.0-rc.3",
+    "react-tap-event-plugin": "^2.0.1",
     "react-tether": "^0.5.7",
     "react-virtualized": "^8.0.13",
     "react-virtualized-select": "^3.0.0"
