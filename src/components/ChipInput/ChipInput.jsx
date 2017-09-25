@@ -38,9 +38,9 @@ class DropdownItem extends React.PureComponent {
 function renderItem(item, isHighlighted) {
   return (
     <DropdownItem
+      key={item.key}
       primaryText={item.label}
       value={item}
-      key={item.value}
       isHighlighted={isHighlighted}
     />
   );
@@ -52,6 +52,7 @@ function getItemValue(item) {
 
 function reconfigureDataSource(dataSourceConfig, dataSource) {
   return _.map(dataSource, (datum) => Object.assign({}, datum, {
+    key: datum[dataSourceConfig.key] || JSON.stringify(datum),
     label: datum[dataSourceConfig.label],
     value: datum[dataSourceConfig.value]
   }));
@@ -94,6 +95,7 @@ class ChipInput extends React.PureComponent {
     this.handleOnChipDelete = this.handleOnChipDelete.bind(this);
     this.handleOnChipKeyDown = this.handleOnChipKeyDown.bind(this);
     this.handleOnChipFocus = this.handleOnChipFocus.bind(this);
+    this.handleOnChipBlur = this.handleOnChipBlur.bind(this);
     this.renderMenu = this.renderMenu.bind(this);
   }
 
@@ -125,7 +127,7 @@ class ChipInput extends React.PureComponent {
         selectedValues,
         dataSource: _.difference(prevState.origDataSource, selectedValues)
       };
-    });
+    }, this.triggerOnChange);
   }
 
   handleOnKeyDown(e) {
@@ -181,7 +183,7 @@ class ChipInput extends React.PureComponent {
         dataSource: _.difference(prevState.origDataSource, selectedValues),
         focusedChipIndex
       };
-    });
+    }, this.triggerOnChange);
   }
 
   handleOnChipKeyDown(e) {
@@ -217,6 +219,15 @@ class ChipInput extends React.PureComponent {
     }
   }
 
+  triggerOnChange() {
+    const { onChange } = this.props;
+    const { selectedValues } = this.state;
+
+    if (_.isFunction(onChange)) {
+      onChange(selectedValues);
+    }
+  }
+
   handleOnBlur() {
     this.setState({ inputFocused: false });
   }
@@ -229,7 +240,12 @@ class ChipInput extends React.PureComponent {
     this.setState({ inputValue: e.target.value });
   }
 
+  handleOnChipBlur() {
+    this.focusChip(null);
+  }
+
   render() {
+    const { muiChipProps } = this.props;
     const { inputValue, selectedValues, dataSource, focusedChipIndex, inputFocused } = this.state;
     const showUnderline = inputFocused || focusedChipIndex !== null;
 
@@ -246,6 +262,8 @@ class ChipInput extends React.PureComponent {
           onDelete={this.handleOnChipDelete}
           onKeyDown={this.handleOnChipKeyDown}
           onFocus={this.handleOnChipFocus}
+          onBlur={this.handleOnChipBlur}
+          muiChipProps={muiChipProps}
           focusedChipIndex={focusedChipIndex}
         />
         <ReactAutocomplete
@@ -276,7 +294,9 @@ class ChipInput extends React.PureComponent {
 ChipInput.propTypes = {
   dataSource: PropTypes.array.isRequired,
   dataSourceConfig: PropTypes.object.isRequired,
-  groupBy: PropTypes.func
+  groupBy: PropTypes.func,
+  onChange: PropTypes.func,
+  muiChipProps: PropTypes.func
 };
 
 ChipInput.defaultProps = {
@@ -285,7 +305,7 @@ ChipInput.defaultProps = {
     label: 'label',
     value: 'value'
   },
-  groupBy: _.noop
+  groupBy: null
 };
 
 export default ChipInput;

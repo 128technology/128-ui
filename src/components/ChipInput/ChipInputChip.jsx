@@ -15,7 +15,7 @@ class ChipInputChip extends React.PureComponent {
     const { focused } = this.props;
 
     if (focused) {
-      this.button.focus();      
+      this.chipContainer.focus();      
     }
   }
 
@@ -23,7 +23,7 @@ class ChipInputChip extends React.PureComponent {
     const { focused } = this.props;
 
     if (focused) {
-      this.button.focus();
+      this.chipContainer.focus();
     }
   }
 
@@ -32,12 +32,12 @@ class ChipInputChip extends React.PureComponent {
     const { which } = e;
   
     const keyCodes = {
-      BACKSPACE: 8,
-      TAB: 9
+      BACKSPACE: 8
     };
   
     switch (which) {
       case keyCodes.BACKSPACE:
+        e.preventDefault();
         onDelete();
     }
 
@@ -47,24 +47,47 @@ class ChipInputChip extends React.PureComponent {
   }
 
   render() {
-    const { label, onFocus, onDelete, focused } = this.props;
+    const { label, value, onFocus, onBlur, onDelete, focused, muiChipProps } = this.props;
 
     return (
-      <button
-        ref={(el) => this.button = el}
+      <div
+        ref={(el) => this.chipContainer = el}
         className="ui-128 ui-128--chip-input-chip"
         onKeyDown={this.handleKeyDown}
         onFocus={onFocus}
+        onBlur={onBlur}
+        tabIndex="0"
       >
         <Chip
           backgroundColor={focused ? blue300 : null}
           onRequestDelete={() => onDelete()}
-        >
-          {label}
-        </Chip>
-      </button>
+          children={label}
+          {...muiChipProps(label, value, focused)}
+        />
+      </div>
     );
   }
 }
+
+ChipInputChip.propTypes = {
+  label: PropTypes.string,
+  value: PropTypes.any,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onDelete: PropTypes.func,
+  focused: PropTypes.bool,
+  muiChipProps: PropTypes.func
+};
+
+
+ChipInputChip.defaultProps = {
+  label: '',
+  value: null,
+  onFocus: _.noop,
+  onBlur: _.noop,
+  onDelete: _.noop,
+  focused: false,
+  muiChipProps: () => ({})
+};
 
 export default ChipInputChip;

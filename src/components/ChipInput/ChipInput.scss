@@ -1,6 +1,7 @@
 .ui-128--chip-input {
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, .16);
   font-size: 16px;
@@ -23,6 +24,8 @@
 
   .ui-128--chip-input-dropdown {
     position: absolute;
+    margin-top: 1px;
+    z-index: 999;
   }
 
   input {
@@ -43,6 +46,7 @@
     outline: none;
     border: 0;
     padding: 0;
-    margin: 0 5px 0 0;
+    margin: 0 5px 5px 0;
+    display: inline-block;
   }
 }

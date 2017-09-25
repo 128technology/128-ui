@@ -1,6 +1,3 @@
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
-
 export { Autocomplete } from './components/Autocomplete';
 export { ChipInput } from './components/ChipInput';
 export { DatePicker } from './components/DatePicker';
