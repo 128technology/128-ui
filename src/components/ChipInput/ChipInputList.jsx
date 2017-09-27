@@ -15,10 +15,10 @@ class ChipInputList extends React.PureComponent {
         value={item.value}
         chipIndex={index}
         focused={focusedChipIndex === index}
-        onDelete={() => onDelete(item, index)}
-        onKeyDown={onKeyDown}
-        onFocus={() => onFocus(item, index)}
-        onBlur={() => onBlur(item, index)}
+        onDelete={_.partial(onDelete, item, index)}
+        onKeyDown={_.partial(onKeyDown, item, index)}
+        onFocus={_.partial(onFocus, item, index)}
+        onBlur={_.partial(onBlur, item, index)}
         muiChipProps={muiChipProps}
       />
     ));
@@ -40,7 +40,7 @@ ChipInputList.propTypes = {
       label: PropTypes.string,
       value: PropTypes.any
     })
-  ),
+  ).isRequired,
   onDelete: PropTypes.func,
   onKeyDown: PropTypes.func,
   onBlur: PropTypes.func,

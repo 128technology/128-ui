@@ -46,6 +46,54 @@ Example:
       <ChipInput dataSource={data} dataSourceConfig={config} />
     </MuiThemeProvider>
 
+Example (Selected Keys):
+
+    const lightBaseTheme = require('material-ui/styles/baseThemes/lightBaseTheme').default;
+    const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default;
+    const getMuiTheme = require('material-ui/styles/getMuiTheme').default;
+
+    const data = [{
+      name: 'Greg',
+      value: {
+        age: '99'
+      },
+      type: 'Person'
+    }, {
+      name: 'George',
+      value: {
+        age: '77'
+      },
+      type: 'Person'
+    }, {
+      name: 'Bob',
+      value: {
+        age: '2'
+      },
+      type: 'Person'
+    }, {
+      name: 'Scruffy',
+      value: {
+        age: '15'
+      },
+      type: 'Dog'
+    }, {
+      name: 'Kashmir',
+      value: {
+        age: '37'
+      },
+      type: 'Dog'
+    }];
+
+    const config = {
+      key: 'name',
+      label: 'name',
+      value: 'value'
+    };
+
+    <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+      <ChipInput dataSource={data} dataSourceConfig={config} selectedKeys={['Greg', 'George']} />
+    </MuiThemeProvider>
+
 Example (Groups):
 
     const lightBaseTheme = require('material-ui/styles/baseThemes/lightBaseTheme').default;
@@ -91,7 +139,7 @@ Example (Groups):
     };
 
     function groupBy(item) {
-      return item.type;
+      return item.originalDatum.type;
     }
 
     <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>

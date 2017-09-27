@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Chip from 'material-ui/Chip';
 import { blue300 } from 'material-ui/styles/colors';
 
+import * as keyCodes from '../../utils/keyCodes';
+
 class ChipInputChip extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -31,10 +33,6 @@ class ChipInputChip extends React.PureComponent {
     const { onKeyDown, onDelete } = this.props;
     const { which } = e;
   
-    const keyCodes = {
-      BACKSPACE: 8
-    };
-  
     switch (which) {
       case keyCodes.BACKSPACE:
         e.preventDefault();
@@ -60,7 +58,7 @@ class ChipInputChip extends React.PureComponent {
       >
         <Chip
           backgroundColor={focused ? blue300 : null}
-          onRequestDelete={() => onDelete()}
+          onRequestDelete={onDelete}
           children={label}
           {...muiChipProps(label, value, focused)}
         />
@@ -75,6 +73,7 @@ ChipInputChip.propTypes = {
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   onDelete: PropTypes.func,
+  onKeyDown: PropTypes.func,
   focused: PropTypes.bool,
   muiChipProps: PropTypes.func
 };
