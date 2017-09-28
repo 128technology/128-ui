@@ -8,7 +8,6 @@ import Menu from 'material-ui/Menu';
 import Subheader from 'material-ui/Subheader';
 
 import './ChipInput.scss';
-
 import ChipInputList from './ChipInputList';
 import ChipInputMenuItem from './ChipInputMenuItem';
 import * as keyCodes from '../../utils/keyCodes';

@@ -5,9 +5,7 @@ import Subheader from 'material-ui/Subheader';
 import MenuItem from 'material-ui/MenuItem';
 
 import ChipInput from '../ChipInput';
-import { useSyncState, mountWithMuiTheme } from '../../../utils/testUtil';
-
-useSyncState(ChipInput);
+import { mountWithMuiTheme } from '../../../utils/testUtil';
 
 const dataSource = [{
   key: 'some-key',
