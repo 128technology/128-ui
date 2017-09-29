@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import Subheader from 'material-ui/Subheader';
 import MenuItem from 'material-ui/MenuItem';
 
-import ChipInput from '../ChipInput';
+import ChipInput, { removeValueAtIndex } from '../ChipInput';
 import { mountWithMuiTheme } from '../../../utils/testUtil';
 
 const dataSource = [{
@@ -135,12 +135,12 @@ describe('Chip Input', function() {
 
     it('it should delete focused chip chip->delete', function() {
       const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} />);
-      const lastChip = component.find('.ui-128--chip-input-chip').last();
+      const lastChip = component.find('.ui-128--chip-input-chip').first();
   
       lastChip.simulate('focus');
       lastChip.simulate('keyDown', { key: 'Delete', which: 8, keyCode: 8 });
 
-      expect(component.state().selectedValues).has.lengthOf(1);
+      expect(component.state().selectedValues[0].key).deep.equals(dataSource[1].key);
     });
 
     it('it should delete last chip input->delete', function() {
@@ -178,13 +178,44 @@ describe('Chip Input', function() {
     });
   });
 
+  describe('Utils', function() {
+    describe('removeValueAtIndex', function() {
+      it('should remove a value at an index', function() {
+        const arr = [0, 1, 2, 3, 4, 5];
+        expect(removeValueAtIndex(arr, 1)).to.deep.equal([0, 2, 3, 4, 5]);
+      });
+
+      it('should return a different array instance with the same values for an index > array length', function() {
+        const arr = [0, 1, 2, 3, 4, 5];
+        const newArr = removeValueAtIndex(arr, 1000);
+        
+        expect(newArr).to.not.equal(arr);
+        expect(newArr).to.deep.equal([0, 1, 2, 3, 4, 5]);
+      });
+
+      it('should return a different array instance with the same values for an index < 0', function() {
+        const arr = [0, 1, 2, 3, 4, 5];
+        const newArr = removeValueAtIndex(arr, -1);
+
+        expect(newArr).to.not.equal(arr);
+        expect(newArr).to.deep.equal([0, 1, 2, 3, 4, 5]);
+      });
+    });
+  });
+
   describe('Presentation', function() {
+    it('should render an an icon element', function() {
+      const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} icon={<div className="some-icon" />} />);
+      const icon = component.find('.some-icon');
+
+      expect(icon.exists()).to.equal(true);
+    });
+
     it('should create menu groups when groupBy function is supplied', function() {
       const groupBy = (obj) => obj.originalDatum.type; 
       const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} groupBy={groupBy} />);
 
       component.find('input').simulate('focus');
-
       const subheaders = component.find(Subheader);
 
       expect(subheaders).to.have.lengthOf(2);

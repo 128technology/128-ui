@@ -40,6 +40,15 @@ function groupItems(items, groupBy) {
   ]);
 }
 
+export function removeValueAtIndex(array, index) {
+  if (index > array.length - 1 || index < 0) {
+    return array.slice();
+  }
+  const front = array.slice(0, index);
+  const back = array.slice(index + 1, array.length);
+  return front.concat(back);
+}
+
 function differenceByKey(arrayA, arrayB) {
   return _.differenceWith(arrayA, arrayB, (a, b) => a.key === b.key);
 }
@@ -115,7 +124,7 @@ class ChipInput extends React.PureComponent {
 
   removeValue(index) {
     this.setState(({ origDataSource, focusedChipIndex, selectedValues }) => {
-      const newSelectedValues = selectedValues.slice(0, selectedValues.length - 1);
+      const newSelectedValues = removeValueAtIndex(selectedValues, index);
       const lastValueIndex = newSelectedValues.length - 1;
 
       const clamp = (val) => val !== null && lastValueIndex > -1
@@ -237,7 +246,7 @@ class ChipInput extends React.PureComponent {
   }
 
   render() {
-    const { muiChipProps, className } = this.props;
+    const { muiChipProps, className, icon } = this.props;
     const { inputValue, selectedValues, dataSource, focusedChipIndex, inputFocused } = this.state;
     const showUnderline = inputFocused || focusedChipIndex !== null;
 
@@ -250,6 +259,7 @@ class ChipInput extends React.PureComponent {
 
     return (
       <div className={newClassName}>
+        <div className="ui-128 ui-128--chip-input-icon">{icon}</div>
         <ChipInputList
           items={selectedValues}
           onDelete={this.handleOnChipDelete}
@@ -290,7 +300,8 @@ ChipInput.propTypes = {
   groupBy: PropTypes.func,
   onChange: PropTypes.func,
   selectedKeys: PropTypes.array,
-  muiChipProps: PropTypes.func
+  muiChipProps: PropTypes.func,
+  icon: PropTypes.node
 };
 
 ChipInput.defaultProps = {
@@ -301,7 +312,8 @@ ChipInput.defaultProps = {
     label: 'label',
     value: 'value'
   },
-  groupBy: null
+  groupBy: null,
+  icon: null
 };
 
 export default ChipInput;

@@ -213,6 +213,7 @@ Example (Custom Chip Props):
 Example (On Change):
 
     const _ = require('lodash');
+    const FontIcon = require('material-ui/FontIcon').default;
     const lightBaseTheme = require('material-ui/styles/baseThemes/lightBaseTheme').default;
     const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default;
     const getMuiTheme = require('material-ui/styles/getMuiTheme').default;
@@ -304,23 +305,13 @@ Example (On Change):
       render() {
         return (
           <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-            <div>
-              <div
-                style={{
-                  backgroundColor: this.state.color,
-                  height: '30px',
-                  width: '100%',
-                  boxShadow: '0 0 10px 0 rgba(0,0,0,0.16)',
-                  margin: '5px'
-                }}
-              />
-              <ChipInput
-                dataSource={data}
-                dataSourceConfig={config}
-                onChange={this.onChange}
-                muiChipProps={muiChipProps}
-              />
-            </div>
+            <ChipInput
+              icon={<FontIcon className="mdi mdi-format-color-fill" color={this.state.color} />}
+              dataSource={data}
+              dataSourceConfig={config}
+              onChange={this.onChange}
+              muiChipProps={muiChipProps}
+            />
           </MuiThemeProvider>
         );
       }
