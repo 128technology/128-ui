@@ -13,14 +13,7 @@ import ChipInputMenuItem from './ChipInputMenuItem';
 import * as keyCodes from '../../utils/keyCodes';
 
 function renderAutocompleteItem(item, isHighlighted) {
-  return (
-    <ChipInputMenuItem
-      key={item.key}
-      label={item.label}
-      datum={item}
-      isHighlighted={isHighlighted}
-    />
-  );
+  return <ChipInputMenuItem key={item.key} label={item.label} datum={item} isHighlighted={isHighlighted} />;
 }
 
 function getItemValue({ label }) {
@@ -32,10 +25,12 @@ function itemIsMatch({ label }, searchValue) {
 }
 
 function groupItems(items, groupBy) {
-  const groupedItems = _.groupBy(items, (item) => groupBy(item.props.datum));
+  const groupedItems = _.groupBy(items, item => groupBy(item.props.datum));
 
   return _.flatMap(groupedItems, (group, groupName) => [
-    <Subheader key={groupName} className="ui-128 ui-128--chip-input-dropdown-group">{groupName}</Subheader>,
+    <Subheader key={groupName} className="ui-128 ui-128--chip-input-dropdown-group">
+      {groupName}
+    </Subheader>,
     group
   ]);
 }
@@ -58,16 +53,15 @@ class ChipInput extends React.PureComponent {
     super(props);
     const { dataSource, dataSourceConfig, selectedKeys } = props;
 
-    const reconfiguredDataSource = _.map(dataSource, (datum) => ({
+    const reconfiguredDataSource = _.map(dataSource, datum => ({
       key: _.get(datum, dataSourceConfig.key, JSON.stringify(datum)),
       label: _.get(datum, dataSourceConfig.label, ''),
       value: _.get(datum, dataSourceConfig.value, null),
       originalDatum: datum
     }));
 
-    const selectedValues = selectedKeys.length > 0
-      ? _.filter(reconfiguredDataSource, (datum) => selectedKeys.indexOf(datum.key) !== -1)
-      : [];
+    const selectedValues =
+      selectedKeys.length > 0 ? _.filter(reconfiguredDataSource, datum => selectedKeys.indexOf(datum.key) !== -1) : [];
 
     this.state = {
       inputValue: '',
@@ -102,9 +96,7 @@ class ChipInput extends React.PureComponent {
     return (
       <div className="ui-128 ui-128--chip-input-dropdown">
         <Paper zDepth={1}>
-          <Menu disableAutoFocus={true}>
-            {menuItems}
-          </Menu>
+          <Menu disableAutoFocus={true}>{menuItems}</Menu>
         </Paper>
       </div>
     );
@@ -123,29 +115,30 @@ class ChipInput extends React.PureComponent {
   }
 
   removeValue(index) {
-    this.setState(({ origDataSource, focusedChipIndex, selectedValues }) => {
-      const newSelectedValues = removeValueAtIndex(selectedValues, index);
-      const lastValueIndex = newSelectedValues.length - 1;
+    this.setState(
+      ({ origDataSource, focusedChipIndex, selectedValues }) => {
+        const newSelectedValues = removeValueAtIndex(selectedValues, index);
+        const lastValueIndex = newSelectedValues.length - 1;
 
-      const clamp = (val) => val !== null && lastValueIndex > -1
-        ? _.clamp(val, 0, lastValueIndex)
-        : null;
+        const clamp = val => (val !== null && lastValueIndex > -1 ? _.clamp(val, 0, lastValueIndex) : null);
 
-      return {
-        inputValue: '',
-        selectedValues: newSelectedValues,
-        dataSource: differenceByKey(origDataSource, newSelectedValues),
-        focusedChipIndex: clamp(focusedChipIndex)
-      };
-    }, () => {
-      const { focusedChipIndex } = this.state;
+        return {
+          inputValue: '',
+          selectedValues: newSelectedValues,
+          dataSource: differenceByKey(origDataSource, newSelectedValues),
+          focusedChipIndex: clamp(focusedChipIndex)
+        };
+      },
+      () => {
+        const { focusedChipIndex } = this.state;
 
-      if (focusedChipIndex === null) {
-        this.focusAutocompleteInput();
+        if (focusedChipIndex === null) {
+          this.focusAutocompleteInput();
+        }
+
+        this.triggerOnChange();
       }
-
-      this.triggerOnChange();
-    });
+    );
   }
 
   triggerOnChange() {
@@ -216,7 +209,7 @@ class ChipInput extends React.PureComponent {
     const { which } = e;
     const { focusedChipIndex, selectedValues } = this.state;
     const lastValueIndex = selectedValues.length - 1;
-    const clamp = (val) => _.clamp(val, 0, lastValueIndex);
+    const clamp = val => _.clamp(val, 0, lastValueIndex);
 
     switch (which) {
       case keyCodes.RIGHT_ARROW:
@@ -270,7 +263,7 @@ class ChipInput extends React.PureComponent {
           focusedChipIndex={focusedChipIndex}
         />
         <ReactAutocomplete
-          ref={(el) => this.autoCompleteInput = el}
+          ref={el => (this.autoCompleteInput = el)}
           getItemValue={getItemValue}
           items={dataSource}
           shouldItemRender={itemIsMatch}

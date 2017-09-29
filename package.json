@@ -16,7 +16,8 @@
     "prepublish": "npm run build",
     "clean:dist": "rimraf dist/",
     "clean:styleguide": "rimraf styleguide/",
-    "clean": "npm run clean:dist && npm run clean:styleguide"
+    "clean": "npm run clean:dist && npm run clean:styleguide",
+    "format": "prettier --print-width 120 --single-quote --trailing-comma none --write \"src/components/**/*.{js,jsx}\""
   },
   "publishConfig": {
     "registry": "http://npm.128technology.com:4873"
@@ -40,13 +41,16 @@
     "chai": "^4.0.0-canary.1",
     "css-loader": "^0.28.0",
     "enzyme": "^2.8.2",
-    "eslint": "^3.19.0",
+    "eslint": "^4.7.2",
+    "eslint-config-prettier": "^2.6.0",
+    "eslint-plugin-prettier": "^2.3.1",
     "eslint-plugin-react": "^6.10.3",
     "file-loader": "^0.11.1",
     "ignore-styles": "^5.0.1",
     "jsdom": "^11.2.0",
     "mocha": "^3.3.0",
     "node-sass": "^4.5.2",
+    "prettier": "^1.7.2",
     "react": "15.4.2",
     "react-addons-shallow-compare": "15.4.2",
     "react-addons-test-utils": "15.4.2",

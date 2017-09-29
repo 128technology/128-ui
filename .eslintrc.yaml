@@ -4,9 +4,11 @@ parser: babel-eslint
 
 extends:
   - eslint:recommended
+  - prettier
 
 plugins:
   - react
+  - prettier
 
 parserOptions:
   ecmaVersion: 6
@@ -22,76 +24,73 @@ globals:
   __dirname: true,
   __DEVTOOLS__: true,
   __DEVELOPMENT__: true,
+  __TEST__: true,
   module: true,
   exports: true,
   require: true,
-  process: true,
+  process: true
 
-  # For Testing
-  describe: true,
-  it: true,
-  beforeEach: true,
-  afterEach: true,
-  sinon: true,
-  before: true,
-  after: true,
-  global: true
-
-
-# We're stricter than the default config, mostly. We'll override a few rules and
-# then enable some React specific ones.
 rules:
-  arrow-parens: [2, always]
-  accessor-pairs: 0
-  brace-style: [2, 1tbs]
-  comma-dangle: [2, never]
-  consistent-return: 2
-  dot-location: [2, property]
-  dot-notation: 2
-  eol-last: 2
-  indent: [2, 2, {SwitchCase: 1}]
-  no-bitwise: 0
-  no-dupe-class-members: 2
-  no-multi-spaces: 2
-  no-shadow: 2
-  no-unused-vars: [2, {args: none}]
-  padded-blocks: [2, never]
-  quotes: [2, single, avoid-escape]
-  semi: [2, always]
-  keyword-spacing: 2
-  spaced-comment: [2, always, {block: {exceptions: ["*"]}}]
-  space-before-blocks: 2
-  space-before-function-paren: [2, never]
-  space-in-parens: [2, never]
-  space-infix-ops: 2
-  strict: [2, global]
-  no-constant-condition: [2, {checkLoops: false}]
-  prefer-const: [2, {destructuring: all, ignoreReadBeforeAssign: true}]
-  no-var: 2
-
-  # For testing
-  no-unused-expressions: 0
+  accessor-pairs: off
+  brace-style: [error, 1tbs]
+  comma-dangle: [error, never]
+  consistent-return: error
+  dot-location: [error, property]
+  dot-notation: error
+  eol-last: error
+  eqeqeq: [error, always, { null: ignore }]
+  keyword-spacing: error
+  no-bitwise: off
+  no-constant-condition: [error, { checkLoops: false }]
+  no-dupe-class-members: error
+  no-multi-spaces: error
+  no-shadow: error
+  no-unused-expressions: error
+  no-unused-vars: [error, { args: none }]
+  no-var: error
+  padded-blocks: [error, never]
+  prefer-const: [error, { destructuring: all, ignoreReadBeforeAssign: true }]
+  prettier/prettier: [error, { singleQuote: true, trailingComma: none, printWidth: 120 }]
+  quotes: [error, single, avoid-escape]
+  semi: [error, always]
+  space-before-blocks: error
+  space-before-function-paren: [error, never]
+  space-in-parens: [error, never]
+  space-infix-ops: error
+  spaced-comment: [error, always, { block: { exceptions: ["*"] } }]
+  strict: [error, global]
 
   # JSX
   # Our transforms set this automatically
-  react/display-name: 0
-  react/jsx-boolean-value: [2, always]
-  react/jsx-no-undef: 2
-  # We don't care to do this
-  react/jsx-sort-prop-types: 0
-  react/jsx-sort-props: 0
-  react/jsx-uses-react: 2
-  react/jsx-uses-vars: 2
-  # It's easier to test some things this way
-  react/no-did-mount-set-state: 0
-  react/no-did-update-set-state: 0
-  # We define multiple components in test files
-  react/no-multi-comp: 0
-  react/no-unknown-property: 2
-  # This isn't useful in our test code
-  react/prop-types: 0
-  react/react-in-jsx-scope: 2
-  react/self-closing-comp: 2
-  # We don't care to do this
-  react/sort-comp: 0
-  react/jsx-wrap-multilines: [2, {declaration: false, assignment: false}]
+  react/display-name: off
+  react/jsx-boolean-value: [error, always]
+  react/jsx-no-undef: error
+  react/jsx-sort-prop-types: off
+  react/jsx-sort-props: off
+  react/jsx-uses-react: error
+  react/jsx-uses-vars: error
+  react/jsx-wrap-multilines: [error, { declaration: false, assignment: false }]
+  react/no-did-mount-set-state: off
+  react/no-did-update-set-state: off
+  react/no-multi-comp: off
+  react/no-unknown-property: error
+  react/prop-types: off
+  react/react-in-jsx-scope: error
+  react/self-closing-comp: error
+  react/sort-comp: off
+
+overrides:
+- files:
+    - "src/components/**/__tests__/*-test.js?(x)"
+  globals:
+    describe: true,
+    it: true,
+    beforeEach: true,
+    afterEach: true,
+    sinon: true,
+    before: true,
+    after: true,
+    process: true,
+    global: true
+  rules:
+    no-unused-expressions: 0

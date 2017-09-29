@@ -20,33 +20,33 @@ function MatchText({ text, searchString }) {
     const matchedPieces = textString.match(searchExp);
 
     const unmatched = _.map(unmatchedPieces, (str, i) => (
-      <span className="ui-128__match-text--unmatched" key={`unmatched/${str}/${i}`}>{str}</span>
+      <span className="ui-128__match-text--unmatched" key={`unmatched/${str}/${i}`}>
+        {str}
+      </span>
     ));
 
     const matched = _.map(matchedPieces, (str, i) => (
-      <span className="ui-128__match-text--matched" key={`matched/${str}/${i}`}>{str}</span>
+      <span className="ui-128__match-text--matched" key={`matched/${str}/${i}`}>
+        {str}
+      </span>
     ));
 
-    const components = _.chain(unmatched).zip(matched).flatten().value();
+    const components = _.chain(unmatched)
+      .zip(matched)
+      .flatten()
+      .value();
 
-    return (
-      <span className="ui-128 ui-128__match-text">{components}</span>
-    );
+    return <span className="ui-128 ui-128__match-text">{components}</span>;
   }
 
-  return (
-    <span className="ui-128 ui-128__match-text">{textString}</span>
-  );
+  return <span className="ui-128 ui-128__match-text">{textString}</span>;
 }
 
 MatchText.propTypes = {
   /**
    * The text string to be searched.
    */
-  text: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]).isRequired,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   /**
    * The search string to search for.
    */

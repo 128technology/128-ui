@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import './DatePicker.scss';
 
-const getCalendarContainer = (trigger) => {
+const getCalendarContainer = trigger => {
   // ui-128 container
   return trigger.parentNode.parentNode;
 };

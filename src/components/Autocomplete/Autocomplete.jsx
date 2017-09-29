@@ -43,11 +43,13 @@ class TetheredSelect extends Select {
         attachment="top left"
         targetAttachment="top left"
         className="ui-128__autocomplete--options"
-        constraints={[{
-          to: 'window',
-          attachment: 'together',
-          pin: ['top']
-        }]}
+        constraints={[
+          {
+            to: 'window',
+            attachment: 'together',
+            pin: ['top']
+          }
+        ]}
       >
         <div />
         {React.cloneElement(menu, { style: { position: 'static', width: selectWidth } })}
@@ -72,13 +74,15 @@ class Autocomplete extends React.Component {
 
   handleChange(selected) {
     const newValue = selected.value;
-    this.props.onSelect && this.props.onSelect.call(this, newValue);
+    if (this.props.onSelect) {
+      this.props.onSelect.call(this, newValue);
+    }
     this.setState({ selectValue: newValue });
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.value !== nextProps.value) {
-      this.setState({selectValue: nextProps.value});
+      this.setState({ selectValue: nextProps.value });
     }
   }
 
@@ -99,13 +103,13 @@ class Autocomplete extends React.Component {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { id, className, value, onSelect, errorText, ...rest} = this.props;
+    const { id, className, value, onSelect, errorText, ...rest } = this.props;
 
     const classes = this._buildClass(className);
 
-    const errorTextComponent = !_.isNil(errorText)
-      ? (<div className="ui-128__autocomplete--error-text">{errorText}</div>)
-      : null;
+    const errorTextComponent = !_.isNil(errorText) ? (
+      <div className="ui-128__autocomplete--error-text">{errorText}</div>
+    ) : null;
 
     return (
       <div id={id} className={classes}>
@@ -136,7 +140,8 @@ Autocomplete.propTypes = {
    */
   className: PropTypes.string,
   initialValue: PropTypes.any,
-  placeholder: PropTypes.oneOfType([ // displayed when there's no value
+  placeholder: PropTypes.oneOfType([
+    // displayed when there's no value
     PropTypes.string,
     PropTypes.node
   ]),

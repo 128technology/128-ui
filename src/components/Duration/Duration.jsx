@@ -43,5 +43,4 @@ Duration.propTypes = {
   duration: PropTypes.number
 };
 
-
 export default Duration;

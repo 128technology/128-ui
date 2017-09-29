@@ -17,7 +17,7 @@ class ChipInputChip extends React.PureComponent {
     const { focused } = this.props;
 
     if (focused) {
-      this.chipContainer.focus();      
+      this.chipContainer.focus();
     }
   }
 
@@ -32,7 +32,7 @@ class ChipInputChip extends React.PureComponent {
   handleKeyDown(e) {
     const { onKeyDown, onDelete } = this.props;
     const { which } = e;
-  
+
     switch (which) {
       case keyCodes.BACKSPACE:
         e.preventDefault();
@@ -49,7 +49,7 @@ class ChipInputChip extends React.PureComponent {
 
     return (
       <div
-        ref={(el) => this.chipContainer = el}
+        ref={el => (this.chipContainer = el)}
         className="ui-128 ui-128--chip-input-chip"
         onKeyDown={this.handleKeyDown}
         onFocus={onFocus}
@@ -77,7 +77,6 @@ ChipInputChip.propTypes = {
   focused: PropTypes.bool,
   muiChipProps: PropTypes.func
 };
-
 
 ChipInputChip.defaultProps = {
   label: '',

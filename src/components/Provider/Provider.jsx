@@ -17,9 +17,7 @@ function Provider({ locale, children }) {
     providerLocale = locales[locale];
   }
 
-  return (
-    <LocaleProvider locale={providerLocale.antd}>{children}</LocaleProvider>
-  );
+  return <LocaleProvider locale={providerLocale.antd}>{children}</LocaleProvider>;
 }
 
 Provider.propTypes = {

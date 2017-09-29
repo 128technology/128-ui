@@ -7,7 +7,7 @@ import ChipInputChip from './ChipInputChip';
 class ChipInputList extends React.PureComponent {
   createChips() {
     const { onFocus, onBlur, onDelete, onKeyDown, focusedChipIndex, items, muiChipProps } = this.props;
-    
+
     return _.map(items, (item, index) => (
       <ChipInputChip
         key={item.key || JSON.stringify(item)}
@@ -25,11 +25,7 @@ class ChipInputList extends React.PureComponent {
   }
 
   render() {
-    return (
-      <div className="ui-128 ui-128--chip-input-list">
-        {this.createChips()}
-      </div>
-    );
+    return <div className="ui-128 ui-128--chip-input-list">{this.createChips()}</div>;
   }
 }
 

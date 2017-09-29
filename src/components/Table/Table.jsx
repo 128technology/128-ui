@@ -13,13 +13,13 @@ import './Table.scss';
  */
 function Table({ className, borderedTable = false, expandedRowRender, ...otherProps }) {
   const newExpandedRowRender = _.isFunction(expandedRowRender)
-    ? (...args) => (<span className='ui-128 ui-128__table--nested'>{expandedRowRender(...args)}</span>)
+    ? (...args) => <span className="ui-128 ui-128__table--nested">{expandedRowRender(...args)}</span>
     : null;
 
   return (
     <AntdTable
       {...otherProps}
-      className={classNames(className, (borderedTable ? 'ui-128__table--bordered' : null), 'ui-128__table', 'ui-128')}
+      className={classNames(className, borderedTable ? 'ui-128__table--bordered' : null, 'ui-128__table', 'ui-128')}
       expandedRowRender={newExpandedRowRender}
     />
   );

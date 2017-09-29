@@ -15,27 +15,35 @@ describe('Table Component', function() {
   it('should pass arguments to expandedRowRender', function() {
     const expandedRowSpy = sinon.spy();
 
-    const data = [{
-      key: 'moo1',
-      name: 'moo'
-    }, {
-      key: 'moo2',
-      name: 'moo'
-    }, {
-      key: 'cow3',
-      name: 'cow'
-    }];
+    const data = [
+      {
+        key: 'moo1',
+        name: 'moo'
+      },
+      {
+        key: 'moo2',
+        name: 'moo'
+      },
+      {
+        key: 'cow3',
+        name: 'cow'
+      }
+    ];
 
-    const columns = [{
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name'
-    }];
+    const columns = [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name'
+      }
+    ];
 
-    render(<Table defaultExpandAllRows={true} dataSource={data} columns={columns} expandedRowRender={expandedRowSpy} />);
-    
-    data.forEach((datum) => {
-      expect(expandedRowSpy.calledWith(datum)).to.be.true;
+    render(
+      <Table defaultExpandAllRows={true} dataSource={data} columns={columns} expandedRowRender={expandedRowSpy} />
+    );
+
+    data.forEach(datum => {
+      expect(expandedRowSpy.calledWith(datum)).to.equal(true);
     });
   });
 });

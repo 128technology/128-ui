@@ -29,11 +29,11 @@ describe('MatchText Component', function() {
     const matchText = shallow(<MatchText text="A matchable search string..." searchString="search" />);
 
     const unmatched = matchText.find({ className: 'ui-128__match-text--unmatched' });
-  
+
     expect(unmatched).to.have.lengthOf(2);
   });
 
-  it('shouldn\'t match or unmatch an empty search string', function() {
+  it("shouldn't match or unmatch an empty search string", function() {
     const matchText = shallow(<MatchText text="A matchable search string..." searchString="" />);
 
     const matched = matchText.find({ className: 'ui-128__match-text--matched' });

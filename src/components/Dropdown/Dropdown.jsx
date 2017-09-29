@@ -7,9 +7,7 @@ import './Dropdown.scss';
 function Dropdown({ className, children, ...otherProps }) {
   return (
     <div className={classNames('ui-128', 'ui-128__dropdown', className)}>
-      <AntdDropdown {...otherProps}>
-        {children}
-      </AntdDropdown>
+      <AntdDropdown {...otherProps}>{children}</AntdDropdown>
     </div>
   );
 }

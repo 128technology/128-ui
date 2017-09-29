@@ -4,7 +4,7 @@ import { TimePicker as AntdTimePicker } from 'antd';
 
 import './TimePicker.scss';
 
-const getPopupContainer = (trigger) => {
+const getPopupContainer = trigger => {
   // ui-128 container
   return trigger.parentNode;
 };

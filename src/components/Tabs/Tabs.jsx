@@ -17,9 +17,7 @@ function Tabs({ className, inline, ...otherProps }) {
     newClasses.push('ui-128__tabs--inline');
   }
 
-  return (
-    <AntdTabs {...otherProps} className={classNames(newClasses)} />
-  );
+  return <AntdTabs {...otherProps} className={classNames(newClasses)} />;
 }
 
 Tabs.propTypes = {
