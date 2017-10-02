@@ -35,6 +35,33 @@ describe('Chip Input', function() {
     expect(component.exists()).to.equal(true);
   });
 
+  it('should update the selected values when selected keys changes', function() {
+    const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} selectedKeys={[]} />);
+
+    expect(component.state().selectedValues).to.deep.equal([]);
+    component.setProps({ selectedKeys: ['some-key'] });
+    expect(component.state().selectedValues[0].key).to.equal('some-key');
+  });
+
+  it('should update the data source', function() {
+    const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} selectedKeys={[]} />);
+
+    expect(component.state().dataSource).to.have.lengthOf(3);
+    expect(component.state().origDataSource).to.have.lengthOf(3);
+
+    component.setProps({ dataSource: dataSource.slice(0, 1) });
+
+    expect(component.state().dataSource).to.have.lengthOf(1);
+    expect(component.state().origDataSource).to.have.lengthOf(1);
+  });
+
+  it('should update the data source config', function() {
+    const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} selectedKeys={[]} />);
+
+    component.setProps({ dataSourceConfig: { key: 'label' } });
+    expect(component.state().origDataSource[0].key).to.equal('some-label');
+  });
+
   describe('Event Handlers', function() {
     it('it should set input focused', function() {
       const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} />);

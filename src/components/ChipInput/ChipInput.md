@@ -142,6 +142,79 @@ Example (Selected Keys):
       <ChipInput dataSource={data} dataSourceConfig={config} selectedKeys={['Greg', 'George']} />
     </MuiThemeProvider>
 
+Example (Selected Keys w/ External Control):
+
+    const lightBaseTheme = require('material-ui/styles/baseThemes/lightBaseTheme').default;
+    const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default;
+    const getMuiTheme = require('material-ui/styles/getMuiTheme').default;
+
+    const data = [{
+      name: 'Greg',
+      value: {
+        age: '99'
+      },
+      type: 'Person'
+    }, {
+      name: 'George',
+      value: {
+        age: '77'
+      },
+      type: 'Person'
+    }, {
+      name: 'Bob',
+      value: {
+        age: '2'
+      },
+      type: 'Person'
+    }, {
+      name: 'Scruffy',
+      value: {
+        age: '15'
+      },
+      type: 'Dog'
+    }, {
+      name: 'Kashmir',
+      value: {
+        age: '37'
+      },
+      type: 'Dog'
+    }];
+
+    const config = {
+      key: 'name',
+      label: 'name',
+      value: 'value'
+    };
+
+    class ControlledSelectedKeys extends React.PureComponent {
+      constructor() {
+        this.state = {
+          selectedKeys: []
+        }
+
+        this.toggleSelectedKeys = this.toggleSelectedKeys.bind(this);
+      }
+
+      toggleSelectedKeys() {
+        this.setState((prevState) => ({
+          selectedKeys: prevState.selectedKeys.length === 0 ? ['Greg', 'Bob'] : []
+        }));
+      }
+
+      render() {
+        return (
+          <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+            <div>
+              <ChipInput dataSource={data} dataSourceConfig={config} selectedKeys={this.state.selectedKeys} />
+              <button onClick={this.toggleSelectedKeys}>Toggle Selected Keys</button>
+            </div>
+          </MuiThemeProvider>
+        );
+      }
+    }
+
+    <ControlledSelectedKeys />
+
 Example (Groups):
 
     const lightBaseTheme = require('material-ui/styles/baseThemes/lightBaseTheme').default;
