@@ -1,56 +1,74 @@
 .ui-128--chip-input {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  border-bottom: 1px solid rgba(0, 0, 0, .16);
-  font-size: 16px;
+  .ui-128--chip-input-inner {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, .16);
+    font-size: 16px;
 
-  &::after {
-    position: absolute;
-    left: 50%;
-    bottom: -1px;
-    content: '';
-    height: 2px;
-    width: 0;
-    background-color: $cyan-128;
-    transition: all .2s;
+    &::after {
+      position: absolute;
+      left: 50%;
+      bottom: -1px;
+      content: '';
+      height: 2px;
+      width: 0;
+      background-color: $cyan-128;
+      transition: all .2s;
+    }
+
+    .ui-128--chip-input-icon {
+      margin-right: 5px;
+    }
+
+    .ui-128--chip-input-dropdown {
+      position: absolute;
+      margin-top: 1px;
+      z-index: 999;
+    }
+
+    input {
+      outline: none;
+      border: 0;
+      width: 100%;
+      font-size: inherit;
+      line-height: 24px;
+      padding: 10px 0;
+    }
+
+    .ui-128--chip-input-autocomplete {
+      flex-grow: 2;
+    }
+
+    .ui-128--chip-input-chip {
+      background: none;
+      outline: none;
+      border: 0;
+      padding: 0;
+      margin: 0 5px 5px 0;
+      display: inline-block;
+    }
   }
 
-  &.ui-128--chip-input_underlined::after {
-    left: 0;
+  .ui-128--chip-input-errorText {
+    color: $error-red;
+    font-family: $montserrat-family;
+    font-size: 12px;
+    font-weight: 300;
+    padding-top: 9px;
     width: 100%;
   }
 
-  .ui-128--chip-input-icon {
-    margin-right: 5px;
+  &.ui-128--chip-input_error .ui-128--chip-input-inner::after {
+    background-color: $error-red;
   }
 
-  .ui-128--chip-input-dropdown {
-    position: absolute;
-    margin-top: 1px;
-    z-index: 999;
-  }
-
-  input {
-    outline: none;
-    border: 0;
-    width: 100%;
-    font-size: inherit;
-    line-height: 24px;
-    padding: 10px 0 10px 0;
-  }
-
-  .ui-128--chip-input-autocomplete {
-    flex-grow: 2;
-  }
-
-  .ui-128--chip-input-chip {
-    background: none;
-    outline: none;
-    border: 0;
-    padding: 0;
-    margin: 0 5px 5px 0;
-    display: inline-block;
+  &.ui-128--chip-input_error,
+  &.ui-128--chip-input_underlined {
+    .ui-128--chip-input-inner::after {
+      left: 0;
+      width: 100%;
+    }
   }
 }

@@ -239,7 +239,7 @@ class ChipInput extends React.PureComponent {
   }
 
   render() {
-    const { muiChipProps, className, icon } = this.props;
+    const { errorText, muiChipProps, className, icon } = this.props;
     const { inputValue, selectedValues, dataSource, focusedChipIndex, inputFocused } = this.state;
     const showUnderline = inputFocused || focusedChipIndex !== null;
 
@@ -247,41 +247,45 @@ class ChipInput extends React.PureComponent {
       'ui-128': true,
       'ui-128--chip-input': true,
       'ui-128--chip-input_underlined': showUnderline,
+      'ui-128--chip-input_error': !_.isNil(errorText),
       [className]: _.isString(className)
     });
 
     return (
       <div className={newClassName}>
-        <div className="ui-128 ui-128--chip-input-icon">{icon}</div>
-        <ChipInputList
-          items={selectedValues}
-          onDelete={this.handleOnChipDelete}
-          onKeyDown={this.handleOnChipKeyDown}
-          onFocus={this.handleOnChipFocus}
-          onBlur={this.handleOnChipBlur}
-          muiChipProps={muiChipProps}
-          focusedChipIndex={focusedChipIndex}
-        />
-        <ReactAutocomplete
-          ref={el => (this.autoCompleteInput = el)}
-          getItemValue={getItemValue}
-          items={dataSource}
-          shouldItemRender={itemIsMatch}
-          renderItem={renderAutocompleteItem}
-          renderMenu={this.renderAutocompleteMenu}
-          value={inputValue}
-          onChange={this.handleOnAutocompleteChange}
-          onSelect={this.handleOnAutocompleteSelect}
-          wrapperProps={{
-            className: 'ui-128 ui-128--chip-input-autocomplete',
-            style: {}
-          }}
-          inputProps={{
-            onKeyDown: this.handleOnInputKeyDown,
-            onFocus: this.handleOnInputFocus,
-            onBlur: this.handleOnInputBlur
-          }}
-        />
+        <div className="ui-128 ui-128--chip-input-inner">
+          <div className="ui-128 ui-128--chip-input-icon">{icon}</div>
+          <ChipInputList
+            items={selectedValues}
+            onDelete={this.handleOnChipDelete}
+            onKeyDown={this.handleOnChipKeyDown}
+            onFocus={this.handleOnChipFocus}
+            onBlur={this.handleOnChipBlur}
+            muiChipProps={muiChipProps}
+            focusedChipIndex={focusedChipIndex}
+          />
+          <ReactAutocomplete
+            ref={el => (this.autoCompleteInput = el)}
+            getItemValue={getItemValue}
+            items={dataSource}
+            shouldItemRender={itemIsMatch}
+            renderItem={renderAutocompleteItem}
+            renderMenu={this.renderAutocompleteMenu}
+            value={inputValue}
+            onChange={this.handleOnAutocompleteChange}
+            onSelect={this.handleOnAutocompleteSelect}
+            wrapperProps={{
+              className: 'ui-128 ui-128--chip-input-autocomplete',
+              style: {}
+            }}
+            inputProps={{
+              onKeyDown: this.handleOnInputKeyDown,
+              onFocus: this.handleOnInputFocus,
+              onBlur: this.handleOnInputBlur
+            }}
+          />
+        </div>
+        {errorText && <div className="ui-128--chip-input-errorText">{errorText}</div>}
       </div>
     );
   }
@@ -290,6 +294,7 @@ class ChipInput extends React.PureComponent {
 ChipInput.propTypes = {
   dataSource: PropTypes.array.isRequired,
   dataSourceConfig: PropTypes.object.isRequired,
+  errorText: PropTypes.string,
   groupBy: PropTypes.func,
   onChange: PropTypes.func,
   selectedKeys: PropTypes.array,
