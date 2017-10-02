@@ -48,20 +48,26 @@ function differenceByKey(arrayA, arrayB) {
   return _.differenceWith(arrayA, arrayB, (a, b) => a.key === b.key);
 }
 
+function filterKeys(dataSource, selectedKeys) {
+  return selectedKeys.length > 0 ? _.filter(dataSource, datum => selectedKeys.indexOf(datum.key) !== -1) : [];
+}
+
+function reconfigureDataSource(dataSource, dataSourceConfig) {
+  return _.map(dataSource, datum => ({
+    key: _.get(datum, dataSourceConfig.key, JSON.stringify(datum)),
+    label: _.get(datum, dataSourceConfig.label, ''),
+    value: _.get(datum, dataSourceConfig.value, null),
+    originalDatum: datum
+  }));
+}
+
 class ChipInput extends React.PureComponent {
   constructor(props) {
     super(props);
     const { dataSource, dataSourceConfig, selectedKeys } = props;
 
-    const reconfiguredDataSource = _.map(dataSource, datum => ({
-      key: _.get(datum, dataSourceConfig.key, JSON.stringify(datum)),
-      label: _.get(datum, dataSourceConfig.label, ''),
-      value: _.get(datum, dataSourceConfig.value, null),
-      originalDatum: datum
-    }));
-
-    const selectedValues =
-      selectedKeys.length > 0 ? _.filter(reconfiguredDataSource, datum => selectedKeys.indexOf(datum.key) !== -1) : [];
+    const reconfiguredDataSource = reconfigureDataSource(dataSource, dataSourceConfig);
+    const selectedValues = filterKeys(reconfiguredDataSource, selectedKeys);
 
     this.state = {
       inputValue: '',
@@ -83,6 +89,40 @@ class ChipInput extends React.PureComponent {
     this.handleOnChipBlur = this.handleOnChipBlur.bind(this);
     this.renderAutocompleteMenu = this.renderAutocompleteMenu.bind(this);
     this.triggerOnChange = this.triggerOnChange.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const oldProps = this.props;
+
+    if (
+      !_.isEqual(oldProps.dataSource, nextProps.dataSource) ||
+      !_.isEqual(oldProps.dataSourceConfig, nextProps.dataSourceConfig)
+    ) {
+      this.updateDataSource(nextProps.selectedKeys, nextProps.dataSourceConfig, nextProps.dataSource);
+    } else if (!_.isEqual(oldProps.selectedKeys, nextProps.selectedKeys)) {
+      this.updateSelectedKeys(nextProps.selectedKeys);
+    }
+  }
+
+  updateSelectedKeys(newSelectedKeys) {
+    this.setState(prevState => {
+      const selectedValues = filterKeys(prevState.origDataSource, newSelectedKeys);
+
+      return {
+        dataSource: differenceByKey(prevState.origDataSource, selectedValues),
+        selectedValues
+      };
+    });
+  }
+
+  updateDataSource(newSelectedKeys, newDataSourceConfig, newDataSource) {
+    const reconfiguredDataSource = reconfigureDataSource(newDataSource, newDataSourceConfig);
+    const selectedValues = filterKeys(reconfiguredDataSource, newSelectedKeys);
+
+    this.setState({
+      dataSource: differenceByKey(reconfiguredDataSource, selectedValues),
+      origDataSource: reconfiguredDataSource
+    });
   }
 
   renderAutocompleteMenu(items, value) {
@@ -292,7 +332,7 @@ class ChipInput extends React.PureComponent {
 }
 
 ChipInput.propTypes = {
-  dataSource: PropTypes.array.isRequired,
+  dataSource: PropTypes.arrayOf(PropTypes.object).isRequired,
   dataSourceConfig: PropTypes.object.isRequired,
   errorText: PropTypes.string,
   groupBy: PropTypes.func,
