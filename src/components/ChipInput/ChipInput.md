@@ -94,7 +94,7 @@ Example (Error Text):
       <ChipInput dataSource={data} dataSourceConfig={config} errorText="Must provide at least one value." />
     </MuiThemeProvider>
 
-Example (Selected Keys):
+Example (Default Selected Keys):
 
     const lightBaseTheme = require('material-ui/styles/baseThemes/lightBaseTheme').default;
     const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default;
@@ -139,14 +139,15 @@ Example (Selected Keys):
     };
 
     <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-      <ChipInput dataSource={data} dataSourceConfig={config} selectedKeys={['Greg', 'George']} />
+      <ChipInput dataSource={data} dataSourceConfig={config} defaultSelectedKeys={['Greg', 'George']} />
     </MuiThemeProvider>
 
-Example (Selected Keys w/ External Control):
+Example (Controlled):
 
     const lightBaseTheme = require('material-ui/styles/baseThemes/lightBaseTheme').default;
     const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default;
     const getMuiTheme = require('material-ui/styles/getMuiTheme').default;
+    const RaisedButton = require('material-ui/RaisedButton').default;
 
     const data = [{
       name: 'Greg',
@@ -189,24 +190,48 @@ Example (Selected Keys w/ External Control):
     class ControlledSelectedKeys extends React.PureComponent {
       constructor() {
         this.state = {
-          selectedKeys: []
+          selectedKeys: ['Greg', 'Bob']
         }
 
-        this.toggleSelectedKeys = this.toggleSelectedKeys.bind(this);
+        this.handleOnAdd = this.handleOnAdd.bind(this);
+        this.handleOnRemove = this.handleOnRemove.bind(this);
+        this.clearInput = this.clearInput.bind(this);
       }
 
-      toggleSelectedKeys() {
+      handleOnAdd(item, key) {
         this.setState((prevState) => ({
-          selectedKeys: prevState.selectedKeys.length === 0 ? ['Greg', 'Bob'] : []
+          selectedKeys: _.concat(prevState.selectedKeys, key)
         }));
+      }
+
+      handleOnRemove(item, key, focusClosest) {
+        this.setState((prevState) => {
+          const selectedKeys = _.filter(prevState.selectedKeys, (selectedKey) => selectedKey !== key);
+
+          return { selectedKeys }
+        }, () => {
+          focusClosest();
+        });
+      }
+
+      clearInput() {
+        this.setState({
+          selectedKeys: []
+        });
       }
 
       render() {
         return (
           <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
             <div>
-              <ChipInput dataSource={data} dataSourceConfig={config} selectedKeys={this.state.selectedKeys} />
-              <button onClick={this.toggleSelectedKeys}>Toggle Selected Keys</button>
+              <ChipInput
+                dataSource={data}
+                dataSourceConfig={config}
+                selectedKeys={this.state.selectedKeys}
+                onRequestAdd={this.handleOnAdd}
+                onRequestRemove={this.handleOnRemove}
+              />
+              <RaisedButton onClick={this.clearInput} fullWidth={true}>Clear</RaisedButton>
             </div>
           </MuiThemeProvider>
         );

@@ -2,7 +2,6 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ReactAutocomplete from 'react-autocomplete';
 import Paper from 'material-ui/Paper';
 import Menu from 'material-ui/Menu';
 import Subheader from 'material-ui/Subheader';
@@ -10,7 +9,9 @@ import Subheader from 'material-ui/Subheader';
 import './ChipInput.scss';
 import ChipInputList from './ChipInputList';
 import ChipInputMenuItem from './ChipInputMenuItem';
+import ChipInputAutocomplete from './ChipInputAutocomplete';
 import * as keyCodes from '../../utils/keyCodes';
+import { getClosestKey, formatDataSource, differenceByKeys, filterByKeys } from './utils/chipInputUtils';
 
 function renderAutocompleteItem(item, isHighlighted) {
   return <ChipInputMenuItem key={item.key} label={item.label} datum={item} isHighlighted={isHighlighted} />;
@@ -35,46 +36,18 @@ function groupItems(items, groupBy) {
   ]);
 }
 
-export function removeValueAtIndex(array, index) {
-  if (index > array.length - 1 || index < 0) {
-    return array.slice();
-  }
-  const front = array.slice(0, index);
-  const back = array.slice(index + 1, array.length);
-  return front.concat(back);
-}
-
-function differenceByKey(arrayA, arrayB) {
-  return _.differenceWith(arrayA, arrayB, (a, b) => a.key === b.key);
-}
-
-function filterKeys(dataSource, selectedKeys) {
-  return selectedKeys.length > 0 ? _.filter(dataSource, datum => selectedKeys.indexOf(datum.key) !== -1) : [];
-}
-
-function reconfigureDataSource(dataSource, dataSourceConfig) {
-  return _.map(dataSource, datum => ({
-    key: _.get(datum, dataSourceConfig.key, JSON.stringify(datum)),
-    label: _.get(datum, dataSourceConfig.label, ''),
-    value: _.get(datum, dataSourceConfig.value, null),
-    originalDatum: datum
-  }));
-}
-
 class ChipInput extends React.PureComponent {
   constructor(props) {
     super(props);
-    const { dataSource, dataSourceConfig, selectedKeys } = props;
-
-    const reconfiguredDataSource = reconfigureDataSource(dataSource, dataSourceConfig);
-    const selectedValues = filterKeys(reconfiguredDataSource, selectedKeys);
+    const { dataSource, dataSourceConfig } = props;
+    const selectedKeys = props.selectedKeys || props.defaultSelectedKeys;
+    const dataSourceMap = _.keyBy(formatDataSource(dataSource, dataSourceConfig), 'key');
 
     this.state = {
       inputValue: '',
-      dataSource: differenceByKey(reconfiguredDataSource, selectedValues),
-      origDataSource: reconfiguredDataSource,
-      selectedValues,
-      focusedChipIndex: null,
+      dataSourceMap,
+      selectedKeys,
+      focusedChipKey: null,
       inputFocused: false
     };
 
@@ -87,6 +60,7 @@ class ChipInput extends React.PureComponent {
     this.handleOnChipKeyDown = this.handleOnChipKeyDown.bind(this);
     this.handleOnChipFocus = this.handleOnChipFocus.bind(this);
     this.handleOnChipBlur = this.handleOnChipBlur.bind(this);
+    this.handleOnContainerClick = this.handleOnContainerClick.bind(this);
     this.renderAutocompleteMenu = this.renderAutocompleteMenu.bind(this);
     this.triggerOnChange = this.triggerOnChange.bind(this);
   }
@@ -98,30 +72,18 @@ class ChipInput extends React.PureComponent {
       !_.isEqual(oldProps.dataSource, nextProps.dataSource) ||
       !_.isEqual(oldProps.dataSourceConfig, nextProps.dataSourceConfig)
     ) {
-      this.updateDataSource(nextProps.selectedKeys, nextProps.dataSourceConfig, nextProps.dataSource);
-    } else if (!_.isEqual(oldProps.selectedKeys, nextProps.selectedKeys)) {
-      this.updateSelectedKeys(nextProps.selectedKeys);
+      this.updateDataSource(nextProps);
     }
   }
 
-  updateSelectedKeys(newSelectedKeys) {
-    this.setState(prevState => {
-      const selectedValues = filterKeys(prevState.origDataSource, newSelectedKeys);
-
-      return {
-        dataSource: differenceByKey(prevState.origDataSource, selectedValues),
-        selectedValues
-      };
-    });
-  }
-
-  updateDataSource(newSelectedKeys, newDataSourceConfig, newDataSource) {
-    const reconfiguredDataSource = reconfigureDataSource(newDataSource, newDataSourceConfig);
-    const selectedValues = filterKeys(reconfiguredDataSource, newSelectedKeys);
+  updateDataSource(nextProps) {
+    const { dataSource, dataSourceConfig } = nextProps;
+    const selectedKeys = nextProps.selectedKeys || nextProps.defaultSelectedKeys;
+    const dataSourceMap = _.keyBy(formatDataSource(dataSource, dataSourceConfig), 'key');
 
     this.setState({
-      dataSource: differenceByKey(reconfiguredDataSource, selectedValues),
-      origDataSource: reconfiguredDataSource
+      selectedKeys,
+      dataSourceMap
     });
   }
 
@@ -143,60 +105,124 @@ class ChipInput extends React.PureComponent {
   }
 
   addValue(value, item) {
-    this.setState(({ selectedValues, origDataSource }) => {
-      const newSelectedValues = _.concat(selectedValues, item);
+    const { selectedKeys } = this.props;
 
-      return {
-        inputValue: '',
-        selectedValues: newSelectedValues,
-        dataSource: differenceByKey(origDataSource, newSelectedValues)
-      };
-    }, this.triggerOnChange);
+    if (selectedKeys) {
+      this.triggerOnRequestAdd(item, item.key);
+    } else {
+      this.setState(
+        prevState => {
+          const newSelectedKeys = _.concat(prevState.selectedKeys, item.key);
+
+          return {
+            inputValue: '',
+            selectedKeys: newSelectedKeys
+          };
+        },
+        () => {
+          this.triggerOnChange();
+          this.triggerOnAdd();
+        }
+      );
+    }
   }
 
-  removeValue(index) {
-    this.setState(
-      ({ origDataSource, focusedChipIndex, selectedValues }) => {
-        const newSelectedValues = removeValueAtIndex(selectedValues, index);
-        const lastValueIndex = newSelectedValues.length - 1;
+  removeValue(key, triggeredByClick) {
+    const { selectedKeys } = this.props;
 
-        const clamp = val => (val !== null && lastValueIndex > -1 ? _.clamp(val, 0, lastValueIndex) : null);
+    if (selectedKeys) {
+      const item = this.getChipValue(key);
 
-        return {
-          inputValue: '',
-          selectedValues: newSelectedValues,
-          dataSource: differenceByKey(origDataSource, newSelectedValues),
-          focusedChipIndex: clamp(focusedChipIndex)
-        };
-      },
-      () => {
-        const { focusedChipIndex } = this.state;
+      this.triggerOnRequestRemove(item, item.key, triggeredByClick);
+    } else {
+      this.setState(
+        prevState => {
+          const newSelectedKeys = _.filter(prevState.selectedKeys, selectedKey => selectedKey !== key);
+          const closestKey =
+            triggeredByClick || prevState.inputFocused
+              ? null
+              : getClosestKey(newSelectedKeys, prevState.selectedKeys, prevState.focusedChipKey);
 
-        if (focusedChipIndex === null) {
+          return {
+            selectedKeys: newSelectedKeys,
+            focusedChipKey: closestKey,
+            inputFocused: closestKey === null
+          };
+        },
+        () => {
+          this.triggerOnChange();
+          this.triggerOnRemove();
+        }
+      );
+    }
+  }
+
+  triggerOnRequestAdd(item, key) {
+    const { onRequestAdd } = this.props;
+
+    if (_.isFunction(onRequestAdd)) {
+      onRequestAdd(item, key);
+    }
+  }
+
+  triggerOnRequestRemove(item, key, triggeredByClick) {
+    const { onRequestRemove } = this.props;
+
+    if (_.isFunction(onRequestRemove)) {
+      const prevProps = this.props;
+      const prevState = this.state;
+
+      const focusClosest = () => {
+        const { selectedKeys } = this.props;
+        const closestKey =
+          triggeredByClick || prevState.inputFocused
+            ? null
+            : getClosestKey(selectedKeys, prevProps.selectedKeys, prevState.focusedChipKey);
+
+        if (closestKey !== null) {
+          this.focusChip(closestKey);
+        } else {
           this.focusAutocompleteInput();
         }
+      };
 
-        this.triggerOnChange();
-      }
-    );
+      onRequestRemove(item, key, focusClosest);
+    }
   }
 
   triggerOnChange() {
     const { onChange } = this.props;
-    const { selectedValues } = this.state;
+    const { selectedKeys, dataSourceMap } = this.state;
+    const selectedValues = filterByKeys(dataSourceMap, selectedKeys);
 
     if (_.isFunction(onChange)) {
       onChange(selectedValues);
     }
   }
 
-  focusChip(focusedChipIndex) {
-    this.setState({ focusedChipIndex, inputFocused: false });
+  triggerOnAdd(item, key) {
+    const { onAdd } = this.props;
+
+    if (_.isFunction(onAdd)) {
+      onAdd(item, key);
+    }
   }
 
-  focusAutocompleteInput() {
-    this.autoCompleteInput.focus();
-    this.handleOnInputFocus();
+  triggerOnRemove(item, key) {
+    const { onRemove } = this.props;
+
+    if (_.isFunction(onRemove)) {
+      onRemove(item, key);
+    }
+  }
+
+  getChipValue(key) {
+    const { dataSourceMap } = this.state;
+    return dataSourceMap[key];
+  }
+
+  getSelectedKeys() {
+    return this.props.selectedKeys || this.state.selectedKeys;
   }
 
   handleOnInputBlur() {
@@ -212,76 +238,110 @@ class ChipInput extends React.PureComponent {
   }
 
   handleOnInputKeyDown(e) {
-    const { selectedValues } = this.state;
+    const selectedKeys = this.getSelectedKeys();
     const { target: { value }, which } = e;
-    const lastValueIndex = selectedValues.length - 1;
+    const lastValueKey = _.last(selectedKeys);
 
     switch (which) {
       case keyCodes.BACKSPACE:
-        if (value === '' && selectedValues.length > 0) {
-          this.removeValue(lastValueIndex);
+        if (value === '' && selectedKeys.length > 0) {
+          this.removeValue(lastValueKey);
         }
         break;
       case keyCodes.LEFT_ARROW:
-        if (value === '' && selectedValues.length > 0) {
-          this.focusChip(lastValueIndex);
+        if (value === '' && selectedKeys.length > 0) {
+          this.focusPrev();
         }
     }
   }
 
   handleOnInputFocus() {
-    this.setState({ focusedChipIndex: null, inputFocused: true });
+    this.setState({ focusedChipKey: null, inputFocused: true });
   }
 
-  handleOnChipFocus(item, index) {
-    this.focusChip(index);
+  handleOnChipFocus(item, key, e) {
+    this.focusChip(key);
   }
 
   handleOnChipBlur() {
     this.focusChip(null);
   }
 
-  handleOnChipDelete(item, index) {
-    this.removeValue(index);
+  handleOnChipDelete(item, key, e) {
+    const triggeredByClick = e.type === 'mouseup';
+    this.removeValue(key, triggeredByClick);
   }
 
-  handleOnChipKeyDown(item, index, e) {
+  handleOnChipKeyDown(item, key, e) {
     const { which } = e;
-    const { focusedChipIndex, selectedValues } = this.state;
-    const lastValueIndex = selectedValues.length - 1;
-    const clamp = val => _.clamp(val, 0, lastValueIndex);
+    const selectedKeys = this.getSelectedKeys();
 
     switch (which) {
       case keyCodes.RIGHT_ARROW:
-        if (focusedChipIndex === lastValueIndex) {
-          this.focusAutocompleteInput();
-        } else {
-          this.focusChip(clamp(focusedChipIndex + 1));
-        }
+        this.focusNext();
         break;
       case keyCodes.LEFT_ARROW:
-        this.focusChip(clamp(focusedChipIndex - 1));
+        this.focusPrev();
         break;
       case keyCodes.TAB:
-        if (e.shiftKey && focusedChipIndex > 0) {
+        if (e.shiftKey && _.first(selectedKeys) !== key) {
           e.preventDefault();
-          this.focusChip(clamp(focusedChipIndex - 1));
-        } else if (e.shiftKey && focusedChipIndex === 0) {
-          this.focusChip(null);
-        } else if (!e.shiftKey && focusedChipIndex < lastValueIndex) {
+          this.focusPrev();
+        } else if (!e.shiftKey) {
           e.preventDefault();
-          this.focusChip(clamp(focusedChipIndex + 1));
-        } else if (!e.shiftKey && focusedChipIndex === lastValueIndex) {
-          e.preventDefault();
-          this.focusAutocompleteInput();
+          this.focusNext();
         }
     }
   }
 
+  handleOnContainerClick(e) {
+    if (e.currentTarget === e.target) {
+      this.focusAutocompleteInput();
+    }
+  }
+
+  focusNext() {
+    const selectedKeys = this.getSelectedKeys();
+    const { focusedChipKey } = this.state;
+
+    if (_.last(selectedKeys) === focusedChipKey) {
+      this.focusAutocompleteInput();
+    } else if (selectedKeys.indexOf(focusedChipKey) > -1) {
+      const nextKey = _.nth(selectedKeys, selectedKeys.indexOf(focusedChipKey) + 1);
+      this.focusChip(nextKey);
+    }
+  }
+
+  focusPrev() {
+    const selectedKeys = this.getSelectedKeys();
+    const { focusedChipKey } = this.state;
+
+    if (focusedChipKey !== null && _.first(selectedKeys) !== focusedChipKey) {
+      const prevKey = _.nth(selectedKeys, selectedKeys.indexOf(focusedChipKey) - 1);
+      this.focusChip(prevKey);
+    } else if (focusedChipKey === null && selectedKeys.length > 0) {
+      this.focusChip(_.last(selectedKeys));
+    }
+  }
+
+  focusChip(focusedChipKey) {
+    this.setState({ focusedChipKey, inputFocused: false });
+  }
+
+  focusAutocompleteInput() {
+    this.setState({
+      inputFocused: true,
+      focusedChipKey: null
+    });
+  }
+
   render() {
     const { errorText, muiChipProps, className, icon } = this.props;
-    const { inputValue, selectedValues, dataSource, focusedChipIndex, inputFocused } = this.state;
-    const showUnderline = inputFocused || focusedChipIndex !== null;
+    const { inputValue, focusedChipKey, inputFocused, dataSourceMap } = this.state;
+    const selectedKeys = this.getSelectedKeys();
+    const selectedValues = filterByKeys(dataSourceMap, selectedKeys);
+    const autocompleteItems = differenceByKeys(dataSourceMap, selectedKeys);
+    const showUnderline = inputFocused || focusedChipKey !== null;
 
     const newClassName = classNames({
       'ui-128': true,
@@ -293,8 +353,8 @@ class ChipInput extends React.PureComponent {
 
     return (
       <div className={newClassName}>
-        <div className="ui-128 ui-128--chip-input-inner">
-          <div className="ui-128 ui-128--chip-input-icon">{icon}</div>
+        <div className="ui-128 ui-128--chip-input-inner" onClick={this.handleOnContainerClick}>
+          {icon && <div className="ui-128 ui-128--chip-input-icon">{icon}</div>}
           <ChipInputList
             items={selectedValues}
             onDelete={this.handleOnChipDelete}
@@ -302,12 +362,12 @@ class ChipInput extends React.PureComponent {
             onFocus={this.handleOnChipFocus}
             onBlur={this.handleOnChipBlur}
             muiChipProps={muiChipProps}
-            focusedChipIndex={focusedChipIndex}
+            focusedChipKey={focusedChipKey}
           />
-          <ReactAutocomplete
-            ref={el => (this.autoCompleteInput = el)}
+          <ChipInputAutocomplete
+            inputFocused={inputFocused}
             getItemValue={getItemValue}
-            items={dataSource}
+            items={autocompleteItems}
             shouldItemRender={itemIsMatch}
             renderItem={renderAutocompleteItem}
             renderMenu={this.renderAutocompleteMenu}
@@ -336,22 +396,25 @@ ChipInput.propTypes = {
   dataSourceConfig: PropTypes.object.isRequired,
   errorText: PropTypes.string,
   groupBy: PropTypes.func,
-  onChange: PropTypes.func,
-  selectedKeys: PropTypes.array,
   muiChipProps: PropTypes.func,
-  icon: PropTypes.node
+  icon: PropTypes.node,
+  onChange: PropTypes.func,
+  onAdd: PropTypes.func,
+  onRemove: PropTypes.func,
+  onRequestRemove: PropTypes.func,
+  onRequestAdd: PropTypes.func,
+  selectedKeys: PropTypes.array,
+  defaultSelectedKeys: PropTypes.array
 };
 
 ChipInput.defaultProps = {
   dataSource: [],
-  selectedKeys: [],
   dataSourceConfig: {
     key: 'key',
     label: 'label',
     value: 'value'
   },
-  groupBy: null,
-  icon: null
+  defaultSelectedKeys: []
 };
 
 export default ChipInput;

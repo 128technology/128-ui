@@ -36,7 +36,7 @@ class ChipInputChip extends React.PureComponent {
     switch (which) {
       case keyCodes.BACKSPACE:
         e.preventDefault();
-        onDelete();
+        onDelete(e);
     }
 
     if (_.isFunction(onKeyDown)) {
@@ -61,6 +61,7 @@ class ChipInputChip extends React.PureComponent {
           onRequestDelete={onDelete}
           children={label}
           {...muiChipProps(label, value, focused)}
+          tabIndex={null}
         />
       </div>
     );

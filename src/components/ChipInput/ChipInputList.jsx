@@ -6,19 +6,19 @@ import ChipInputChip from './ChipInputChip';
 
 class ChipInputList extends React.PureComponent {
   createChips() {
-    const { onFocus, onBlur, onDelete, onKeyDown, focusedChipIndex, items, muiChipProps } = this.props;
+    const { onFocus, onBlur, onDelete, onKeyDown, focusedChipKey, items, muiChipProps } = this.props;
 
-    return _.map(items, (item, index) => (
+    return _.map(items, item => (
       <ChipInputChip
         key={item.key || JSON.stringify(item)}
         label={item.label}
         value={item.value}
-        chipIndex={index}
-        focused={focusedChipIndex === index}
-        onDelete={_.partial(onDelete, item, index)}
-        onKeyDown={_.partial(onKeyDown, item, index)}
-        onFocus={_.partial(onFocus, item, index)}
-        onBlur={_.partial(onBlur, item, index)}
+        chipIndex={item.key}
+        focused={focusedChipKey === item.key}
+        onDelete={_.partial(onDelete, item, item.key)}
+        onKeyDown={_.partial(onKeyDown, item, item.key)}
+        onFocus={_.partial(onFocus, item, item.key)}
+        onBlur={_.partial(onBlur, item, item.key)}
         muiChipProps={muiChipProps}
       />
     ));
@@ -41,7 +41,7 @@ ChipInputList.propTypes = {
   onKeyDown: PropTypes.func,
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
-  focusedChipIndex: PropTypes.number,
+  focusedChipKey: PropTypes.string,
   muiChipProps: PropTypes.func
 };
 
@@ -51,7 +51,7 @@ ChipInputList.defaultProps = {
   onBlur: _.noop,
   onKeyDown: _.noop,
   onFocus: _.noop,
-  focusedChipIndex: null
+  focusedChipKey: null
 };
 
 export default ChipInputList;

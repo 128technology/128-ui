@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import Subheader from 'material-ui/Subheader';
 import MenuItem from 'material-ui/MenuItem';
 
-import ChipInput, { removeValueAtIndex } from '../ChipInput';
+import ChipInput from '../ChipInput';
 import { mountWithMuiTheme } from '../../../utils/testUtil';
 
 const dataSource = [
@@ -35,31 +35,21 @@ describe('Chip Input', function() {
     expect(component.exists()).to.equal(true);
   });
 
-  it('should update the selected values when selected keys changes', function() {
-    const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} selectedKeys={[]} />);
-
-    expect(component.state().selectedValues).to.deep.equal([]);
-    component.setProps({ selectedKeys: ['some-key'] });
-    expect(component.state().selectedValues[0].key).to.equal('some-key');
-  });
-
   it('should update the data source', function() {
     const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} selectedKeys={[]} />);
 
-    expect(component.state().dataSource).to.have.lengthOf(3);
-    expect(component.state().origDataSource).to.have.lengthOf(3);
+    expect(Object.entries(component.state().dataSourceMap)).to.have.lengthOf(3);
 
     component.setProps({ dataSource: dataSource.slice(0, 1) });
 
-    expect(component.state().dataSource).to.have.lengthOf(1);
-    expect(component.state().origDataSource).to.have.lengthOf(1);
+    expect(Object.entries(component.state().dataSourceMap)).to.have.lengthOf(1);
   });
 
   it('should update the data source config', function() {
     const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} selectedKeys={[]} />);
 
     component.setProps({ dataSourceConfig: { key: 'label' } });
-    expect(component.state().origDataSource[0].key).to.equal('some-label');
+    expect(component.state().dataSourceMap).to.haveOwnProperty('some-label');
   });
 
   describe('Event Handlers', function() {
@@ -72,17 +62,17 @@ describe('Chip Input', function() {
       expect(component.state().inputFocused).to.equal(true);
     });
 
-    it('it should set focused chip index input->leftArrow', function() {
+    it('it should set focused chip key input->leftArrow', function() {
       const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} selectedKeys={['some-key']} />);
       const input = component.find('input');
 
       input.simulate('focus');
       input.simulate('keyDown', { key: 'LeftArrow', which: 37, keyCode: 37 });
 
-      expect(component.state().focusedChipIndex).to.equal(0);
+      expect(component.state().focusedChipKey).to.equal('some-key');
     });
 
-    it('it should set focused chip index chip->leftArrow', function() {
+    it('it should set focused chip key chip->leftArrow', function() {
       const component = mountWithMuiTheme(
         <ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} />
       );
@@ -91,10 +81,10 @@ describe('Chip Input', function() {
       lastChip.simulate('focus');
       lastChip.simulate('keyDown', { key: 'LeftArrow', which: 37, keyCode: 37 });
 
-      expect(component.state().focusedChipIndex).to.equal(0);
+      expect(component.state().focusedChipKey).to.equal('some-key');
     });
 
-    it('it should set focused chip index chip->shift + tab', function() {
+    it('it should set focused chip key chip->shift + tab', function() {
       const component = mountWithMuiTheme(
         <ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} />
       );
@@ -103,10 +93,10 @@ describe('Chip Input', function() {
       lastChip.simulate('focus');
       lastChip.simulate('keyDown', { key: 'Tab', which: 9, keyCode: 9, shiftKey: true });
 
-      expect(component.state().focusedChipIndex).to.equal(0);
+      expect(component.state().focusedChipKey).to.equal('some-key');
     });
 
-    it('it should set focused chip index chip->tab', function() {
+    it('it should set focused chip key chip->tab', function() {
       const component = mountWithMuiTheme(
         <ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} />
       );
@@ -115,7 +105,7 @@ describe('Chip Input', function() {
       lastChip.simulate('focus');
       lastChip.simulate('keyDown', { key: 'Tab', which: 9, keyCode: 9, shiftKey: false });
 
-      expect(component.state().focusedChipIndex).to.equal(1);
+      expect(component.state().focusedChipKey).to.equal('some-key-2');
     });
 
     it('it should focus input chip->rightArrow when last chip is focused', function() {
@@ -127,7 +117,7 @@ describe('Chip Input', function() {
       lastChip.simulate('focus');
       lastChip.simulate('keyDown', { key: 'RightArrow', which: 39, keyCode: 39 });
 
-      expect(component.state().focusedChipIndex).to.equal(null);
+      expect(component.state().focusedChipKey).to.equal(null);
       expect(component.state().inputFocused).to.equal(true);
     });
 
@@ -140,11 +130,11 @@ describe('Chip Input', function() {
       lastChip.simulate('focus');
       lastChip.simulate('keyDown', { key: 'Tab', which: 9, keyCode: 9 });
 
-      expect(component.state().focusedChipIndex).to.equal(null);
+      expect(component.state().focusedChipKey).to.equal(null);
       expect(component.state().inputFocused).to.equal(true);
     });
 
-    it('it should set focus chip index when chip is focused', function() {
+    it('it should set focus chip key when chip is focused', function() {
       const component = mountWithMuiTheme(
         <ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} />
       );
@@ -152,55 +142,56 @@ describe('Chip Input', function() {
 
       lastChip.simulate('focus');
 
-      expect(component.state().focusedChipIndex).to.equal(1);
+      expect(component.state().focusedChipKey).to.equal('some-key-2');
     });
 
     it('it should focus next chip on chip->delete when more than one selected value', function() {
       const component = mountWithMuiTheme(
         <ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} />
       );
-      const lastChip = component.find('.ui-128--chip-input-chip').first();
+      const firstChip = component.find('.ui-128--chip-input-chip').first();
 
-      lastChip.simulate('focus');
-      lastChip.simulate('keyDown', { key: 'Delete', which: 8, keyCode: 8 });
+      firstChip.simulate('focus');
+      firstChip.simulate('keyDown', { key: 'Delete', which: 8, keyCode: 8 });
 
-      expect(component.state().focusedChipIndex).to.equal(0);
+      expect(component.state().focusedChipKey).to.equal('some-key');
     });
 
     it('it should focus input on chip->delete when only one selected value', function() {
-      const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} selectedKeys={['some-key']} />);
-      const lastChip = component.find('.ui-128--chip-input-chip').first();
+      const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} defaultSelectedKeys={['some-key']} />);
+      const firstChip = component.find('.ui-128--chip-input-chip').first();
 
-      lastChip.simulate('focus');
-      lastChip.simulate('keyDown', { key: 'Delete', which: 8, keyCode: 8 });
+      firstChip.simulate('focus');
+      firstChip.simulate('keyDown', { key: 'Delete', which: 8, keyCode: 8 });
 
-      expect(component.state().focusedChipIndex).to.equal(null);
+      expect(component.state().focusedChipKey).to.equal(null);
       expect(component.state().inputFocused).to.equal(true);
     });
 
     it('it should delete focused chip chip->delete', function() {
       const component = mountWithMuiTheme(
-        <ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} />
+        <ChipInput dataSource={dataSource} defaultSelectedKeys={['some-key', 'some-key-2']} />
       );
-      const lastChip = component.find('.ui-128--chip-input-chip').first();
+      const firstChip = component.find('.ui-128--chip-input-chip').first();
 
-      lastChip.simulate('focus');
-      lastChip.simulate('keyDown', { key: 'Delete', which: 8, keyCode: 8 });
+      firstChip.simulate('focus');
+      firstChip.simulate('keyDown', { key: 'Delete', which: 8, keyCode: 8 });
 
-      expect(component.state().selectedValues[0].key).deep.equals(dataSource[1].key);
+      expect(component.state().selectedKeys).to.have.lengthOf(1);
+      expect(component.state().selectedKeys[0]).deep.equals('some-key-2');
     });
 
     it('it should delete last chip input->delete', function() {
       const component = mountWithMuiTheme(
-        <ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} />
+        <ChipInput dataSource={dataSource} defaultSelectedKeys={['some-key', 'some-key-2']} />
       );
       const input = component.find('input');
 
       input.simulate('focus');
       input.simulate('keyDown', { key: 'Delete', which: 8, keyCode: 8 });
 
-      expect(component.state().selectedValues).has.lengthOf(1);
-      expect(component.state().selectedValues[0].key).to.equal('some-key');
+      expect(component.state().selectedKeys).has.lengthOf(1);
+      expect(component.state().selectedKeys[0]).to.equal('some-key');
     });
 
     it('it should append chip input->enter when valid value entered', function() {
@@ -211,8 +202,8 @@ describe('Chip Input', function() {
       input.simulate('change', { target: { value: 'some-' } });
       input.simulate('keyDown', { key: 'Enter', which: 13, keyCode: 13 });
 
-      expect(component.state().selectedValues).has.lengthOf(1);
-      expect(component.state().selectedValues[0].key).to.equal('some-key');
+      expect(component.state().selectedKeys).has.lengthOf(1);
+      expect(component.state().selectedKeys[0]).to.equal('some-key');
     });
 
     it('it should not append a chip input->enter when a non-valid value entered', function() {
@@ -223,32 +214,7 @@ describe('Chip Input', function() {
       input.simulate('change', { target: { value: 'a' } });
       input.simulate('keyDown', { key: 'Enter', which: 13, keyCode: 13 });
 
-      expect(component.state().selectedValues).has.lengthOf(0);
-    });
-  });
-
-  describe('Utils', function() {
-    describe('removeValueAtIndex', function() {
-      it('should remove a value at an index', function() {
-        const arr = [0, 1, 2, 3, 4, 5];
-        expect(removeValueAtIndex(arr, 1)).to.deep.equal([0, 2, 3, 4, 5]);
-      });
-
-      it('should return a different array instance with the same values for an index > array length', function() {
-        const arr = [0, 1, 2, 3, 4, 5];
-        const newArr = removeValueAtIndex(arr, 1000);
-
-        expect(newArr).to.not.equal(arr);
-        expect(newArr).to.deep.equal([0, 1, 2, 3, 4, 5]);
-      });
-
-      it('should return a different array instance with the same values for an index < 0', function() {
-        const arr = [0, 1, 2, 3, 4, 5];
-        const newArr = removeValueAtIndex(arr, -1);
-
-        expect(newArr).to.not.equal(arr);
-        expect(newArr).to.deep.equal([0, 1, 2, 3, 4, 5]);
-      });
+      expect(component.state().selectedKeys).has.lengthOf(0);
     });
   });
 
