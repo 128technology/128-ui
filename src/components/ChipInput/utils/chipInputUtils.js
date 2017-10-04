@@ -3,15 +3,15 @@ import _ from 'lodash';
 export function getClosestKey(newKeys, prevKeys, originKey) {
   const originIndex = prevKeys.indexOf(originKey);
   const lastValueIndex = newKeys.length - 1;
-  const index = originIndex !== null && lastValueIndex > -1 ? _.clamp(originIndex, 0, lastValueIndex) : null;
+  const index = originIndex !== -1 && lastValueIndex > -1 ? _.clamp(originIndex, 0, lastValueIndex) : null;
 
   return index !== null ? newKeys[index] : index;
 }
 
-export function differenceByKeys(dataSourceMap, selectedKeys) {
-  const keyMap = _.keyBy(selectedKeys);
+export function differenceByKeys(sourceObj, keys) {
+  const keyMap = _.keyBy(keys);
   return _.reduce(
-    dataSourceMap,
+    sourceObj,
     (acc, item, key) => {
       if (keyMap.hasOwnProperty(key)) {
         return acc;
@@ -23,17 +23,17 @@ export function differenceByKeys(dataSourceMap, selectedKeys) {
   );
 }
 
-export function filterByKeys(dataSourceMap, selectedKeys) {
+export function filterByKeys(sourceObj, keys) {
   return _.reduce(
-    selectedKeys,
-    (acc, item) => {
-      return _.concat(acc, dataSourceMap[item]);
+    keys,
+    (acc, key) => {
+      return sourceObj.hasOwnProperty(key) ? _.concat(acc, sourceObj[key]) : acc;
     },
     []
   );
 }
 
-export function formatDataSource(dataSource, dataSourceConfig) {
+export function formatDataSource(dataSource, dataSourceConfig = {}) {
   return _.map(dataSource, datum => ({
     key: _.get(datum, dataSourceConfig.key, JSON.stringify(datum)),
     label: _.get(datum, dataSourceConfig.label, ''),

@@ -12,7 +12,7 @@
     "lint:js": "eslint --ext .js --ext .jsx src/components",
     "lint:style": "stylelint src/**/*.scss",
     "lint": "npm run lint:js && npm run lint:style",
-    "test": "mocha --require ./testSetup --compilers js:babel-core/register ./src/components/**/__tests__/*.js ./src/components/**/__tests__/*.jsx",
+    "test": "mocha --require ./testSetup --compilers js:babel-core/register ./src/components/**/*/__tests__/*.js ./src/components/**/*/__tests__/*.jsx",
     "prepublish": "npm run build",
     "clean:dist": "rimraf dist/",
     "clean:styleguide": "rimraf styleguide/",

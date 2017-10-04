@@ -1,4 +1,5 @@
 import React from 'react';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import Subheader from 'material-ui/Subheader';
@@ -52,7 +53,7 @@ describe('Chip Input', function() {
     expect(component.state().dataSourceMap).to.haveOwnProperty('some-label');
   });
 
-  describe('Event Handlers', function() {
+  describe('Events', function() {
     it('it should set input focused', function() {
       const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} />);
       const input = component.find('input');
@@ -215,6 +216,142 @@ describe('Chip Input', function() {
       input.simulate('keyDown', { key: 'Enter', which: 13, keyCode: 13 });
 
       expect(component.state().selectedKeys).has.lengthOf(0);
+    });
+  });
+
+  describe('Event Handlers', function() {
+    it('should trigger onRequestRemove when controlled', function() {
+      const onRequestRemoveSpy = sinon.spy();
+      const component = mountWithMuiTheme(
+        <ChipInput
+          dataSource={dataSource}
+          selectedKeys={['some-key', 'some-key-2']}
+          onRequestRemove={onRequestRemoveSpy}
+        />
+      );
+
+      const firstChip = component.find('.ui-128--chip-input-chip').first();
+      firstChip.simulate('keyDown', { key: 'Delete', which: 8, keyCode: 8 });
+
+      expect(onRequestRemoveSpy.calledOnce).to.equal(true);
+    });
+
+    it('should trigger onRequestAdd when controlled', function() {
+      const onRequestAddSpy = sinon.spy();
+      const component = mountWithMuiTheme(
+        <ChipInput dataSource={dataSource} selectedKeys={[]} onRequestAdd={onRequestAddSpy} />
+      );
+      const input = component.find('input');
+
+      input.simulate('focus');
+      input.simulate('change', { target: { value: 'some-' } });
+      input.simulate('keyDown', { key: 'Enter', which: 13, keyCode: 13 });
+
+      expect(onRequestAddSpy.calledOnce).to.equal(true);
+    });
+
+    it('should trigger onChange when uncontrolled', function() {
+      const onChangeSpy = sinon.spy();
+      const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} onChange={onChangeSpy} />);
+      const input = component.find('input');
+
+      input.simulate('focus');
+      input.simulate('change', { target: { value: 'some-' } });
+      input.simulate('keyDown', { key: 'Enter', which: 13, keyCode: 13 });
+
+      expect(onChangeSpy.calledOnce).to.equal(true);
+    });
+
+    it('should trigger onAdd when uncontrolled', function() {
+      const onAddSpy = sinon.spy();
+      const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} onAdd={onAddSpy} />);
+      const input = component.find('input');
+
+      input.simulate('focus');
+      input.simulate('change', { target: { value: 'some-' } });
+      input.simulate('keyDown', { key: 'Enter', which: 13, keyCode: 13 });
+
+      expect(onAddSpy.calledOnce).to.equal(true);
+    });
+
+    it('should trigger onRemove when uncontrolled', function() {
+      const onRemoveSpy = sinon.spy();
+      const component = mountWithMuiTheme(
+        <ChipInput dataSource={dataSource} defaultSelectedKeys={['some-key', 'some-key-2']} onRemove={onRemoveSpy} />
+      );
+
+      const firstChip = component.find('.ui-128--chip-input-chip').first();
+      firstChip.simulate('keyDown', { key: 'Delete', which: 8, keyCode: 8 });
+
+      expect(onRemoveSpy.calledOnce).to.equal(true);
+    });
+
+    it('should not trigger onRequestRemove when uncontrolled', function() {
+      const onRequestRemoveSpy = sinon.spy();
+      const component = mountWithMuiTheme(
+        <ChipInput
+          dataSource={dataSource}
+          defaultSelectedKeys={['some-key', 'some-key-2']}
+          onRequestRemove={onRequestRemoveSpy}
+        />
+      );
+
+      const firstChip = component.find('.ui-128--chip-input-chip').first();
+      firstChip.simulate('keyDown', { key: 'Delete', which: 8, keyCode: 8 });
+
+      expect(onRequestRemoveSpy.calledOnce).to.equal(false);
+    });
+
+    it('should not trigger onRequestAdd when uncontrolled', function() {
+      const onRequestAddSpy = sinon.spy();
+      const component = mountWithMuiTheme(
+        <ChipInput dataSource={dataSource} defaultSelectedKeys={[]} onRequestAdd={onRequestAddSpy} />
+      );
+      const input = component.find('input');
+
+      input.simulate('focus');
+      input.simulate('change', { target: { value: 'some-' } });
+      input.simulate('keyDown', { key: 'Enter', which: 13, keyCode: 13 });
+
+      expect(onRequestAddSpy.calledOnce).to.equal(false);
+    });
+
+    it('should not trigger onChange when controlled', function() {
+      const onChangeSpy = sinon.spy();
+      const component = mountWithMuiTheme(
+        <ChipInput dataSource={dataSource} selectedKeys={[]} onChange={onChangeSpy} />
+      );
+      const input = component.find('input');
+
+      input.simulate('focus');
+      input.simulate('change', { target: { value: 'some-' } });
+      input.simulate('keyDown', { key: 'Enter', which: 13, keyCode: 13 });
+
+      expect(onChangeSpy.calledOnce).to.equal(false);
+    });
+
+    it('should not trigger onAdd when controlled', function() {
+      const onAddSpy = sinon.spy();
+      const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} selectedKeys={[]} onAdd={onAddSpy} />);
+      const input = component.find('input');
+
+      input.simulate('focus');
+      input.simulate('change', { target: { value: 'some-' } });
+      input.simulate('keyDown', { key: 'Enter', which: 13, keyCode: 13 });
+
+      expect(onAddSpy.calledOnce).to.equal(false);
+    });
+
+    it('should not trigger onRemove when controlled', function() {
+      const onRemoveSpy = sinon.spy();
+      const component = mountWithMuiTheme(
+        <ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} onRemove={onRemoveSpy} />
+      );
+
+      const firstChip = component.find('.ui-128--chip-input-chip').first();
+      firstChip.simulate('keyDown', { key: 'Delete', which: 8, keyCode: 8 });
+
+      expect(onRemoveSpy.calledOnce).to.equal(false);
     });
   });
 
