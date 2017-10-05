@@ -386,7 +386,8 @@ class ChipInput extends React.PureComponent {
             inputProps={{
               onKeyDown: this.handleOnInputKeyDown,
               onFocus: this.handleOnInputFocus,
-              onBlur: this.handleOnInputBlur
+              onBlur: this.handleOnInputBlur,
+              size: 1 // overrides the default of 20, allows the input to avoid line breaking until actually necessary
             }}
           />
         </div>
