@@ -104,6 +104,12 @@ class ChipInput extends React.PureComponent {
     );
   }
 
+  clearAutocompleteInput() {
+    this.setState({
+      inputValue: ''
+    });
+  }
+
   addValue(value, item) {
     const { selectedKeys } = this.props;
 
@@ -115,13 +121,12 @@ class ChipInput extends React.PureComponent {
           const newSelectedKeys = _.concat(prevState.selectedKeys, item.key);
 
           return {
-            inputValue: '',
             selectedKeys: newSelectedKeys
           };
         },
         () => {
           this.triggerOnChange();
-          this.triggerOnAdd();
+          this.triggerOnAdd(item, item.key);
         }
       );
     }
@@ -129,10 +134,9 @@ class ChipInput extends React.PureComponent {
 
   removeValue(key, triggeredByClick) {
     const { selectedKeys } = this.props;
+    const item = this.getChipValue(key);
 
     if (selectedKeys) {
-      const item = this.getChipValue(key);
-
       this.triggerOnRequestRemove(item, item.key, triggeredByClick);
     } else {
       this.setState(
@@ -151,7 +155,7 @@ class ChipInput extends React.PureComponent {
         },
         () => {
           this.triggerOnChange();
-          this.triggerOnRemove();
+          this.triggerOnRemove(item, key);
         }
       );
     }
@@ -235,6 +239,7 @@ class ChipInput extends React.PureComponent {
 
   handleOnAutocompleteSelect(value, item) {
     this.addValue(value, item);
+    this.clearAutocompleteInput();
   }
 
   handleOnInputKeyDown(e) {

@@ -54,7 +54,7 @@ describe('Chip Input', function() {
   });
 
   describe('Events', function() {
-    it('it should set input focused', function() {
+    it('should set input focused', function() {
       const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} />);
       const input = component.find('input');
 
@@ -63,7 +63,7 @@ describe('Chip Input', function() {
       expect(component.state().inputFocused).to.equal(true);
     });
 
-    it('it should set focused chip key input->leftArrow', function() {
+    it('should set focused chip key input->leftArrow', function() {
       const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} selectedKeys={['some-key']} />);
       const input = component.find('input');
 
@@ -73,7 +73,7 @@ describe('Chip Input', function() {
       expect(component.state().focusedChipKey).to.equal('some-key');
     });
 
-    it('it should set focused chip key chip->leftArrow', function() {
+    it('should set focused chip key chip->leftArrow', function() {
       const component = mountWithMuiTheme(
         <ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} />
       );
@@ -85,7 +85,7 @@ describe('Chip Input', function() {
       expect(component.state().focusedChipKey).to.equal('some-key');
     });
 
-    it('it should set focused chip key chip->shift + tab', function() {
+    it('should set focused chip key chip->shift + tab', function() {
       const component = mountWithMuiTheme(
         <ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} />
       );
@@ -97,7 +97,7 @@ describe('Chip Input', function() {
       expect(component.state().focusedChipKey).to.equal('some-key');
     });
 
-    it('it should set focused chip key chip->tab', function() {
+    it('should set focused chip key chip->tab', function() {
       const component = mountWithMuiTheme(
         <ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} />
       );
@@ -109,7 +109,7 @@ describe('Chip Input', function() {
       expect(component.state().focusedChipKey).to.equal('some-key-2');
     });
 
-    it('it should focus input chip->rightArrow when last chip is focused', function() {
+    it('should focus input chip->rightArrow when last chip is focused', function() {
       const component = mountWithMuiTheme(
         <ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} />
       );
@@ -122,7 +122,7 @@ describe('Chip Input', function() {
       expect(component.state().inputFocused).to.equal(true);
     });
 
-    it('it should focus input chip->tab when last chip is focused', function() {
+    it('should focus input chip->tab when last chip is focused', function() {
       const component = mountWithMuiTheme(
         <ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} />
       );
@@ -135,7 +135,7 @@ describe('Chip Input', function() {
       expect(component.state().inputFocused).to.equal(true);
     });
 
-    it('it should set focus chip key when chip is focused', function() {
+    it('should set focus chip key when chip is focused', function() {
       const component = mountWithMuiTheme(
         <ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} />
       );
@@ -146,7 +146,7 @@ describe('Chip Input', function() {
       expect(component.state().focusedChipKey).to.equal('some-key-2');
     });
 
-    it('it should focus next chip on chip->delete when more than one selected value', function() {
+    it('should focus next chip on chip->delete when more than one selected value', function() {
       const component = mountWithMuiTheme(
         <ChipInput dataSource={dataSource} selectedKeys={['some-key', 'some-key-2']} />
       );
@@ -158,7 +158,7 @@ describe('Chip Input', function() {
       expect(component.state().focusedChipKey).to.equal('some-key');
     });
 
-    it('it should focus input on chip->delete when only one selected value', function() {
+    it('should focus input on chip->delete when only one selected value', function() {
       const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} defaultSelectedKeys={['some-key']} />);
       const firstChip = component.find('.ui-128--chip-input-chip').first();
 
@@ -169,7 +169,7 @@ describe('Chip Input', function() {
       expect(component.state().inputFocused).to.equal(true);
     });
 
-    it('it should delete focused chip chip->delete', function() {
+    it('should delete focused chip chip->delete', function() {
       const component = mountWithMuiTheme(
         <ChipInput dataSource={dataSource} defaultSelectedKeys={['some-key', 'some-key-2']} />
       );
@@ -182,7 +182,7 @@ describe('Chip Input', function() {
       expect(component.state().selectedKeys[0]).deep.equals('some-key-2');
     });
 
-    it('it should delete last chip input->delete', function() {
+    it('should delete last chip input->delete', function() {
       const component = mountWithMuiTheme(
         <ChipInput dataSource={dataSource} defaultSelectedKeys={['some-key', 'some-key-2']} />
       );
@@ -195,7 +195,7 @@ describe('Chip Input', function() {
       expect(component.state().selectedKeys[0]).to.equal('some-key');
     });
 
-    it('it should append chip input->enter when valid value entered', function() {
+    it('should append chip input->enter when valid value entered', function() {
       const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} />);
       const input = component.find('input');
 
@@ -207,7 +207,7 @@ describe('Chip Input', function() {
       expect(component.state().selectedKeys[0]).to.equal('some-key');
     });
 
-    it('it should not append a chip input->enter when a non-valid value entered', function() {
+    it('should not append a chip input->enter when a non-valid value entered', function() {
       const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} />);
       const input = component.find('input');
 
@@ -216,6 +216,28 @@ describe('Chip Input', function() {
       input.simulate('keyDown', { key: 'Enter', which: 13, keyCode: 13 });
 
       expect(component.state().selectedKeys).has.lengthOf(0);
+    });
+
+    it('should clear input when selection is made when controlled', function() {
+      const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} selectedKeys={[]} />);
+      const input = component.find('input');
+
+      input.simulate('focus');
+      input.simulate('change', { target: { value: 's' } });
+      input.simulate('keyDown', { key: 'Enter', which: 13, keyCode: 13 });
+
+      expect(component.state().inputValue).to.equal('');
+    });
+
+    it('should clear input when selection is made when uncontrolled', function() {
+      const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} />);
+      const input = component.find('input');
+
+      input.simulate('focus');
+      input.simulate('change', { target: { value: 's' } });
+      input.simulate('keyDown', { key: 'Enter', which: 13, keyCode: 13 });
+
+      expect(component.state().inputValue).to.equal('');
     });
   });
 
@@ -272,6 +294,22 @@ describe('Chip Input', function() {
       input.simulate('keyDown', { key: 'Enter', which: 13, keyCode: 13 });
 
       expect(onAddSpy.calledOnce).to.equal(true);
+      expect(
+        onAddSpy.calledWith(
+          {
+            key: 'some-key',
+            label: 'some-label',
+            value: 'some-value',
+            originalDatum: {
+              key: 'some-key',
+              label: 'some-label',
+              value: 'some-value',
+              type: 'SOMETHING'
+            }
+          },
+          'some-key'
+        )
+      ).to.equal(true);
     });
 
     it('should trigger onRemove when uncontrolled', function() {
@@ -284,6 +322,22 @@ describe('Chip Input', function() {
       firstChip.simulate('keyDown', { key: 'Delete', which: 8, keyCode: 8 });
 
       expect(onRemoveSpy.calledOnce).to.equal(true);
+      expect(
+        onRemoveSpy.calledWith(
+          {
+            key: 'some-key',
+            label: 'some-label',
+            value: 'some-value',
+            originalDatum: {
+              key: 'some-key',
+              label: 'some-label',
+              value: 'some-value',
+              type: 'SOMETHING'
+            }
+          },
+          'some-key'
+        )
+      ).to.equal(true);
     });
 
     it('should not trigger onRequestRemove when uncontrolled', function() {
