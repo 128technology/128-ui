@@ -439,7 +439,7 @@ describe('Chip Input', function() {
       expect(menuItems.text()).to.equal('other');
     });
 
-    it('should not have a placeholder when not empty', function() {
+    it('should not have a placeholder when not empty (not controlled)', function() {
       const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} placeholder="some placeholder!" />);
       const input = component.find('input');
 
@@ -450,8 +450,26 @@ describe('Chip Input', function() {
       expect(input.props().placeholder).to.equal(null);
     });
 
-    it('should not have a placeholder when not empty', function() {
+    it('should have a placeholder when empty (not controlled)', function() {
       const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} placeholder="some placeholder!" />);
+      const input = component.find('input');
+
+      expect(input.props().placeholder).to.equal('some placeholder!');
+    });
+
+    it('should not have a placeholder when not empty (controlled)', function() {
+      const component = mountWithMuiTheme(
+        <ChipInput dataSource={dataSource} placeholder="some placeholder!" selectedKeys={['some-key']} />
+      );
+      const input = component.find('input');
+
+      expect(input.props().placeholder).to.equal(null);
+    });
+
+    it('should have a placeholder when empty (controlled)', function() {
+      const component = mountWithMuiTheme(
+        <ChipInput dataSource={dataSource} placeholder="some placeholder!" selectedKeys={[]} />
+      );
       const input = component.find('input');
 
       expect(input.props().placeholder).to.equal('some placeholder!');

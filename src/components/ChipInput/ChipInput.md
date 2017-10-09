@@ -230,6 +230,7 @@ Example (Controlled):
                 selectedKeys={this.state.selectedKeys}
                 onRequestAdd={this.handleOnAdd}
                 onRequestRemove={this.handleOnRemove}
+                placeholder="Some Placeholder"
               />
               <RaisedButton onClick={this.clearInput} fullWidth={true}>Clear</RaisedButton>
             </div>

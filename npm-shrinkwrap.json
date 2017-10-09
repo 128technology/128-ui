@@ -1,6 +1,6 @@
 {
   "name": "128-ui",
-  "version": "0.0.40",
+  "version": "0.0.41",
   "dependencies": {
     "add-dom-event-listener": {
       "version": "1.0.2",
