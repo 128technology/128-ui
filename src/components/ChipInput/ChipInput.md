@@ -457,6 +457,7 @@ Example (On Change):
               dataSourceConfig={config}
               onChange={this.onChange}
               muiChipProps={muiChipProps}
+              placeholder="Select colors to start mixing!"
             />
           </MuiThemeProvider>
         );

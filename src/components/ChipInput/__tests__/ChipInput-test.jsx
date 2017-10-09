@@ -438,5 +438,23 @@ describe('Chip Input', function() {
 
       expect(menuItems.text()).to.equal('other');
     });
+
+    it('should not have a placeholder when not empty', function() {
+      const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} placeholder="some placeholder!" />);
+      const input = component.find('input');
+
+      input.simulate('focus');
+      input.simulate('change', { target: { value: 'some-' } });
+      input.simulate('keyDown', { key: 'Enter', which: 13, keyCode: 13 });
+
+      expect(input.props().placeholder).to.equal(null);
+    });
+
+    it('should not have a placeholder when not empty', function() {
+      const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} placeholder="some placeholder!" />);
+      const input = component.find('input');
+
+      expect(input.props().placeholder).to.equal('some placeholder!');
+    });
   });
 });
