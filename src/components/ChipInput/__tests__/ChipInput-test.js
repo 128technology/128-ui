@@ -474,5 +474,141 @@ describe('Chip Input', function() {
 
       expect(input.props().placeholder).to.equal('some placeholder!');
     });
+
+    it('should pass props to autocomplete heading items', function() {
+      const menuHeadingProps = sinon.spy((label, values) => {
+        return {
+          id: 'some-id'
+        };
+      });
+
+      const groupBy = item => item.originalDatum.type;
+      const component = mountWithMuiTheme(
+        <ChipInput dataSource={dataSource} selectedKeys={[]} menuHeadingProps={menuHeadingProps} groupBy={groupBy} />
+      );
+
+      component.find('input').simulate('focus');
+      const subHeadings = component.find('#some-id');
+
+      const expectedArgs = [
+        [
+          'SOMETHING',
+          [
+            {
+              key: 'some-key',
+              label: 'some-label',
+              value: 'some-value',
+              originalDatum: {
+                key: 'some-key',
+                label: 'some-label',
+                value: 'some-value',
+                type: 'SOMETHING'
+              }
+            },
+            {
+              key: 'some-key-2',
+              label: 'some-label-2',
+              value: 'some-value-2',
+              originalDatum: {
+                key: 'some-key-2',
+                label: 'some-label-2',
+                value: 'some-value-2',
+                type: 'SOMETHING'
+              }
+            }
+          ]
+        ],
+        [
+          'OTHER',
+          [
+            {
+              key: 'other',
+              label: 'other',
+              value: 'other',
+              originalDatum: {
+                key: 'other',
+                label: 'other',
+                value: 'other',
+                type: 'OTHER'
+              }
+            }
+          ]
+        ]
+      ];
+
+      expect(subHeadings).to.have.lengthOf(2);
+      expectedArgs.forEach((args, index) => {
+        expect(menuHeadingProps.getCall(index).args).to.deep.equal(args);
+      });
+    });
+
+    it('should pass props to autocomplete menu items', function() {
+      const menuItemProps = sinon.spy((label, datum, isHighlighted) => {
+        return {
+          id: 'some-id'
+        };
+      });
+
+      const groupBy = item => item.originalDatum.type;
+      const component = mountWithMuiTheme(
+        <ChipInput dataSource={dataSource} selectedKeys={[]} menuItemProps={menuItemProps} groupBy={groupBy} />
+      );
+
+      component.find('input').simulate('focus');
+      const subHeadings = component.find('#some-id');
+
+      const expectedArgs = [
+        [
+          'some-label',
+          {
+            key: 'some-key',
+            label: 'some-label',
+            value: 'some-value',
+            originalDatum: {
+              key: 'some-key',
+              label: 'some-label',
+              value: 'some-value',
+              type: 'SOMETHING'
+            }
+          },
+          false
+        ],
+        [
+          'some-label-2',
+          {
+            key: 'some-key-2',
+            label: 'some-label-2',
+            value: 'some-value-2',
+            originalDatum: {
+              key: 'some-key-2',
+              label: 'some-label-2',
+              value: 'some-value-2',
+              type: 'SOMETHING'
+            }
+          },
+          false
+        ],
+        [
+          'other',
+          {
+            key: 'other',
+            label: 'other',
+            value: 'other',
+            originalDatum: {
+              key: 'other',
+              label: 'other',
+              value: 'other',
+              type: 'OTHER'
+            }
+          },
+          false
+        ]
+      ];
+
+      expect(subHeadings).to.have.lengthOf(3);
+      expectedArgs.forEach((args, index) => {
+        expect(menuItemProps.getCall(index).args).to.deep.equal(args);
+      });
+    });
   });
 });

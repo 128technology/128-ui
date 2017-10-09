@@ -13,10 +13,6 @@ import ChipInputAutocomplete from './ChipInputAutocomplete';
 import * as keyCodes from '../../utils/keyCodes';
 import { getClosestKey, formatDataSource, differenceByKeys, filterByKeys } from './utils/chipInputUtils';
 
-function renderAutocompleteItem(item, isHighlighted) {
-  return <ChipInputMenuItem key={item.key} label={item.label} datum={item} isHighlighted={isHighlighted} />;
-}
-
 function getItemValue({ label }) {
   return label;
 }
@@ -25,11 +21,20 @@ function itemIsMatch({ label }, searchValue) {
   return label.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
 }
 
-function groupItems(items, groupBy) {
+function mapGroupDatums(group) {
+  return _.map(group, 'props.datum');
+}
+
+function groupItems(items, groupBy, menuHeadingProps) {
   const groupedItems = _.groupBy(items, item => groupBy(item.props.datum));
+  const headingProps = _.isFunction(menuHeadingProps) ? menuHeadingProps : _.noop;
 
   return _.flatMap(groupedItems, (group, groupName) => [
-    <Subheader key={groupName} className="ui-128 ui-128--chip-input-dropdown-group">
+    <Subheader
+      {...headingProps(groupName, mapGroupDatums(group))}
+      key={groupName}
+      className="ui-128 ui-128--chip-input-dropdown-group"
+    >
       {groupName}
     </Subheader>,
     group
@@ -62,6 +67,7 @@ class ChipInput extends React.PureComponent {
     this.handleOnChipBlur = this.handleOnChipBlur.bind(this);
     this.handleOnContainerClick = this.handleOnContainerClick.bind(this);
     this.renderAutocompleteMenu = this.renderAutocompleteMenu.bind(this);
+    this.renderAutocompleteItem = this.renderAutocompleteItem.bind(this);
     this.triggerOnChange = this.triggerOnChange.bind(this);
   }
 
@@ -88,8 +94,8 @@ class ChipInput extends React.PureComponent {
   }
 
   renderAutocompleteMenu(items, value) {
-    const { groupBy } = this.props;
-    const menuItems = _.isFunction(groupBy) ? groupItems(items, groupBy) : items;
+    const { groupBy, menuHeadingProps } = this.props;
+    const menuItems = _.isFunction(groupBy) ? groupItems(items, groupBy, menuHeadingProps) : items;
 
     if (!menuItems.length) {
       return <div />;
@@ -101,6 +107,21 @@ class ChipInput extends React.PureComponent {
           <Menu disableAutoFocus={true}>{menuItems}</Menu>
         </Paper>
       </div>
+    );
+  }
+
+  renderAutocompleteItem(item, isHighlighted) {
+    const { menuItemProps } = this.props;
+    const menuProps = _.isFunction(menuItemProps) ? menuItemProps : _.noop;
+
+    return (
+      <ChipInputMenuItem
+        {...menuProps(item.label, item, isHighlighted)}
+        key={item.key}
+        label={item.label}
+        datum={item}
+        isHighlighted={isHighlighted}
+      />
     );
   }
 
@@ -379,7 +400,7 @@ class ChipInput extends React.PureComponent {
             getItemValue={getItemValue}
             items={autocompleteItems}
             shouldItemRender={itemIsMatch}
-            renderItem={renderAutocompleteItem}
+            renderItem={this.renderAutocompleteItem}
             renderMenu={this.renderAutocompleteMenu}
             value={inputValue}
             onChange={this.handleOnAutocompleteChange}
@@ -417,7 +438,9 @@ ChipInput.propTypes = {
   onRequestAdd: PropTypes.func,
   selectedKeys: PropTypes.array,
   defaultSelectedKeys: PropTypes.array,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  menuItemProps: PropTypes.func,
+  menuHeadingProps: PropTypes.func
 };
 
 ChipInput.defaultProps = {

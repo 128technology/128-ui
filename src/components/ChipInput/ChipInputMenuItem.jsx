@@ -5,16 +5,19 @@ import MenuItem from 'material-ui/MenuItem';
 
 class ChipInputMenuItem extends React.PureComponent {
   render() {
-    const { label, isHighlighted, ...rest } = this.props;
+    const { label, isHighlighted, style, ...rest } = this.props;
 
     return (
       <MenuItem
+        {..._.omit(rest, 'datum')}
         primaryText={label}
         focusState="none"
-        style={{
-          backgroundColor: isHighlighted ? 'rgba(0, 0, 0, 0.1)' : 'transparent'
-        }}
-        {..._.omit(rest, 'datum')}
+        style={Object.assign(
+          {
+            backgroundColor: isHighlighted ? 'rgba(0, 0, 0, 0.1)' : 'transparent'
+          },
+          style
+        )}
       />
     );
   }

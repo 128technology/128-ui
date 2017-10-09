@@ -1,6 +1,6 @@
 {
   "name": "128-ui",
-  "version": "0.0.41",
+  "version": "0.0.42",
   "description": "128 Technology UI component library.",
   "main": "dist/128UI.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "lint:js": "eslint --ext .js --ext .jsx src/components",
     "lint:style": "stylelint src/**/*.scss",
     "lint": "npm run lint:js && npm run lint:style",
-    "test": "mocha --require ./testSetup --compilers js:babel-core/register ./src/components/**/*/__tests__/*.js ./src/components/**/*/__tests__/*.jsx",
+    "test": "mocha --require ./testSetup --compilers js:babel-core/register ./src/**/*-test.js*",
     "prepublish": "npm run build",
     "clean:dist": "rimraf dist/",
     "clean:styleguide": "rimraf styleguide/",

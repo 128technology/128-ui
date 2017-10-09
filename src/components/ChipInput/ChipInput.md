@@ -241,7 +241,7 @@ Example (Controlled):
 
     <ControlledSelectedKeys />
 
-Example (Groups):
+Example (Groups and Custom Menu Style):
 
     const lightBaseTheme = require('material-ui/styles/baseThemes/lightBaseTheme').default;
     const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default;
@@ -289,8 +289,28 @@ Example (Groups):
       return item.originalDatum.type;
     }
 
+    function menuItemProps(label, value, isHighlighted) {
+      return {
+        style: {
+          fontSize: '14px',
+          color: 'yellow',
+          backgroundColor: isHighlighted ? 'red' : 'purple'
+        }
+      }
+    }
+
+    function menuHeadingProps(label, values) {
+      return {
+        style: {
+          fontSize: '14px',
+          backgroundColor: '#00ADEF',
+          color: 'white'
+        }
+      }
+    }
+
     <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-      <ChipInput dataSource={data} dataSourceConfig={config} groupBy={groupBy} />
+      <ChipInput dataSource={data} dataSourceConfig={config} groupBy={groupBy} menuItemProps={menuItemProps} menuHeadingProps={menuHeadingProps} />
     </MuiThemeProvider>
 
 Example (Custom Chip Props):
