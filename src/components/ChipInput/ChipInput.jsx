@@ -250,6 +250,15 @@ class ChipInput extends React.PureComponent {
     return this.props.selectedKeys || this.state.selectedKeys;
   }
 
+  getAutocompleteItems() {
+    const { dataSourceMap } = this.state;
+    const { groupBy } = this.props;
+    const selectedKeys = this.getSelectedKeys();
+    const autocompleteItems = differenceByKeys(dataSourceMap, selectedKeys);
+
+    return _.isFunction(groupBy) ? _.orderBy(autocompleteItems, groupBy) : autocompleteItems;
+  }
+
   handleOnInputBlur() {
     this.setState({ inputFocused: false });
   }
@@ -371,7 +380,7 @@ class ChipInput extends React.PureComponent {
     const { inputValue, focusedChipKey, inputFocused, dataSourceMap } = this.state;
     const selectedKeys = this.getSelectedKeys();
     const selectedValues = filterByKeys(dataSourceMap, selectedKeys);
-    const autocompleteItems = differenceByKeys(dataSourceMap, selectedKeys);
+    const autocompleteItems = this.getAutocompleteItems();
     const showUnderline = inputFocused || focusedChipKey !== null;
 
     const newClassName = classNames({
