@@ -1,0 +1,31 @@
+.ui-128__button,
+.ui-128__split-button {
+  .ant-btn {
+    font-family: $rbno31-family;
+    font-size: 13px;
+    font-weight: 300;
+    color: $brownish-grey;
+    height: 37px;
+    border-color: #ddd;
+
+    &:first-child {
+      padding-right: 15px !important;
+    }
+
+    &:hover {
+      border-color: #c8c9c7;
+      background-color: #fdfdfd;
+    }
+
+    &:active {
+      border-color: #c8c9c7;
+      background-color: rgba(153, 153, 153, 0.1);
+    }
+  }
+
+  .ant-btn-clicked::after {
+    animation: none;
+    -webkit-animation: none;
+    border-color: transparent;
+  }
+}

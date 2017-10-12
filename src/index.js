@@ -1,4 +1,5 @@
 export { Autocomplete } from './components/Autocomplete';
+export { Button } from './components/Button';
 export { ChipInput } from './components/ChipInput';
 export { DatePicker } from './components/DatePicker';
 export { Dropdown } from './components/Dropdown';
