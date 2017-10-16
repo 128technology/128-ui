@@ -9,4 +9,10 @@
     font-size: 13px;
     vertical-align: middle;
   }
+
+  &.disabled {
+    .ant-dropdown-trigger > i::after {
+      color: $disabled-grey;
+    }
+  }
 }

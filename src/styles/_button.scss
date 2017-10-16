@@ -1,11 +1,15 @@
+$height: 37px;
+
 .ui-128__button,
 .ui-128__split-button {
+  position: relative;
+
   .ant-btn {
     font-family: $rbno31-family;
     font-size: 13px;
     font-weight: 300;
     color: $brownish-grey;
-    height: 37px;
+    height: $height;
     border-color: #ddd;
 
     &:first-child {
@@ -27,5 +31,24 @@
     animation: none;
     -webkit-animation: none;
     border-color: transparent;
+  }
+
+  &.disabled {
+    cursor: default;
+
+    .disabled-overlay {
+      background-color: rgba(0, 0, 0, .125);
+      position: absolute;
+      top: calc(- #{$height} / 2);
+      left: 0;
+      width: 100%;
+      height: $height;
+      z-index: 1000;
+    }
+
+    button {
+      border-color: rgba(191, 191, 191, .25);
+      color: $disabled-grey;
+    }
   }
 }
