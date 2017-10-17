@@ -34,21 +34,12 @@ $height: 37px;
   }
 
   &.disabled {
-    cursor: default;
-
-    .disabled-overlay {
-      background-color: rgba(0, 0, 0, .1);
-      position: absolute;
-      top: calc(- #{$height} / 2);
-      left: 0;
-      width: 100%;
-      height: $height;
-      z-index: 2;
-    }
-
-    button {
+    button,
+    button:hover {
       border-color: rgba(191, 191, 191, .25);
-      color: $disabled-grey;
+      background-color: rgb(229, 229, 229);
+      cursor: default;
+      color: rgba(0, 0, 0, .3);
     }
   }
 }

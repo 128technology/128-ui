@@ -12,7 +12,7 @@
 
   &.disabled {
     .ant-dropdown-trigger > i::after {
-      color: $disabled-grey;
+      color: rgba(0, 0, 0, .3);;
     }
   }
 }
