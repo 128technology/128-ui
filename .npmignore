@@ -1,6 +1,19 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules/
+
 # Output of 'npm pack'
 *.tgz
 
-# Source/ and dist/ are needed
-!/dist
-!/src
+# Styleguide
+styleguide
+
+# VSCode
+.vscode
+
+# Don't Publish Shrinkwrap
+npm-shrinkwrap.json
