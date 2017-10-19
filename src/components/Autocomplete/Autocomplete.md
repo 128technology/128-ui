@@ -53,3 +53,25 @@ Example (Error):
     }
 
     <AutocompleteError errorText="This field is required!" />
+
+Example (Disabled):
+
+    const options = [1, 2, 3, 4].map((index) => ({
+      label: 'Option ' + index,
+      value: index
+    }));
+
+    <div style={{width: '300px'}}>
+      <Autocomplete placeholder="Type or select..." options={options} onSelect={() => {}} disabled={true} />
+    </div>
+
+Example (Clearable):
+
+    const options = [1, 2, 3, 4].map((index) => ({
+      label: 'Option ' + index,
+      value: index
+    }));
+
+    <div style={{width: '300px'}}>
+      <Autocomplete placeholder="Type or select..." options={options} onSelect={() => {}} clearable={true} />
+    </div>

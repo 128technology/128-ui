@@ -73,10 +73,12 @@ class Autocomplete extends React.Component {
   }
 
   handleChange(selected) {
-    const newValue = selected.value;
+    const newValue = _.get(selected, 'value', null);
+
     if (this.props.onSelect) {
       this.props.onSelect.call(this, newValue);
     }
+
     this.setState({ selectValue: newValue });
   }
 
@@ -103,7 +105,7 @@ class Autocomplete extends React.Component {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { id, className, value, onSelect, errorText, ...rest } = this.props;
+    const { id, className, value, onSelect, errorText, clearable, ...rest } = this.props;
 
     const classes = this._buildClass(className);
 
@@ -118,7 +120,7 @@ class Autocomplete extends React.Component {
           onChange={this.handleChange}
           ignoreCase={true}
           ignoreAccents={false}
-          clearable={false}
+          clearable={clearable}
           autosize={true}
           selectComponent={TetheredSelect}
           {...rest}
@@ -130,7 +132,8 @@ class Autocomplete extends React.Component {
 }
 
 Autocomplete.defaultProps = {
-  errorText: null
+  errorText: null,
+  clearable: false
 };
 
 Autocomplete.propTypes = {
