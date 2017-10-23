@@ -32,7 +32,7 @@ function groupItems(items, groupBy, menuHeadingProps) {
   return _.flatMap(groupedItems, (group, groupName) => [
     <Subheader
       className="ui-128 ui-128--chip-input-dropdown-group"
-      children={[groupName]}
+      children={groupName}
       {...headingProps(groupName, mapGroupDatums(group))}
       key={groupName}
     />,
