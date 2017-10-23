@@ -31,12 +31,11 @@ function groupItems(items, groupBy, menuHeadingProps) {
 
   return _.flatMap(groupedItems, (group, groupName) => [
     <Subheader
+      className="ui-128 ui-128--chip-input-dropdown-group"
+      children={[groupName]}
       {...headingProps(groupName, mapGroupDatums(group))}
       key={groupName}
-      className="ui-128 ui-128--chip-input-dropdown-group"
-    >
-      {groupName}
-    </Subheader>,
+    />,
     group
   ]);
 }
@@ -116,9 +115,9 @@ class ChipInput extends React.PureComponent {
 
     return (
       <ChipInputMenuItem
+        label={item.label}
         {...menuProps(item.label, item, isHighlighted)}
         key={item.key}
-        label={item.label}
         datum={item}
         isHighlighted={isHighlighted}
       />
