@@ -27,13 +27,12 @@ function mapGroupDatums(group) {
 
 function groupItems(items, groupBy, menuHeadingProps) {
   const groupedItems = _.groupBy(items, item => groupBy(item.props.datum));
-  const headingProps = _.isFunction(menuHeadingProps) ? menuHeadingProps : _.noop;
 
   return _.flatMap(groupedItems, (group, groupName) => [
     <Subheader
       className="ui-128 ui-128--chip-input-dropdown-group"
       children={groupName}
-      {...headingProps(groupName, mapGroupDatums(group))}
+      {...menuHeadingProps(groupName, mapGroupDatums(group))}
       key={groupName}
     />,
     group
@@ -93,7 +92,7 @@ class ChipInput extends React.PureComponent {
   }
 
   renderAutocompleteMenu(items, value) {
-    const { groupBy, menuHeadingProps } = this.props;
+    const { groupBy, menuHeadingProps, menuProps } = this.props;
     const menuItems = _.isFunction(groupBy) ? groupItems(items, groupBy, menuHeadingProps) : items;
 
     if (!menuItems.length) {
@@ -103,7 +102,7 @@ class ChipInput extends React.PureComponent {
     return (
       <div className="ui-128 ui-128--chip-input-dropdown">
         <Paper zDepth={1}>
-          <Menu disableAutoFocus={true}>{menuItems}</Menu>
+          <Menu {...menuProps(menuItems)} disableAutoFocus={true}>{menuItems}</Menu>
         </Paper>
       </div>
     );
@@ -111,12 +110,11 @@ class ChipInput extends React.PureComponent {
 
   renderAutocompleteItem(item, isHighlighted) {
     const { menuItemProps } = this.props;
-    const menuProps = _.isFunction(menuItemProps) ? menuItemProps : _.noop;
 
     return (
       <ChipInputMenuItem
         label={item.label}
-        {...menuProps(item.label, item, isHighlighted)}
+        {...menuItemProps(item.label, item, isHighlighted)}
         key={item.key}
         datum={item}
         isHighlighted={isHighlighted}
@@ -448,7 +446,8 @@ ChipInput.propTypes = {
   defaultSelectedKeys: PropTypes.array,
   placeholder: PropTypes.string,
   menuItemProps: PropTypes.func,
-  menuHeadingProps: PropTypes.func
+  menuHeadingProps: PropTypes.func,
+  menuProps: PropTypes.func
 };
 
 ChipInput.defaultProps = {
@@ -458,7 +457,10 @@ ChipInput.defaultProps = {
     label: 'label',
     value: 'value'
   },
-  defaultSelectedKeys: []
+  defaultSelectedKeys: [],
+  menuItemProps: _.noop,
+  menuHeadingProps: _.noop,
+  menuProps: _.noop
 };
 
 export default ChipInput;

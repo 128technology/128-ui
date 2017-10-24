@@ -46,6 +46,42 @@ Example:
       <ChipInput dataSource={data} dataSourceConfig={config} />
     </MuiThemeProvider>
 
+Example (Lots of Data):
+
+    const lightBaseTheme = require('material-ui/styles/baseThemes/lightBaseTheme').default;
+    const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default;
+    const getMuiTheme = require('material-ui/styles/getMuiTheme').default;
+
+    const types = ['Person', 'Dog', 'Reptile'];
+
+    const data = _.range(0, 90).map((i) => ({
+      name: _.uniqueId('person_'),
+      value: {
+        age: i
+      },
+      type: types[_.random(0, 2)]
+    }));
+
+    const config = {
+      key: 'name',
+      label: 'name',
+      value: 'value'
+    };
+
+    function groupBy(item) {
+      return item.originalDatum.type;
+    }
+
+    function menuProps() {
+      return {
+        maxHeight: 300
+      };
+    }
+
+    <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+      <ChipInput dataSource={data} dataSourceConfig={config} groupBy={groupBy} menuProps={menuProps} />
+    </MuiThemeProvider>
+
 Example (Error Text):
 
     const lightBaseTheme = require('material-ui/styles/baseThemes/lightBaseTheme').default;
