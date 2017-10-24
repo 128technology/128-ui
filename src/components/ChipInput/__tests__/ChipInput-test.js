@@ -492,6 +492,22 @@ describe('Chip Input', function() {
 
       const expectedArgs = [
         [
+          'OTHER',
+          [
+            {
+              key: 'other',
+              label: 'other',
+              value: 'other',
+              originalDatum: {
+                key: 'other',
+                label: 'other',
+                value: 'other',
+                type: 'OTHER'
+              }
+            }
+          ]
+        ],
+        [
           'SOMETHING',
           [
             {
@@ -514,22 +530,6 @@ describe('Chip Input', function() {
                 label: 'some-label-2',
                 value: 'some-value-2',
                 type: 'SOMETHING'
-              }
-            }
-          ]
-        ],
-        [
-          'OTHER',
-          [
-            {
-              key: 'other',
-              label: 'other',
-              value: 'other',
-              originalDatum: {
-                key: 'other',
-                label: 'other',
-                value: 'other',
-                type: 'OTHER'
               }
             }
           ]
@@ -559,6 +559,21 @@ describe('Chip Input', function() {
 
       const expectedArgs = [
         [
+          'other',
+          {
+            key: 'other',
+            label: 'other',
+            value: 'other',
+            originalDatum: {
+              key: 'other',
+              label: 'other',
+              value: 'other',
+              type: 'OTHER'
+            }
+          },
+          false
+        ],
+        [
           'some-label',
           {
             key: 'some-key',
@@ -587,21 +602,6 @@ describe('Chip Input', function() {
             }
           },
           false
-        ],
-        [
-          'other',
-          {
-            key: 'other',
-            label: 'other',
-            value: 'other',
-            originalDatum: {
-              key: 'other',
-              label: 'other',
-              value: 'other',
-              type: 'OTHER'
-            }
-          },
-          false
         ]
       ];
 
@@ -609,6 +609,24 @@ describe('Chip Input', function() {
       expectedArgs.forEach((args, index) => {
         expect(menuItemProps.getCall(index).args).to.deep.equal(args);
       });
+    });
+
+    it('should pass props to autocomplete menu', function() {
+      const menuProps = sinon.spy((label, datum, isHighlighted) => {
+        return {
+          id: 'some-id'
+        };
+      });
+
+      const component = mountWithMuiTheme(
+        <ChipInput dataSource={dataSource} selectedKeys={[]} menuProps={menuProps} />
+      );
+
+      component.find('input').simulate('focus');
+      const menu = component.find('#some-id');
+
+      expect(menu).to.have.lengthOf(1);
+      expect(menuProps.getCall(0).args[0]).to.have.lengthOf(3);
     });
   });
 });
