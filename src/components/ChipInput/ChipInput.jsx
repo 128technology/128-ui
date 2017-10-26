@@ -373,7 +373,7 @@ class ChipInput extends React.PureComponent {
   }
 
   render() {
-    const { errorText, muiChipProps, className, icon, placeholder } = this.props;
+    const { errorText, muiChipProps, className, icon, placeholder, tabIndex } = this.props;
     const { inputValue, focusedChipKey, inputFocused, dataSourceMap } = this.state;
     const selectedKeys = this.getSelectedKeys();
     const selectedValues = filterByKeys(dataSourceMap, selectedKeys);
@@ -420,7 +420,8 @@ class ChipInput extends React.PureComponent {
               onFocus: this.handleOnInputFocus,
               onBlur: this.handleOnInputBlur,
               placeholder: this.isEmpty() ? placeholder : null,
-              size: 1 // overrides the default of 20, allows the input to avoid line breaking until actually necessary
+              size: 1, // overrides the default of 20, allows the input to avoid line breaking until actually necessary
+              tabIndex
             }}
           />
         </div>
@@ -447,7 +448,8 @@ ChipInput.propTypes = {
   placeholder: PropTypes.string,
   menuItemProps: PropTypes.func,
   menuHeadingProps: PropTypes.func,
-  menuProps: PropTypes.func
+  menuProps: PropTypes.func,
+  tabIndex: PropTypes.string
 };
 
 ChipInput.defaultProps = {
