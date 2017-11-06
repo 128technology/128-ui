@@ -73,6 +73,36 @@ Example (no pagination):
       <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} pagination={false} />
     </Provider>
 
+Example (with filter):
+
+    const columns = [{
+      title: 'Router',
+      dataIndex: 'routerName',
+      key: 'routerName'
+    }, {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      filters: [{ text: 'UP', value: 'UP' }, { text: 'DOWN', value: 'DOWN' }],
+      onFilter: (value, record) => record.status.includes(value)
+    }];
+
+    const dataSource = [{
+      key: 'US-Conductor',
+      routerName: 'US-Conductor',
+      status: 'UP'
+    }, {
+      key: 'US-E-Boston',
+      routerName: 'US-E-Boston',
+      status: 'DOWN'
+    }];
+
+    const rowSelection = {};
+    
+    <Provider locale="enUS">
+      <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} pagination={false} />
+    </Provider>
+
 Example (Bordered Table, No Data):
 
     const columns = [{

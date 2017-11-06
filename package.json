@@ -1,6 +1,6 @@
 {
   "name": "128-ui",
-  "version": "0.0.55",
+  "version": "0.0.56",
   "description": "128 Technology UI component library.",
   "main": "dist/128UI.js",
   "scripts": {

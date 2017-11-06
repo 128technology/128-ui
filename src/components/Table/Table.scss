@@ -89,6 +89,28 @@ $basic-border: 1px solid #e2e2e2;
       border-bottom: 0;
     }
   }
+
+  .ant-table-thead > tr > th .anticon-filter, .ant-table-thead > tr > th .ant-table-filter-icon {
+    font-size: 15px;
+  }
+
+  .anticon-filter {
+    &:before {
+      content: "\E663";
+    }
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.65);
+    }
+
+    &.ant-table-filter-selected {
+      color: #108ee9;
+    }
+  }
+}
+
+.ant-table-filter-dropdown-btns a {
+  cursor: pointer;
 }
 
 .ui-128__table--bordered {
