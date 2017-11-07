@@ -1,0 +1,13 @@
+.ui-128__progress {
+  .ant-progress-circle-path {
+    stroke: $cyan-128;
+  }
+
+  .ant-progress-status-exception .ant-progress-circle-path {
+    stroke: $error-red;
+  }
+
+  .ant-progress-status-success .ant-progress-circle-path {
+    stroke: $shamrock-green;
+  }
+}
