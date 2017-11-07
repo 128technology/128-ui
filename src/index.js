@@ -15,3 +15,4 @@ export { Table } from './components/Table';
 export { Tabs } from './components/Tabs';
 export { TabPane } from './components/TabPane';
 export { TimePicker } from './components/TimePicker';
+export { Progress } from './components/Progress';
