@@ -73,7 +73,7 @@
     "react-dom": "^15.0.0"
   },
   "dependencies": {
-    "antd": "^2.9.0",
+    "antd": "^2.13.7",
     "classnames": "^2.2.5",
     "material-ui": "^0.17.1",
     "mdi": "^1.9.33",

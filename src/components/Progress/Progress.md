@@ -9,3 +9,7 @@ Example (Status = exception):
 Example (Status = success):
 
     <Progress type="circle" percent={75} status="success" />
+
+Example (Empty):
+
+    <Progress type="circle" percent={0} />
