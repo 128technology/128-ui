@@ -273,3 +273,9 @@ $basic-border: 1px solid #e2e2e2;
     }
   }
 }
+
+.ui-128__table--selectable {
+  .ant-table-row-level-0 {
+    cursor: pointer;
+  }
+}
