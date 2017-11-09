@@ -1,6 +1,6 @@
 {
   "name": "128-ui",
-  "version": "0.0.59",
+  "version": "0.0.61",
   "dependencies": {
     "@types/node": {
       "version": "8.0.50",
