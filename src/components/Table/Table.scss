@@ -249,10 +249,6 @@ $basic-border: 1px solid #e2e2e2;
   }
 }
 
-.ui-128__table--nested > *:not(.ui-128__table) {
-  border-left: $basic-border;
-}
-
 *:not(.ui-128__table--nested) > .ui-128__table--bordered {
   & > .ant-spin-nested-loading > .ant-spin-container > .ant-table {
       border-bottom: $basic-border;
