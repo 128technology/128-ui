@@ -3,13 +3,20 @@ $basic-border: 1px solid #e2e2e2;
 .ui-128__table {
   th,
   td {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     max-width: 0;
+
+    &:not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell) > span {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  th {
+    overflow: hidden !important;
   }
 
   td {
+    overflow: hidden;
     height: 22px;
   }
 
@@ -274,4 +281,18 @@ $basic-border: 1px solid #e2e2e2;
   .ant-table-row-level-0 {
     cursor: pointer;
   }
+}
+
+.ui-128__table--cell {
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ant-table-column-sorter {
+  height: 10px;
+}
+
+.ant-table-wrapper {
+  width: 100%;
 }
