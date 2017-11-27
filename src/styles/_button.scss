@@ -23,13 +23,12 @@ $height: 37px;
 
     &:active {
       border-color: #c8c9c7;
-      background-color: rgba(153, 153, 153, 0.1);
+      background-color: rgba(153, 153, 153, .1);
     }
   }
 
   .ant-btn-clicked::after {
     animation: none;
-    -webkit-animation: none;
     border-color: transparent;
   }
 
