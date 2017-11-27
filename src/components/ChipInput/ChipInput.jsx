@@ -102,7 +102,9 @@ class ChipInput extends React.PureComponent {
     return (
       <div className="ui-128 ui-128--chip-input-dropdown">
         <Paper zDepth={1}>
-          <Menu {...menuProps(menuItems)} disableAutoFocus={true}>{menuItems}</Menu>
+          <Menu {...menuProps(menuItems)} disableAutoFocus={true}>
+            {menuItems}
+          </Menu>
         </Paper>
       </div>
     );
