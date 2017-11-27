@@ -3,9 +3,9 @@
   "version": "0.0.63",
   "dependencies": {
     "@types/node": {
-      "version": "8.0.50",
+      "version": "8.0.53",
       "from": "@types/node@*",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-8.0.50.tgz",
+      "resolved": "https://registry.npmjs.org/@types%2fnode/-/node-8.0.53.tgz",
       "dev": true
     },
     "abab": {
@@ -957,6 +957,12 @@
       "version": "1.1.0",
       "from": "brorand@>=1.0.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/brorand/-/brorand-1.1.0.tgz",
+      "dev": true
+    },
+    "browser-process-hrtime": {
+      "version": "0.1.2",
+      "from": "browser-process-hrtime@>=0.1.2 <0.2.0",
+      "resolved": "https://registry.npmjs.org/browser-process-hrtime/-/browser-process-hrtime-0.1.2.tgz",
       "dev": true
     },
     "browser-stdout": {
@@ -4205,8 +4211,9 @@
     },
     "jquery": {
       "version": "3.2.1",
-      "from": "jquery@latest",
-      "resolved": "https://registry.npmjs.org/jquery/-/jquery-3.2.1.tgz"
+      "from": "https://registry.npmjs.org/jquery/-/jquery-3.2.1.tgz",
+      "resolved": "https://registry.npmjs.org/jquery/-/jquery-3.2.1.tgz",
+      "dev": true
     },
     "js-base64": {
       "version": "2.3.2",
@@ -4240,7 +4247,7 @@
     },
     "jsdom": {
       "version": "11.5.1",
-      "from": "jsdom@>=11.2.0 <12.0.0",
+      "from": "jsdom@11.5.1",
       "resolved": "https://registry.npmjs.org/jsdom/-/jsdom-11.5.1.tgz",
       "dev": true
     },
@@ -4422,6 +4429,12 @@
       "version": "1.2.1",
       "from": "ldjson-stream@>=1.2.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/ldjson-stream/-/ldjson-stream-1.2.1.tgz",
+      "dev": true
+    },
+    "left-pad": {
+      "version": "1.2.0",
+      "from": "left-pad@>=1.2.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/left-pad/-/left-pad-1.2.0.tgz",
       "dev": true
     },
     "leven": {
