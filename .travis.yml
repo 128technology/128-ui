@@ -1,7 +1,15 @@
 language: node_js
 node_js:
-  - "7"
+- '7'
 install:
-  - npm install
+- npm install
 script:
-  - npm run validate
+- npm run validate
+deploy:
+  provider: npm
+  email: gjordan@umassd.edu
+  api_key:
+    secure: p0afqVFxGTW1Ffwuvqg4RBxsL4sLJZGafDEgPximOZWTfJcVNisw5COenfxK8a72+dW+hBawqtlrA3ssmVmjIxm+Qg1pH9W5kfxyH1joEFHAo/JL4U9zVdxGOy+5dC695V70pdV6rCpDg7dc6YNUdXTHds2VVLoOKdlbpJo733Sse0p/9epuj5B++UebcZR+jKCInNalU2KSYqXiIVV/Amxe7s0jAb/YRPifkYfqP3KXNm6vGoKGkXxjtyEII46WJxxbEYmQsahadKXpBlAWDAL85JZdz0sB+q14u3m4QG9f/UqyaJYRP+hdhTBQ+ol0Ijrfg7FyMxBHQNorGp+mxPuSnA7EM22Jawr/Zztxh3YPzil6yfDu/HLUwsc1Y2jRg95sDKftLhAJvDFux2/FQMZ/jC86sV+/byNk0BWFUjHQOh77U410AhD6mLz1KYlRPBEZv2H6xoEFLJATOBkW1+azQWyLj5Kdk3hj2ySIF6YALVIkbW6b01bX485qMuh5HI7E62BmtDuUw70l9C4Rli+fPOsKbkHeGgy4Yu17VVaItGSvg3MmLRSrjYl6TKoBuA46BPF+HCqVaXZbCYRNqmvVbkyxd4UUAijSiIvNHcdxbdP21q9cVdUP8htGTdcMKb0Im5GXn3l5XoFHJfqW8WTw+V3KJVDOwRD3kavtP40=
+  on:
+    repo: 128technology/128-ui
+    branch: master
