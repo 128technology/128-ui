@@ -4239,9 +4239,9 @@
       "dev": true
     },
     "jsdom": {
-      "version": "11.3.0",
+      "version": "11.5.1",
       "from": "jsdom@>=11.2.0 <12.0.0",
-      "resolved": "https://registry.npmjs.org/jsdom/-/jsdom-11.3.0.tgz",
+      "resolved": "https://registry.npmjs.org/jsdom/-/jsdom-11.5.1.tgz",
       "dev": true
     },
     "jsesc": {
