@@ -15,7 +15,7 @@ function TableCell({ children }) {
  *
  * Please see the [Ant Design Table documentation](https://ant.design/components/table/)
  */
-function Table({ borderedTable = false, className, columns, expandedRowRender, onRowClick, ...otherProps }) {
+function Table({ borderedTable = false, className, columns = [], expandedRowRender, onRowClick, ...otherProps }) {
   const newExpandedRowRender = _.isFunction(expandedRowRender)
     ? (...args) => <span className="ui-128 ui-128__table--nested">{expandedRowRender(...args)}</span>
     : null;
