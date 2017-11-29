@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import VirtualizedSelect from 'react-virtualized-select';
 import TetherComponent from 'react-tether';
-import Select from 'react-select';
+import Select, { Creatable } from 'react-select';
 import classNames from 'classnames';
 
 import './Autocomplete.scss';
@@ -105,13 +105,15 @@ class Autocomplete extends React.Component {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { id, className, value, onSelect, errorText, clearable, ...rest } = this.props;
+    const { id, className, value, onSelect, errorText, clearable, creatable, ...rest } = this.props;
 
     const classes = this._buildClass(className);
 
     const errorTextComponent = !_.isNil(errorText) ? (
       <div className="ui-128__autocomplete--error-text">{errorText}</div>
     ) : null;
+
+    const selectComponent = creatable ? Creatable : TetheredSelect;
 
     return (
       <div id={id} className={classes}>
@@ -122,7 +124,7 @@ class Autocomplete extends React.Component {
           ignoreAccents={false}
           clearable={clearable}
           autosize={true}
-          selectComponent={TetheredSelect}
+          selectComponent={selectComponent}
           {...rest}
         />
         {errorTextComponent}
@@ -133,7 +135,8 @@ class Autocomplete extends React.Component {
 
 Autocomplete.defaultProps = {
   errorText: null,
-  clearable: false
+  clearable: false,
+  promptTextCreator: label => `Add "${label}"`
 };
 
 Autocomplete.propTypes = {
