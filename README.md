@@ -1,6 +1,6 @@
 # 128-UI [![Build Status](https://travis-ci.org/128technology/128-ui.svg?branch=master)](https://travis-ci.org/128technology/128-ui) [![npm version](https://badge.fury.io/js/%40128technology%2Fui.svg)](https://badge.fury.io/js/%40128technology%2Fui)
 
-The 128 Technology, Inc. UI component library.
+The 128 Technology, Inc. UI component library. [Styleguide](https://128technology.github.io/128-ui/).
 
 ## Contributing
 
