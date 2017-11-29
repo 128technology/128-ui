@@ -170,7 +170,15 @@ Autocomplete.propTypes = {
   /**
    * Error text shown below the select input
    */
-  errorText: PropTypes.string
+  errorText: PropTypes.string,
+  /**
+   * Allow the user to add new options on the fly
+   */
+  creatable: PropTypes.bool,
+  /**
+   * function that accepts a raw label and returns a descriptive label
+   */
+  promptTextCreator: PropTypes.func
 };
 
 export default Autocomplete;
