@@ -75,8 +75,8 @@ class Autocomplete extends React.Component {
   handleChange(selected) {
     const newValue = _.get(selected, 'value', null);
 
-    if (this.props.onSelect) {
-      this.props.onSelect.call(this, newValue);
+    if (this.props.onChange) {
+      this.props.onChange.call(this, newValue);
     }
 
     this.setState({ selectValue: newValue });
@@ -105,7 +105,7 @@ class Autocomplete extends React.Component {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { id, className, value, onSelect, errorText, clearable, creatable, ...rest } = this.props;
+    const { id, className, value, onChange, errorText, clearable, creatable, ...rest } = this.props;
 
     const classes = this._buildClass(className);
 
@@ -166,7 +166,7 @@ Autocomplete.propTypes = {
   /**
    * function that accepts selected value
    */
-  onSelect: PropTypes.func,
+  onChange: PropTypes.func,
   /**
    * Error text shown below the select input
    */
