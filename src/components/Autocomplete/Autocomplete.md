@@ -5,10 +5,10 @@ Example:
       value: index
     }));
 
-    const onSelect = (selection) => { console && console.log('Selection: '+selection) };
+    const onChange = (selection) => { console && console.log('Selection: '+selection) };
 
     <div style={{width: '300px'}}>
-      <Autocomplete placeholder="Type or select..." options={options} onSelect={onSelect} />
+      <Autocomplete placeholder="Type or select..." options={options} onChange={onChange} />
     </div>
 
 Example (Error):
@@ -22,10 +22,10 @@ Example (Error):
           isError: true
         };
 
-        this._onSelect = this._onSelect.bind(this);
+        this._onChange = this._onChange.bind(this);
       }
 
-      _onSelect(selection) {
+      _onChange(selection) {
         this.setState({
           selection,
           isError: !selection
@@ -46,7 +46,7 @@ Example (Error):
 
         return (
           <div style={{width: '300px'}}>
-            <Autocomplete placeholder="Type or select..." options={options} onSelect={this._onSelect} errorText={errorText} />
+            <Autocomplete placeholder="Type or select..." options={options} onChange={this._onChange} errorText={errorText} />
           </div>
         );
       }
@@ -62,7 +62,7 @@ Example (Disabled):
     }));
 
     <div style={{width: '300px'}}>
-      <Autocomplete placeholder="Type or select..." options={options} onSelect={() => {}} disabled={true} />
+      <Autocomplete placeholder="Type or select..." options={options} onChange={() => {}} disabled={true} />
     </div>
 
 Example (Clearable):
@@ -73,7 +73,7 @@ Example (Clearable):
     }));
 
     <div style={{width: '300px'}}>
-      <Autocomplete placeholder="Type or select..." options={options} onSelect={() => {}} clearable={true} />
+      <Autocomplete placeholder="Type or select..." options={options} onChange={() => {}} clearable={true} />
     </div>
 
 Example (Creatable):
@@ -84,5 +84,5 @@ Example (Creatable):
     }));
 
     <div style={{width: '300px'}}>
-      <Autocomplete placeholder="Type or select..." options={options} onSelect={() => {}} creatable={true} />
+      <Autocomplete placeholder="Type or select..." options={options} onChange={() => {}} creatable={true} />
     </div>
