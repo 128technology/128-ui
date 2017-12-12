@@ -17,7 +17,7 @@ function TableCell({ children }) {
  */
 function Table({ borderedTable = false, className, columns = [], expandedRowRender, onRowClick, ...otherProps }) {
   const newExpandedRowRender = _.isFunction(expandedRowRender)
-    ? (...args) => <span className="ui-128 ui-128__table--nested">{expandedRowRender(...args)}</span>
+    ? (...args) => <div className="ui-128 ui-128__table--nested">{expandedRowRender(...args)}</div>
     : null;
 
   return (
