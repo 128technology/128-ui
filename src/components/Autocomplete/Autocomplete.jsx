@@ -59,6 +59,34 @@ class TetheredSelect extends Select {
 }
 
 /**
+ * This is a custom version of the react-select component,
+ * specifically when creatable options are allowed,
+ * that will allow the options menu to overflow and be visible
+ * in containers that have overflow: hidden, scroll, etc.
+ *
+ * https://github.com/JedWatson/react-select/issues/810#issuecomment-284573308
+ */
+const TetheredCreatable = props => {
+  return (
+    <TetherComponent
+      renderElementTo="body"
+      attachment="top left"
+      targetAttachment="top left"
+      className="ui-128__autocomplete--options"
+      constraints={[
+        {
+          to: 'window',
+          attachment: 'together',
+          pin: ['top']
+        }
+      ]}
+    >
+      <Creatable {...props}>{creatableProps => <TetheredSelect {...creatableProps} />}</Creatable>
+    </TetherComponent>
+  );
+};
+
+/**
  * This component is essentially a text field combined with
  * a dropdown menu. The user can type into the field and will
  * be presented with a list of matching options.
@@ -113,7 +141,7 @@ class Autocomplete extends React.Component {
       <div className="ui-128__autocomplete--error-text">{errorText}</div>
     ) : null;
 
-    const selectComponent = creatable ? Creatable : TetheredSelect;
+    const selectComponent = creatable ? TetheredCreatable : TetheredSelect;
 
     return (
       <div id={id} className={classes}>
