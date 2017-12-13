@@ -43,11 +43,11 @@ $basic-border: 1px solid #e2e2e2;
       color: #646464;
 
       .anticon-caret-up::before {
-        content: '\e607';
+        content: "\e607";
       }
 
       .anticon-caret-down::before {
-        content: '\e606';
+        content: "\e606";
       }
 
       .ant-table-column-sorter-down,
@@ -59,7 +59,7 @@ $basic-border: 1px solid #e2e2e2;
 
       .anticon-filter {
         &:before {
-          content: '\E663';
+          content: "\E663";
         }
 
         &:hover {
@@ -111,8 +111,7 @@ $basic-border: 1px solid #e2e2e2;
     }
   }
 
-  .ant-table-thead > tr > th .anticon-filter,
-  .ant-table-thead > tr > th .ant-table-filter-icon {
+  .ant-table-thead > tr > th .anticon-filter, .ant-table-thead > tr > th .ant-table-filter-icon {
     font-size: 15px;
   }
 }
@@ -141,23 +140,24 @@ $basic-border: 1px solid #e2e2e2;
   }
 
   &.ant-table-wrapper .ant-table .ant-table-content .ant-table-body {
+
     table {
       border-radius: 0;
 
       .ant-table-row-expanded::after,
       .ant-table-row-collapsed::after {
-        font-family: 'Material Design Icons';
-        content: '';
+        font-family: "Material Design Icons";
+        content: "";
         font-size: 24px;
         color: $warm-grey;
       }
 
       .ant-table-row-expanded::after {
-        content: '\F140';
+        content: "\F140";
       }
 
       .ant-table-row-collapsed::after {
-        content: '\F142';
+        content: "\F142";
       }
 
       .ant-table-row-expand-icon-cell,
@@ -190,7 +190,7 @@ $basic-border: 1px solid #e2e2e2;
 
       tr.ant-table-expanded-row::after {
         position: absolute;
-        content: '';
+        content: "";
         left: 0;
         margin-top: 0;
         height: 1px;
@@ -206,7 +206,7 @@ $basic-border: 1px solid #e2e2e2;
 
         &::before {
           display: block;
-          content: '';
+          content: "";
           background-color: #fff;
           height: 1px;
           width: 50px;
@@ -226,7 +226,7 @@ $basic-border: 1px solid #e2e2e2;
           background-color: #e2e2e2;
           top: -1px;
           left: 0;
-          content: '';
+          content: "";
         }
       }
 
@@ -258,9 +258,9 @@ $basic-border: 1px solid #e2e2e2;
 
 *:not(.ui-128__table--nested) > .ui-128__table--bordered {
   & > .ant-spin-nested-loading > .ant-spin-container > .ant-table {
-    border-bottom: $basic-border;
+      border-bottom: $basic-border;
+    }
   }
-}
 
 .ui-128__table--bordered .ant-table-expanded-row .ui-128__table--bordered {
   background-color: transparent;
