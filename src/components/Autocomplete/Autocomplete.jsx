@@ -13,6 +13,26 @@ import 'react-virtualized-select/styles.css';
 const DEFAULT_CLASS = 'ui-128__autocomplete';
 const ERROR_CLASS = 'ui-128__autocomplete--error';
 
+const Tethered = ({ children }) => {
+  return (
+    <TetherComponent
+      renderElementTo="body"
+      attachment="top left"
+      targetAttachment="top left"
+      className="ui-128__autocomplete--options"
+      constraints={[
+        {
+          to: 'window',
+          attachment: 'together',
+          pin: ['top']
+        }
+      ]}
+    >
+      {children}
+    </TetherComponent>
+  );
+};
+
 /**
  * This is a custom version of the react-select component
  * that will allow the options menu to overflow and be visible
@@ -37,23 +57,10 @@ class TetheredSelect extends Select {
     const selectWidth = this.wrapper ? this.wrapper.offsetWidth : null;
 
     return (
-      <TetherComponent
-        renderElementTo="body"
-        ref="tethered-component"
-        attachment="top left"
-        targetAttachment="top left"
-        className="ui-128__autocomplete--options"
-        constraints={[
-          {
-            to: 'window',
-            attachment: 'together',
-            pin: ['top']
-          }
-        ]}
-      >
+      <Tethered>
         <div />
         {React.cloneElement(menu, { style: { position: 'static', width: selectWidth } })}
-      </TetherComponent>
+      </Tethered>
     );
   }
 }
@@ -68,21 +75,9 @@ class TetheredSelect extends Select {
  */
 const TetheredCreatable = props => {
   return (
-    <TetherComponent
-      renderElementTo="body"
-      attachment="top left"
-      targetAttachment="top left"
-      className="ui-128__autocomplete--options"
-      constraints={[
-        {
-          to: 'window',
-          attachment: 'together',
-          pin: ['top']
-        }
-      ]}
-    >
+    <Tethered>
       <Creatable {...props}>{creatableProps => <TetheredSelect {...creatableProps} />}</Creatable>
-    </TetherComponent>
+    </Tethered>
   );
 };
 
