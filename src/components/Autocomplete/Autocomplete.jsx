@@ -13,6 +13,26 @@ import 'react-virtualized-select/styles.css';
 const DEFAULT_CLASS = 'ui-128__autocomplete';
 const ERROR_CLASS = 'ui-128__autocomplete--error';
 
+const Tethered = ({ children }) => {
+  return (
+    <TetherComponent
+      renderElementTo="body"
+      attachment="top left"
+      targetAttachment="top left"
+      className="ui-128__autocomplete--options"
+      constraints={[
+        {
+          to: 'window',
+          attachment: 'together',
+          pin: ['top']
+        }
+      ]}
+    >
+      {children}
+    </TetherComponent>
+  );
+};
+
 /**
  * This is a custom version of the react-select component
  * that will allow the options menu to overflow and be visible
@@ -37,26 +57,29 @@ class TetheredSelect extends Select {
     const selectWidth = this.wrapper ? this.wrapper.offsetWidth : null;
 
     return (
-      <TetherComponent
-        renderElementTo="body"
-        ref="tethered-component"
-        attachment="top left"
-        targetAttachment="top left"
-        className="ui-128__autocomplete--options"
-        constraints={[
-          {
-            to: 'window',
-            attachment: 'together',
-            pin: ['top']
-          }
-        ]}
-      >
+      <Tethered>
         <div />
         {React.cloneElement(menu, { style: { position: 'static', width: selectWidth } })}
-      </TetherComponent>
+      </Tethered>
     );
   }
 }
+
+/**
+ * This is a custom version of the react-select component,
+ * specifically when creatable options are allowed,
+ * that will allow the options menu to overflow and be visible
+ * in containers that have overflow: hidden, scroll, etc.
+ *
+ * https://github.com/JedWatson/react-select/issues/810#issuecomment-284573308
+ */
+const TetheredCreatable = props => {
+  return (
+    <Tethered>
+      <Creatable {...props}>{creatableProps => <TetheredSelect {...creatableProps} />}</Creatable>
+    </Tethered>
+  );
+};
 
 /**
  * This component is essentially a text field combined with
@@ -113,7 +136,7 @@ class Autocomplete extends React.Component {
       <div className="ui-128__autocomplete--error-text">{errorText}</div>
     ) : null;
 
-    const selectComponent = creatable ? Creatable : TetheredSelect;
+    const selectComponent = creatable ? TetheredCreatable : TetheredSelect;
 
     return (
       <div id={id} className={classes}>
