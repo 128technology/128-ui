@@ -5,7 +5,7 @@ $basic-border: 1px solid #e2e2e2;
   td {
     max-width: 0;
 
-    &:not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell) > span {
+    &:not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell) > span:not(.ui-128__table--nested) {
       display: flex;
       align-items: center;
     }
