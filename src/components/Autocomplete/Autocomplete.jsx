@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import VirtualizedSelect from 'react-virtualized-select';
 import TetherComponent from 'react-tether';
-import Select, { Creatable } from 'react-select';
+import Select, { AsyncCreatable, Creatable } from 'react-select';
 import classNames from 'classnames';
 
 import './Autocomplete.scss';
@@ -82,6 +82,22 @@ const TetheredCreatable = props => {
 };
 
 /**
+ * This is a custom version of the react-select component,
+ * specifically when asynchronous creatable options are allowed,
+ * that will allow the options menu to overflow and be visible
+ * in containers that have overflow: hidden, scroll, etc.
+ *
+ * https://github.com/JedWatson/react-select/issues/810#issuecomment-284573308
+ */
+const TetheredAsyncCreatable = props => {
+  return (
+    <Tethered>
+      <AsyncCreatable {...props}>{creatableProps => <TetheredSelect {...creatableProps} />}</AsyncCreatable>
+    </Tethered>
+  );
+};
+
+/**
  * This component is essentially a text field combined with
  * a dropdown menu. The user can type into the field and will
  * be presented with a list of matching options.
@@ -89,15 +105,12 @@ const TetheredCreatable = props => {
 class Autocomplete extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = { selectValue: props.value };
-
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(selected) {
     const newValue = _.get(selected, 'value', null);
-
     if (this.props.onChange) {
       this.props.onChange.call(this, newValue);
     }
@@ -128,7 +141,7 @@ class Autocomplete extends React.Component {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { id, className, value, onChange, errorText, clearable, creatable, ...rest } = this.props;
+    const { id, className, value, onChange, errorText, clearable, creatable, async, ...rest } = this.props;
 
     const classes = this._buildClass(className);
 
@@ -136,8 +149,7 @@ class Autocomplete extends React.Component {
       <div className="ui-128__autocomplete--error-text">{errorText}</div>
     ) : null;
 
-    const selectComponent = creatable ? TetheredCreatable : TetheredSelect;
-
+    const selectComponent = creatable ? (async ? TetheredAsyncCreatable : TetheredCreatable) : TetheredSelect;
     return (
       <div id={id} className={classes}>
         <VirtualizedSelect
@@ -148,6 +160,9 @@ class Autocomplete extends React.Component {
           clearable={clearable}
           autosize={true}
           selectComponent={selectComponent}
+          onSelectResetsInput={!creatable}
+          onBlurResetsInput={!creatable}
+          onCloseResetsInput={!creatable}
           {...rest}
         />
         {errorTextComponent}

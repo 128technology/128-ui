@@ -84,5 +84,5 @@ Example (Creatable):
     }));
 
     <div style={{width: '300px'}}>
-      <Autocomplete placeholder="Type or select..." options={options} onChange={() => {}} creatable={true} />
+      <Autocomplete placeholder="Type or select..." options={options} onChange={() => {}} creatable={true} value="1" />
     </div>

@@ -1,6 +1,6 @@
 {
   "name": "@128technology/ui",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
@@ -9713,21 +9713,20 @@
       }
     },
     "react-select": {
-      "version": "1.0.0-rc.10",
-      "resolved": "https://registry.npmjs.org/react-select/-/react-select-1.0.0-rc.10.tgz",
-      "integrity": "sha1-8Tc0YlD5JVyXn7+iGGCJmSh3I1A=",
+      "version": "1.2.1",
+      "resolved": "https://registry.npmjs.org/react-select/-/react-select-1.2.1.tgz",
+      "integrity": "sha512-vaCgT2bEl+uTyE/uKOEgzE5Dc/wLtzhnBvoHCeuLoJWc4WuadN6WQDhoL42DW+TziniZK2Gaqe/wUXydI3NSaQ==",
       "requires": {
         "classnames": "2.2.5",
         "prop-types": "15.6.0",
-        "react-input-autosize": "2.0.1"
+        "react-input-autosize": "2.2.1"
       },
       "dependencies": {
         "react-input-autosize": {
-          "version": "2.0.1",
-          "resolved": "https://registry.npmjs.org/react-input-autosize/-/react-input-autosize-2.0.1.tgz",
-          "integrity": "sha1-6SGQSXtAJsJ4CtDy/XA8g1ugPjM=",
+          "version": "2.2.1",
+          "resolved": "https://registry.npmjs.org/react-input-autosize/-/react-input-autosize-2.2.1.tgz",
+          "integrity": "sha512-3+K4CD13iE4lQQ2WlF8PuV5htfmTRLH6MDnfndHM6LuBRszuXnuyIfE7nhSKt8AzRBZ50bu0sAhkNMeS5pxQQA==",
           "requires": {
-            "create-react-class": "15.6.2",
             "prop-types": "15.6.0"
           }
         }
@@ -9892,7 +9891,7 @@
       "requires": {
         "babel-runtime": "6.26.0",
         "prop-types": "15.6.0",
-        "react-select": "1.0.0-rc.10",
+        "react-select": "1.2.1",
         "react-virtualized": "9.12.0"
       },
       "dependencies": {
