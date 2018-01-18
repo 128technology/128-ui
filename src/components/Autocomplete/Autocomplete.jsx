@@ -214,6 +214,10 @@ Autocomplete.propTypes = {
    */
   creatable: PropTypes.bool,
   /**
+   * Allow options to be loaded asynchronously
+   */
+  async: PropTypes.bool,
+  /**
    * function that accepts a raw label and returns a descriptive label
    */
   promptTextCreator: PropTypes.func
