@@ -160,9 +160,6 @@ class Autocomplete extends React.Component {
           clearable={clearable}
           autosize={true}
           selectComponent={selectComponent}
-          onSelectResetsInput={!creatable}
-          onBlurResetsInput={!creatable}
-          onCloseResetsInput={!creatable}
           {...rest}
         />
         {errorTextComponent}
