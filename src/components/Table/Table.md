@@ -184,6 +184,74 @@ Example (Bordered Table With Expansions):
       />
     </Provider>
 
+
+Example (Bordered Table With Expansions and Nested Table Wrapper):
+
+    const columns = [{
+      title: 'Router',
+      dataIndex: 'routerName',
+      key: 'routerName'
+    }, {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status'
+    }];
+
+    const dataSource = [{
+      key: 'US-Conductor',
+      routerName: 'US-Conductor-plus-really-really-really-really-really-really-long-name',
+      status: 'UP'
+    }, {
+      key: 'US-E-Boston',
+      routerName: 'US-E-Boston',
+      status: 'UP'
+    }];
+
+    const subColumns = [{
+      title: 'Node',
+      dataIndex: 'nodeName',
+      key: 'nodeName'
+    }, {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status'
+    }];
+
+    const subDataSource = [{
+      key: 'US-Conductor-Node',
+      nodeName: 'US-Conductor-node',
+      status: 'UP'
+    }, {
+      key: 'US-E-Boston-node',
+      nodeName: 'US-E-Boston-node',
+      status: 'UP'
+    }];
+
+    const expandedRowRender = () => (
+      <div>
+        <Table 
+          borderedTable 
+          dataSource={subDataSource} 
+          columns={subColumns} 
+          pagination={false} 
+          expandedRowRender={expandedRowRender} 
+        />
+      </div>
+    );
+
+    const rowSelection = {};
+
+    <Provider locale="enUS">
+      <Table 
+        borderedTable 
+        rowSelection={rowSelection} 
+        dataSource={dataSource} 
+        columns={columns} 
+        pagination={false} 
+        expandedRowRender={expandedRowRender} 
+      />
+    </Provider>
+
 Example (Bordered Table With Expansions and Pagination):
 
     const columns = [{

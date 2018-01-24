@@ -1,9 +1,14 @@
 $basic-border: 1px solid #e2e2e2;
 
 .ui-128__table {
+  table {
+    table-layout: fixed;
+    width: 100%;
+  }
+
   th,
   td {
-    max-width: 0;
+    width: 100%;
 
     &:not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell) > span:not(.ui-128__table--nested) {
       display: flex;
@@ -203,17 +208,6 @@ $basic-border: 1px solid #e2e2e2;
       .ant-table-expanded-row > td:first-child {
         background-color: $white !important;
         position: relative;
-
-        &::before {
-          display: block;
-          content: "";
-          background-color: #fff;
-          height: 1px;
-          width: 50px;
-          position: absolute;
-          left: 0;
-          bottom: -1px;
-        }
       }
 
       .ant-table-expanded-row + .ant-table-row > td {
@@ -256,11 +250,19 @@ $basic-border: 1px solid #e2e2e2;
   }
 }
 
-*:not(.ui-128__table--nested) > .ui-128__table--bordered {
-  & > .ant-spin-nested-loading > .ant-spin-container > .ant-table {
-      border-bottom: $basic-border;
-    }
-  }
+.ui-128__table--bordered.ant-table-wrapper .ant-table-tbody tr:last-child > td {
+  border-bottom: $basic-border;
+  transition: none;
+}
+
+.ui-128__table--bordered.ant-table-wrapper .ant-table-tbody tr.ant-table-expanded-row:last-child > td {
+  border-bottom: 0;
+}
+
+.ui-128__table--bordered.ant-table-wrapper .ant-table-tbody tr.ant-table-expanded-row:not(:last-child) td {
+  border-bottom: 0;
+}
+
 
 .ui-128__table--bordered .ant-table-expanded-row .ui-128__table--bordered {
   background-color: transparent;
