@@ -142,6 +142,8 @@ $basic-border: 1px solid #e2e2e2;
   &.ant-table-wrapper .ant-table .ant-table-content .ant-table-body {
 
     table {
+      border-radius: 0;
+
       .ant-table-row-expanded::after,
       .ant-table-row-collapsed::after {
         font-family: "Material Design Icons";
