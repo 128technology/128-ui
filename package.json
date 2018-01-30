@@ -75,15 +75,15 @@
     "react-dom": "^15.0.0"
   },
   "dependencies": {
+    "@128technology/react-select": "^1.2.1-A",
     "antd": "^2.13.7",
     "classnames": "^2.2.5",
     "material-ui": "^0.17.1",
     "mdi": "^1.9.33",
     "prop-types": "^15.5.8",
     "react-autocomplete": "^1.7.1",
-    "react-select": "^1.2.1",
     "react-tether": "^0.5.7",
     "react-virtualized": "^8.0.13",
-    "react-virtualized-select": "^3.0.0"
+    "react-virtualized-select": "^3.1.1"
   }
 }

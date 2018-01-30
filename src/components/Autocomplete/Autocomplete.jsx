@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import VirtualizedSelect from 'react-virtualized-select';
 import TetherComponent from 'react-tether';
-import Select, { AsyncCreatable, Creatable } from 'react-select';
+import Select, { AsyncCreatable, Creatable } from '@128technology/react-select';
 import classNames from 'classnames';
 
 import './Autocomplete.scss';
