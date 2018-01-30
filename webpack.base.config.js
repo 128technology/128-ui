@@ -57,6 +57,11 @@ module.exports = {
       commonjs: 'react',
       amd: 'react'
     },
+    'react-select': {
+      commonjs2: 'react-select',
+      commonjs: 'react-select',
+      amd: 'react-select'
+    },
     'react-dom': {
       root: 'ReactDOM',
       commonjs2: 'react-dom',
