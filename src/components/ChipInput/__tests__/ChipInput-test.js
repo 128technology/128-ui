@@ -2,8 +2,6 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import Subheader from 'material-ui/Subheader';
-import MenuItem from 'material-ui/MenuItem';
 
 import ChipInput from '../ChipInput';
 import { mountWithMuiTheme } from '../../../utils/testUtil';
@@ -422,7 +420,7 @@ describe('Chip Input', function() {
       const component = mountWithMuiTheme(<ChipInput dataSource={dataSource} groupBy={groupBy} />);
 
       component.find('input').simulate('focus');
-      const subheaders = component.find(Subheader);
+      const subheaders = document.querySelectorAll('.ui-128--chip-input-dropdown-group');
 
       expect(subheaders).to.have.lengthOf(2);
     });
@@ -433,10 +431,9 @@ describe('Chip Input', function() {
 
       input.simulate('focus');
       input.simulate('change', { target: { value: 'OtHeR' } });
+      const menuItems = document.querySelectorAll('.ui-128--chip-input-menu-item')[0];
 
-      const menuItems = component.find(MenuItem).first();
-
-      expect(menuItems.text()).to.equal('other');
+      expect(menuItems.textContent).to.equal('other');
     });
 
     it('should not have a placeholder when not empty (not controlled)', function() {
@@ -488,7 +485,7 @@ describe('Chip Input', function() {
       );
 
       component.find('input').simulate('focus');
-      const subHeadings = component.find('#some-id');
+      const subHeadings = document.querySelectorAll('#some-id');
 
       const expectedArgs = [
         [
@@ -545,7 +542,7 @@ describe('Chip Input', function() {
     it('should pass props to autocomplete menu items', function() {
       const menuItemProps = sinon.spy((label, datum, isHighlighted) => {
         return {
-          id: 'some-id'
+          id: 'some-menu-id'
         };
       });
 
@@ -555,7 +552,7 @@ describe('Chip Input', function() {
       );
 
       component.find('input').simulate('focus');
-      const subHeadings = component.find('#some-id');
+      const subHeadings = document.querySelectorAll('#some-menu-id');
 
       const expectedArgs = [
         [
@@ -614,7 +611,7 @@ describe('Chip Input', function() {
     it('should pass props to autocomplete menu', function() {
       const menuProps = sinon.spy((label, datum, isHighlighted) => {
         return {
-          id: 'some-id'
+          id: 'some-other-menu-id'
         };
       });
 
@@ -623,7 +620,7 @@ describe('Chip Input', function() {
       );
 
       component.find('input').simulate('focus');
-      const menu = component.find('#some-id');
+      const menu = document.querySelectorAll('#some-other-menu-id');
 
       expect(menu).to.have.lengthOf(1);
       expect(menuProps.getCall(0).args[0]).to.have.lengthOf(3);

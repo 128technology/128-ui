@@ -12,6 +12,7 @@ class ChipInputMenuItem extends React.PureComponent {
         {..._.omit(rest, 'datum')}
         primaryText={label}
         focusState="none"
+        className="ui-128 ui-128--chip-input-menu-item"
         style={Object.assign(
           {
             backgroundColor: isHighlighted ? 'rgba(0, 0, 0, 0.1)' : 'transparent'
