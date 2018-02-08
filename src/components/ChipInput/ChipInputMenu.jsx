@@ -20,6 +20,7 @@ class ChipInputMenu extends React.PureComponent {
             pin: ['top']
           }
         ]}
+        className="ui-128 ui-128--chip-input-dropdown-tether"
       >
         <div />
         <div {...rest} className="ui-128 ui-128--chip-input-dropdown">
