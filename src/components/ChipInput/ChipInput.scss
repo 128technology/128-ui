@@ -22,12 +22,6 @@
       margin-right: 5px;
     }
 
-    .ui-128--chip-input-dropdown {
-      position: absolute;
-      margin-top: 1px;
-      z-index: 999;
-    }
-
     input {
       outline: none;
       border: 0;
@@ -71,4 +65,10 @@
       width: 100%;
     }
   }
+}
+
+.ui-128--chip-input-dropdown {
+  position: absolute;
+  margin-top: 1px;
+  z-index: 999;
 }

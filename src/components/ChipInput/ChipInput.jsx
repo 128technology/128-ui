@@ -2,14 +2,13 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Paper from 'material-ui/Paper';
-import Menu from 'material-ui/Menu';
 import Subheader from 'material-ui/Subheader';
 
 import './ChipInput.scss';
 import ChipInputList from './ChipInputList';
 import ChipInputMenuItem from './ChipInputMenuItem';
 import ChipInputAutocomplete from './ChipInputAutocomplete';
+import ChipInputMenu from './ChipInputMenu';
 import * as keyCodes from '../../utils/keyCodes';
 import { getClosestKey, formatDataSource, differenceByKeys, filterByKeys } from './utils/chipInputUtils';
 
@@ -99,15 +98,7 @@ class ChipInput extends React.PureComponent {
       return <div />;
     }
 
-    return (
-      <div className="ui-128 ui-128--chip-input-dropdown">
-        <Paper zDepth={1}>
-          <Menu {...menuProps(menuItems)} disableAutoFocus={true}>
-            {menuItems}
-          </Menu>
-        </Paper>
-      </div>
-    );
+    return <ChipInputMenu muiMenuProps={menuProps}>{menuItems}</ChipInputMenu>;
   }
 
   renderAutocompleteItem(item, isHighlighted) {
@@ -258,7 +249,7 @@ class ChipInput extends React.PureComponent {
     return _.isFunction(groupBy) ? _.orderBy(autocompleteItems, groupBy) : autocompleteItems;
   }
 
-  handleOnInputBlur() {
+  handleOnInputBlur(e) {
     this.setState({ inputFocused: false });
   }
 

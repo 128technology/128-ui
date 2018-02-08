@@ -17,3 +17,6 @@ styleguide
 
 # Dist
 dist/
+
+# File system
+.DS_Store
