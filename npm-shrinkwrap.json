@@ -4660,7 +4660,7 @@
     "lodash.sortby": {
       "version": "4.7.0",
       "from": "lodash.sortby@>=4.7.0 <5.0.0",
-      "resolved": "http://npm.128technology.com:4873/lodash.sortby/-/lodash.sortby-4.7.0.tgz",
+      "resolved": "https://registry.npmjs.org/lodash.sortby/-/lodash.sortby-4.7.0.tgz",
       "dev": true
     },
     "lodash.tail": {
