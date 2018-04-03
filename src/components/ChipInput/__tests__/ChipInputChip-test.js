@@ -26,9 +26,9 @@ describe('Chip Input Chip', function() {
 
   it('should be focusable by prop', function() {
     const component = mountWithMuiTheme(<ChipInputChip focused={true} />);
-    const elem = component.find('.ui-128--chip-input-chip');
+    const elem = component.find('.ui-128--chip-input-chip').getDOMNode();
     const focusedElem = document.activeElement;
 
-    expect(elem.matchesElement(focusedElem)).to.equal(true);
+    expect(focusedElem).to.equal(elem);
   });
 });

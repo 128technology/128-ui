@@ -10,10 +10,10 @@ describe('Chip Input Autocomplete', function() {
       <ChipInputAutocomplete inputFocused={true} items={[]} getItemValue={() => {}} renderItem={() => {}} />
     );
 
-    const elem = component.find('input');
+    const elem = component.find('input').getDOMNode();
     const focusedElem = document.activeElement;
 
-    expect(elem.matchesElement(focusedElem)).to.equal(true);
+    expect(focusedElem).to.equal(elem);
   });
 
   it('should focus input when inputFocused prop is updated', function() {
@@ -22,9 +22,9 @@ describe('Chip Input Autocomplete', function() {
     );
 
     component.setProps({ inputFocused: true });
-    const elem = component.find('input');
+    const elem = component.find('input').getDOMNode();
     const focusedElem = document.activeElement;
 
-    expect(elem.matchesElement(focusedElem)).to.equal(true);
+    expect(focusedElem).to.equal(elem);
   });
 });
