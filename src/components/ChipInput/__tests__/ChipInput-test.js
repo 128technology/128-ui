@@ -444,7 +444,7 @@ describe('Chip Input', function() {
       input.simulate('change', { target: { value: 'some-' } });
       input.simulate('keyDown', { key: 'Enter', which: 13, keyCode: 13 });
 
-      expect(input.props().placeholder).to.equal(null);
+      expect(component.find('input').props().placeholder).to.equal(null);
     });
 
     it('should have a placeholder when empty (not controlled)', function() {

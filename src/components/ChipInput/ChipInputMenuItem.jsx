@@ -24,7 +24,7 @@ class ChipInputMenuItem extends React.PureComponent {
   }
 }
 
-ChipInputMenuItem.PropTypes = {
+ChipInputMenuItem.propTypes = {
   datum: PropTypes.any,
   label: PropTypes.string,
   isHighlighted: PropTypes.bool
