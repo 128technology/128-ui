@@ -45,20 +45,20 @@ class ChipInputChip extends React.PureComponent {
   }
 
   render() {
-    const { label, value, onFocus, onBlur, onDelete, focused, muiChipProps } = this.props;
+    const { label, value, onFocus, onBlur, onDelete, focused, muiChipProps, disabled } = this.props;
 
     return (
       <div
         ref={el => (this.chipContainer = el)}
         className="ui-128 ui-128--chip-input-chip"
-        onKeyDown={this.handleKeyDown}
+        onKeyDown={disabled ? undefined : this.handleKeyDown}
         onFocus={onFocus}
         onBlur={onBlur}
         tabIndex="0"
       >
         <Chip
           backgroundColor={focused ? blue300 : null}
-          onRequestDelete={onDelete}
+          onRequestDelete={disabled ? undefined : onDelete}
           children={label}
           {...muiChipProps(label, value, focused)}
           tabIndex={null}
@@ -76,7 +76,8 @@ ChipInputChip.propTypes = {
   onDelete: PropTypes.func,
   onKeyDown: PropTypes.func,
   focused: PropTypes.bool,
-  muiChipProps: PropTypes.func
+  muiChipProps: PropTypes.func,
+  disabled: PropTypes.bool
 };
 
 ChipInputChip.defaultProps = {
@@ -86,7 +87,8 @@ ChipInputChip.defaultProps = {
   onBlur: _.noop,
   onDelete: _.noop,
   focused: false,
-  muiChipProps: () => ({})
+  muiChipProps: () => ({}),
+  disabled: false
 };
 
 export default ChipInputChip;
