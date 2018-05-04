@@ -579,3 +579,33 @@ Example (On Change):
     }
 
     <OnChangeExample />
+
+Example (Disabled):
+
+    const lightBaseTheme = require('material-ui/styles/baseThemes/lightBaseTheme').default;
+    const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default;
+    const getMuiTheme = require('material-ui/styles/getMuiTheme').default;
+
+    const data = [{
+      name: 'Greg',
+      value: {
+        age: '99'
+      },
+      type: 'Person'
+    }, {
+      name: 'George',
+      value: {
+        age: '77'
+      },
+      type: 'Person'
+    }];
+
+    const config = {
+      key: 'name',
+      label: 'name',
+      value: 'value'
+    };
+
+    <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+      <ChipInput dataSource={data} dataSourceConfig={config} defaultSelectedKeys={['Greg', 'George']} disabled={true} />
+    </MuiThemeProvider>

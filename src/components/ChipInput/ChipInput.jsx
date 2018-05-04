@@ -366,7 +366,7 @@ class ChipInput extends React.PureComponent {
   }
 
   render() {
-    const { errorText, muiChipProps, className, icon, placeholder, tabIndex } = this.props;
+    const { errorText, muiChipProps, className, icon, placeholder, tabIndex, disabled } = this.props;
     const { inputValue, focusedChipKey, inputFocused, dataSourceMap } = this.state;
     const selectedKeys = this.getSelectedKeys();
     const selectedValues = filterByKeys(dataSourceMap, selectedKeys);
@@ -383,40 +383,43 @@ class ChipInput extends React.PureComponent {
 
     return (
       <div className={newClassName}>
-        <div className="ui-128 ui-128--chip-input-inner" onClick={this.handleOnContainerClick}>
+        <div className="ui-128 ui-128--chip-input-inner" onClick={disabled ? undefined : this.handleOnContainerClick}>
           {icon && <div className="ui-128 ui-128--chip-input-icon">{icon}</div>}
           <ChipInputList
             items={selectedValues}
-            onDelete={this.handleOnChipDelete}
-            onKeyDown={this.handleOnChipKeyDown}
-            onFocus={this.handleOnChipFocus}
-            onBlur={this.handleOnChipBlur}
+            onDelete={disabled ? undefined : this.handleOnChipDelete}
+            onKeyDown={disabled ? undefined : this.handleOnChipKeyDown}
+            onFocus={disabled ? undefined : this.handleOnChipFocus}
+            onBlur={disabled ? undefined : this.handleOnChipBlur}
             muiChipProps={muiChipProps}
             focusedChipKey={focusedChipKey}
+            disabled={disabled}
           />
-          <ChipInputAutocomplete
-            inputFocused={inputFocused}
-            getItemValue={getItemValue}
-            items={autocompleteItems}
-            shouldItemRender={itemIsMatch}
-            renderItem={this.renderAutocompleteItem}
-            renderMenu={this.renderAutocompleteMenu}
-            value={inputValue}
-            onChange={this.handleOnAutocompleteChange}
-            onSelect={this.handleOnAutocompleteSelect}
-            wrapperProps={{
-              className: 'ui-128 ui-128--chip-input-autocomplete',
-              style: {}
-            }}
-            inputProps={{
-              onKeyDown: this.handleOnInputKeyDown,
-              onFocus: this.handleOnInputFocus,
-              onBlur: this.handleOnInputBlur,
-              placeholder: this.isEmpty() ? placeholder : null,
-              size: 1, // overrides the default of 20, allows the input to avoid line breaking until actually necessary
-              tabIndex
-            }}
-          />
+          {!disabled && (
+            <ChipInputAutocomplete
+              inputFocused={inputFocused}
+              getItemValue={getItemValue}
+              items={autocompleteItems}
+              shouldItemRender={itemIsMatch}
+              renderItem={this.renderAutocompleteItem}
+              renderMenu={this.renderAutocompleteMenu}
+              value={inputValue}
+              onChange={this.handleOnAutocompleteChange}
+              onSelect={this.handleOnAutocompleteSelect}
+              wrapperProps={{
+                className: 'ui-128 ui-128--chip-input-autocomplete',
+                style: {}
+              }}
+              inputProps={{
+                onKeyDown: this.handleOnInputKeyDown,
+                onFocus: this.handleOnInputFocus,
+                onBlur: this.handleOnInputBlur,
+                placeholder: this.isEmpty() ? placeholder : null,
+                size: 1, // overrides the default of 20, allows the input to avoid line breaking until actually necessary
+                tabIndex
+              }}
+            />
+          )}
         </div>
         {errorText && <div className="ui-128--chip-input-errorText">{errorText}</div>}
       </div>
@@ -442,7 +445,8 @@ ChipInput.propTypes = {
   menuItemProps: PropTypes.func,
   menuHeadingProps: PropTypes.func,
   menuProps: PropTypes.func,
-  tabIndex: PropTypes.string
+  tabIndex: PropTypes.string,
+  disabled: PropTypes.bool
 };
 
 ChipInput.defaultProps = {
@@ -455,7 +459,8 @@ ChipInput.defaultProps = {
   defaultSelectedKeys: [],
   menuItemProps: _.noop,
   menuHeadingProps: _.noop,
-  menuProps: _.noop
+  menuProps: _.noop,
+  disabled: false
 };
 
 export default ChipInput;

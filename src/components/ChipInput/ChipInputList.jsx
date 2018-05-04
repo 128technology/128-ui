@@ -6,7 +6,7 @@ import ChipInputChip from './ChipInputChip';
 
 class ChipInputList extends React.PureComponent {
   createChips() {
-    const { onFocus, onBlur, onDelete, onKeyDown, focusedChipKey, items, muiChipProps } = this.props;
+    const { onFocus, onBlur, onDelete, onKeyDown, focusedChipKey, items, muiChipProps, disabled } = this.props;
 
     return _.map(items, item => (
       <ChipInputChip
@@ -20,6 +20,7 @@ class ChipInputList extends React.PureComponent {
         onFocus={_.partial(onFocus, item, item.key)}
         onBlur={_.partial(onBlur, item, item.key)}
         muiChipProps={muiChipProps}
+        disabled={disabled}
       />
     ));
   }
@@ -42,7 +43,8 @@ ChipInputList.propTypes = {
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
   focusedChipKey: PropTypes.string,
-  muiChipProps: PropTypes.func
+  muiChipProps: PropTypes.func,
+  disabled: PropTypes.bool
 };
 
 ChipInputList.defaultProps = {
@@ -51,7 +53,8 @@ ChipInputList.defaultProps = {
   onBlur: _.noop,
   onKeyDown: _.noop,
   onFocus: _.noop,
-  focusedChipKey: null
+  focusedChipKey: null,
+  disabled: false
 };
 
 export default ChipInputList;
