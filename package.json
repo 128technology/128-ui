@@ -77,7 +77,6 @@
     "classnames": "^2.2.5",
     "enzyme-adapter-react-16": "^1.1.1",
     "material-ui": "^0.20.0",
-    "mdi": "^1.9.33",
     "prop-types": "^15.5.8",
     "react-autocomplete": "^1.8.1",
     "react-tether": "^0.6.1",
