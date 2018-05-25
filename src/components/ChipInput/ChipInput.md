@@ -566,7 +566,6 @@ Example (On Change):
         return (
           <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
             <ChipInput
-              icon={<FontIcon className="mdi mdi-format-color-fill" color={this.state.color} />}
               dataSource={data}
               dataSourceConfig={config}
               onChange={this.onChange}

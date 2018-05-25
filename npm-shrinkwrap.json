@@ -1,6 +1,6 @@
 {
   "name": "@128technology/ui",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
@@ -7692,11 +7692,6 @@
         "unist-util-modify-children": "1.1.1",
         "unist-util-visit": "1.3.0"
       }
-    },
-    "mdi": {
-      "version": "1.9.33",
-      "resolved": "https://registry.npmjs.org/mdi/-/mdi-1.9.33.tgz",
-      "integrity": "sha1-PK9tlfxrgAYzYwvWK6DPH73msuI="
     },
     "media-typer": {
       "version": "0.3.0",
