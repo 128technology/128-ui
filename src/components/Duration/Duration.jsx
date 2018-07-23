@@ -5,6 +5,14 @@ import classNames from 'classnames';
 
 import './Duration.scss';
 
+const msTimeMap = {
+  years: 31536000000,
+  days: 86400000,
+  hours: 3600000,
+  minutes: 60000,
+  seconds: 1000
+};
+
 /**
  * Utility component for displaying durations of time in the format:
  * {days}d {hours}h {minutes}m {seconds}s.
@@ -15,13 +23,22 @@ class Duration extends React.Component {
       return '';
     }
 
-    const years = Math.floor(ms / 31536000000);
-    const days = Math.floor(ms / 86400000) - years * 365;
-    const hours = Math.floor(ms / 3600000) - days * 24 - years * 365 * 24;
-    const minutes = Math.floor(ms / 60000) - hours * 60 - days * 24 * 60 - years * 365 * 24 * 60;
-    const seconds = Math.floor(ms / 1000) - minutes * 60 - hours * 3600 - days * 24 * 3600 - years * 365 * 24 * 3600;
+    if (ms <= 0) {
+      return '0d 0h 0m 0s';
+    }
 
-    return `${years > 0 ? `${years}y ` : ''}${days}d ${hours}h ${minutes}m ${seconds}s`;
+    const duration = Object.keys(msTimeMap).reduce(
+      (acc, timeUnit) => {
+        acc[timeUnit] = Math.floor(acc.remainingTime / msTimeMap[timeUnit]);
+        acc.remainingTime -= acc[timeUnit] * msTimeMap[timeUnit];
+        return acc;
+      },
+      { remainingTime: ms }
+    );
+
+    return `${duration.years > 0 ? `${duration.years}y ` : ''}${duration.days}d ${duration.hours}h ${
+      duration.minutes
+    }m ${duration.seconds}s`;
   }
 
   render() {
