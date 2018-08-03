@@ -4,6 +4,10 @@ import _ from 'lodash';
 
 import './MatchText.scss';
 
+const CASE_SENSITIVE = 'CaseSensitive';
+const WHOLE_WORD = 'WholeWord';
+const REGEX = 'Regex';
+
 /**
  * Performs a case-insensitive search against an input string and highlights
  * the matches.
@@ -11,11 +15,27 @@ import './MatchText.scss';
  * Matches can be selected with css using `.ui-128__match-text--match`.
  * "Unmatched" text can also be selected using `.ui-128__match-text--unmatched`.
  */
-function MatchText({ text, searchString }) {
+function MatchText({ text, searchString, matchTypes }) {
+  const matchModesSet = new Set(matchTypes);
   const textString = _.toString(text);
 
   if (/\S+/.test(searchString)) {
-    const searchExp = new RegExp(_.escapeRegExp(searchString), 'ig');
+    let searchExp;
+    if (matchModesSet.has(REGEX)) {
+      try {
+        searchExp = new RegExp(searchString, 'g');
+      } catch (e) {
+        return <span className="ui-128 ui-128__match-text">{textString}</span>;
+      }
+    } else {
+      const regexOptions = matchModesSet.has(CASE_SENSITIVE) ? 'g' : 'ig';
+      const regexString = matchModesSet.has(WHOLE_WORD)
+        ? `\\b${_.escapeRegExp(searchString)}\\b`
+        : _.escapeRegExp(searchString);
+
+      searchExp = new RegExp(regexString, regexOptions);
+    }
+
     const unmatchedPieces = textString.split(searchExp);
     const matchedPieces = textString.match(searchExp);
 
@@ -50,7 +70,15 @@ MatchText.propTypes = {
   /**
    * The search string to search for.
    */
-  searchString: PropTypes.string.isRequired
+  searchString: PropTypes.string.isRequired,
+  /**
+   * The modes to match on, array of 'CaseSensitive', 'Regex', and 'WholeWord'.
+   */
+  matchTypes: PropTypes.arrayOf(PropTypes.oneOf([REGEX, CASE_SENSITIVE, WHOLE_WORD]))
+};
+
+MatchText.defaultProps = {
+  matchTypes: []
 };
 
 export default MatchText;
