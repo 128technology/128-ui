@@ -67,7 +67,7 @@ describe('MatchText Component', () => {
 
     it('should handle an invalid regex', () => {
       const matchText = shallow(
-        <MatchText text="A matchable search string..." searchString="\" matchTypes={['Regex']} />
+        <MatchText text="A matchable search string..." searchString="*" matchTypes={['Regex']} />
       );
 
       const component = matchText.find('.ui-128__match-text');
