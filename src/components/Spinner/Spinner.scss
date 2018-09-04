@@ -1,0 +1,126 @@
+$spinner-huge-size: 100px;
+$spinner-large-size: 60px;
+$spinner-medium-size: 40px;
+$spinner-small-size: 16px;
+$spinner-icon-margin: 10px;
+
+@keyframes pulse {
+  0% {
+    opacity: 0.05;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+.ui-128 {
+  .spinner {
+    position: relative;
+    width: $spinner-medium-size;
+    height: $spinner-medium-size;
+
+    .spinner__icon-piece {
+      fill: $white;
+    }
+
+    .spinner__icon {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      transform: translate(0, -50%) scale(0.75);
+      margin-left: 2px;
+    }
+
+    .spinner__pulse-outer,
+    .spinner__pulse-inner {
+      content: '';
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      background-color: $cyan-128;
+      height: $spinner-medium-size;
+      width: $spinner-medium-size;
+    }
+
+    .spinner__pulse-outer {
+      animation: pulse 1.5s Infinite;
+    }
+
+    .spinner__pulse-inner {
+      animation: pulse 1.5s Infinite 0.4s;
+    }
+
+    .spinner__icon-outer {
+      position: absolute;
+      border-radius: 50%;
+      z-index: 1;
+      background-color: $cyan-128;
+      height: $spinner-medium-size;
+      width: $spinner-medium-size;
+      border: 3px solid $white;
+    }
+  }
+
+  .spinner.spinner--small {
+    width: $spinner-small-size;
+    height: $spinner-small-size;
+
+    .spinner__icon {
+      display: none;
+    }
+
+    .spinner__pulse-outer,
+    .spinner__pulse-inner {
+      height: $spinner-small-size;
+      width: $spinner-small-size;
+    }
+
+    .spinner__icon-outer {
+      height: $spinner-small-size;
+      width: $spinner-small-size;
+      border: 2px solid $white;
+    }
+  }
+
+  .spinner.spinner--large {
+    width: $spinner-large-size;
+    height: $spinner-large-size;
+
+    .spinner__pulse-outer,
+    .spinner__pulse-inner {
+      height: $spinner-large-size;
+      width: $spinner-large-size;
+    }
+
+    .spinner__icon-outer {
+      height: $spinner-large-size;
+      width: $spinner-large-size;
+    }
+  }
+
+  .spinner.spinner--huge {
+    width: $spinner-huge-size;
+    height: $spinner-huge-size;
+
+    .spinner__pulse-outer,
+    .spinner__pulse-inner {
+      height: $spinner-huge-size;
+      width: $spinner-huge-size;
+    }
+
+    .spinner__icon-outer {
+      height: $spinner-huge-size;
+      width: $spinner-huge-size;
+      border: 4px solid $white;
+    }
+  }
+}
