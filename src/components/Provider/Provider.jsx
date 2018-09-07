@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LocaleProvider } from 'antd';
-
-import * as locales from './locales';
+import MomentUtils from 'material-ui-pickers/utils/moment-utils';
+import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
 
 /**
  * 128 provider component. This component encapsulates sub-module providers
@@ -10,18 +9,11 @@ import * as locales from './locales';
  *
  * Please see the [Ant Design LocaleProvider documentation](https://ant.design/components/locale-provider/)
  */
-function Provider({ locale, children }) {
-  let providerLocale = locales.enUS;
-
-  if (locales[locale]) {
-    providerLocale = locales[locale];
-  }
-
-  return <LocaleProvider locale={providerLocale.antd}>{children}</LocaleProvider>;
+function Provider({ children }) {
+  return <MuiPickersUtilsProvider utils={MomentUtils}>{children}</MuiPickersUtilsProvider>;
 }
 
 Provider.propTypes = {
-  locale: PropTypes.string,
   children: PropTypes.node
 };
 
