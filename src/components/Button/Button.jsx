@@ -1,31 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import _ from 'lodash';
-import classNames from 'classnames';
-import { Button as AntdButton } from 'antd';
-
-import './Button.scss';
+import MuiButton from '@material-ui/core/Button';
 
 /**
- * Simple wrapper around the ant-design button component
+ * Mui Button component
  */
-function Button({ className, disabled, onClick, ...otherProps }) {
-  return (
-    <span className={classNames(className, 'ui-128', 'ui-128__button', { disabled })}>
-      <AntdButton onClick={!disabled ? onClick : _.noop} {...otherProps} />
-    </span>
-  );
+function Button({ ...rest }) {
+  return <MuiButton {...rest} />;
 }
-
-Button.propTypes = {
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  onClick: PropTypes.func
-};
-
-Button.defaultProps = {
-  disabled: false,
-  onClick: _.noop
-};
 
 export default Button;

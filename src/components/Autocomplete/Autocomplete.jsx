@@ -1,223 +1,244 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import VirtualizedSelect from 'react-virtualized-select';
-import TetherComponent from 'react-tether';
-import Select, { AsyncCreatable, Creatable } from '@128technology/react-select';
+import Select from 'react-select';
+import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
+import CreatableSelect from 'react-select/lib/Creatable';
+import AsyncSelect from 'react-select/lib/Async';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import MenuItem from '@material-ui/core/MenuItem';
+import Chip from '@material-ui/core/Chip';
+import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 
-import './Autocomplete.scss';
-import 'react-virtualized/styles.css';
-import 'react-virtualized-select/styles.css';
-
-const DEFAULT_CLASS = 'ui-128__autocomplete';
-const ERROR_CLASS = 'ui-128__autocomplete--error';
-
-const Tethered = ({ children }) => {
-  return (
-    <TetherComponent
-      renderElementTo="body"
-      attachment="top left"
-      targetAttachment="top left"
-      className="ui-128__autocomplete--options"
-      constraints={[
-        {
-          to: 'window',
-          attachment: 'together',
-          pin: ['top']
-        }
-      ]}
-    >
-      {children}
-    </TetherComponent>
-  );
-};
-
-/**
- * This is a custom version of the react-select component
- * that will allow the options menu to overflow and be visible
- * in containers that have overflow: hidden, scroll, etc.
- *
- * https://github.com/JedWatson/react-select/issues/810#issuecomment-284573308
- */
-class TetheredSelect extends Select {
-  constructor(props) {
-    super(props);
-
-    this.renderOuter = this._renderOuter;
-  }
-
-  _renderOuter() {
-    const menu = super.renderOuter.apply(this, arguments);
-
-    if (!menu) {
-      return undefined;
-    }
-
-    const selectWidth = this.wrapper ? this.wrapper.offsetWidth : null;
-
-    return (
-      <Tethered>
-        <div />
-        {React.cloneElement(menu, { style: { position: 'static', width: selectWidth } })}
-      </Tethered>
-    );
-  }
+function InputComponent({ inputRef, ...rest }) {
+  return <div ref={inputRef} {...rest} />;
 }
 
-/**
- * This is a custom version of the react-select component,
- * specifically when creatable options are allowed,
- * that will allow the options menu to overflow and be visible
- * in containers that have overflow: hidden, scroll, etc.
- *
- * https://github.com/JedWatson/react-select/issues/810#issuecomment-284573308
- */
-const TetheredCreatable = props => {
+function NoOptionsMessage({ children, selectProps, innerProps }) {
   return (
-    <Tethered>
-      <Creatable {...props}>{creatableProps => <TetheredSelect {...creatableProps} />}</Creatable>
-    </Tethered>
+    <Typography color="textSecondary" className={selectProps.classes.noOptionsMessage} {...innerProps}>
+      {children}
+    </Typography>
   );
-};
+}
 
-/**
- * This is a custom version of the react-select component,
- * specifically when asynchronous creatable options are allowed,
- * that will allow the options menu to overflow and be visible
- * in containers that have overflow: hidden, scroll, etc.
- *
- * https://github.com/JedWatson/react-select/issues/810#issuecomment-284573308
- */
-const TetheredAsyncCreatable = props => {
+function Control({ selectProps, innerRef, innerProps, children }) {
   return (
-    <Tethered>
-      <AsyncCreatable {...props}>{creatableProps => <TetheredSelect {...creatableProps} />}</AsyncCreatable>
-    </Tethered>
+    <TextField
+      fullWidth={true}
+      InputProps={{
+        inputComponent: InputComponent,
+        inputProps: {
+          className: selectProps.classes.input,
+          inputRef: innerRef,
+          children: children,
+          ...innerProps
+        }
+      }}
+      {...selectProps.textFieldProps}
+    />
   );
-};
+}
 
-/**
- * This component is essentially a text field combined with
- * a dropdown menu. The user can type into the field and will
- * be presented with a list of matching options.
- */
+function Option({ innerRef, isFocused, innerProps, children }) {
+  return (
+    <MenuItem buttonRef={innerRef} selected={isFocused} component="div" {...innerProps}>
+      {children}
+    </MenuItem>
+  );
+}
+
+function Placeholder({ selectProps, innerProps, children }) {
+  return (
+    <Typography color="textSecondary" className={selectProps.classes.placeholder} {...innerProps}>
+      {children}
+    </Typography>
+  );
+}
+
+function ValueContainer({ selectProps, children }) {
+  return <div className={selectProps.classes.valueContainer}>{children}</div>;
+}
+
+function MultiValue({ children, selectProps, isFocused, removeProps }) {
+  return (
+    <Chip
+      tabIndex={-1}
+      label={children}
+      className={classNames(selectProps.classes.chip, {
+        [selectProps.classes.chipFocused]: isFocused
+      })}
+      onDelete={event => {
+        removeProps.onClick();
+        removeProps.onMouseDown(event);
+      }}
+    />
+  );
+}
+
+function Menu({ selectProps, children, innerProps }) {
+  return (
+    <Paper elevation={1} className={selectProps.classes.paper} {...innerProps}>
+      {children}
+    </Paper>
+  );
+}
+
+function formatGroupLabel(data) {
+  return (
+    <Typography color="textSecondary" variant="subheading">
+      {data.label}
+    </Typography>
+  );
+}
+
 class Autocomplete extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { selectValue: props.value };
-    this.handleChange = this.handleChange.bind(this);
+    this.state = { selection: null };
   }
 
-  handleChange(selected) {
-    const newValue = _.get(selected, 'value', null);
-    if (this.props.onChange) {
-      this.props.onChange.call(this, newValue);
+  handleOnChange = (newSelection, ...args) => {
+    const { onChange, selection } = this.props;
+
+    if (onChange) {
+      onChange(newSelection, ...args);
     }
 
-    this.setState({ selectValue: newValue });
+    if (!selection) {
+      this.setState({ selection: newSelection });
+    }
+  };
+
+  mapOptions = options => {
+    const { accessors } = this.props;
+
+    return options.map(x => ({
+      value: accessors.value(x),
+      label: accessors.label(x)
+    }));
+  };
+
+  filterOptions = inputVal => options => options.filter(x => x.label.toLowerCase().includes(inputVal.toLowerCase()));
+
+  getOptions() {
+    const { options, groupBy } = this.props;
+
+    if (groupBy) {
+      const groups = _.groupBy(options, groupBy);
+      return _.map(groups, (x, k) => ({
+        label: k,
+        options: this.mapOptions(x)
+      }));
+    }
+
+    return this.mapOptions(options);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.value !== nextProps.value) {
-      this.setState({ selectValue: nextProps.value });
+  getSelectComponentType() {
+    const { creatable, async } = this.props;
+
+    if (creatable && async) {
+      return AsyncCreatableSelect;
     }
+
+    if (creatable) {
+      return CreatableSelect;
+    }
+
+    if (async) {
+      return AsyncSelect;
+    }
+
+    return Select;
   }
 
-  _buildClass(className) {
-    const { errorText } = this.props;
-    const classes = [DEFAULT_CLASS];
+  loadOptions() {
+    const { loadOptions } = this.props;
 
-    if (className) {
-      classes.push(className);
+    if (_.isFunction(loadOptions)) {
+      if (loadOptions.length === 0) {
+        return inputVal => loadOptions().then(_.flow(this.mapOptions, this.filterOptions(inputVal)));
+      }
+
+      if (loadOptions.length >= 1) {
+        return (inputVal, cb) => loadOptions(_.flow(this.mapOptions, this.filterOptions(inputVal), cb));
+      }
     }
 
-    if (errorText) {
-      classes.push(ERROR_CLASS);
-    }
-
-    return classNames(classes);
+    return null;
   }
 
   render() {
-    // eslint-disable-next-line no-unused-vars
-    const { id, className, value, onChange, errorText, clearable, creatable, async, ...rest } = this.props;
+    const { classes, async, selection, ...rest } = this.props;
+    const SelectComponent = this.getSelectComponentType();
 
-    const classes = this._buildClass(className);
-
-    const errorTextComponent = !_.isNil(errorText) ? (
-      <div className="ui-128__autocomplete--error-text">{errorText}</div>
-    ) : null;
-
-    const selectComponent = creatable ? (async ? TetheredAsyncCreatable : TetheredCreatable) : TetheredSelect;
     return (
-      <div id={id} className={classes}>
-        <VirtualizedSelect
-          value={this.state.selectValue}
-          onChange={this.handleChange}
-          ignoreCase={true}
-          ignoreAccents={false}
-          clearable={clearable}
-          autosize={true}
-          selectComponent={selectComponent}
-          {...rest}
-        />
-        {errorTextComponent}
-      </div>
+      <SelectComponent
+        {...rest}
+        classes={classes}
+        components={{
+          Control,
+          Menu,
+          MultiValue,
+          NoOptionsMessage,
+          Option,
+          Placeholder,
+          ValueContainer
+        }}
+        textFieldProps={{
+          label: '',
+          InputLabelProps: {
+            shrink: true
+          }
+        }}
+        options={!async ? this.getOptions() : undefined}
+        loadOptions={async ? this.loadOptions() : undefined}
+        value={selection || this.state.selection}
+        onChange={this.handleOnChange}
+        formatGroupLabel={formatGroupLabel}
+      />
     );
   }
 }
 
-Autocomplete.defaultProps = {
-  errorText: null,
-  clearable: false,
-  promptTextCreator: label => `Add "${label}"`
-};
-
 Autocomplete.propTypes = {
-  id: PropTypes.string,
-  /**
-   * Class name to append to the root element
-   */
-  className: PropTypes.string,
-  initialValue: PropTypes.any,
-  placeholder: PropTypes.oneOfType([
-    // displayed when there's no value
-    PropTypes.string,
-    PropTypes.node
-  ]),
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.node
-    })
-  ),
-  /**
-   * function that accepts: { focusedOption, focusedOptionIndex, focusOption, key,
-   * labelKey, option, optionIndex, options, selectValue, style, valueArray })
-   * and returns an element
-   */
-  optionRenderer: PropTypes.func,
-  /**
-   * function that accepts selected value
-   */
-  onChange: PropTypes.func,
-  /**
-   * Error text shown below the select input
-   */
-  errorText: PropTypes.string,
-  /**
-   * Allow the user to add new options on the fly
-   */
+  accessors: PropTypes.object,
+  options: PropTypes.array,
+  groupBy: PropTypes.func,
   creatable: PropTypes.bool,
-  /**
-   * Allow options to be loaded asynchronously
-   */
   async: PropTypes.bool,
-  /**
-   * function that accepts a raw label and returns a descriptive label
-   */
-  promptTextCreator: PropTypes.func
+  loadOptions: PropTypes.func,
+  selection: PropTypes.any
 };
 
-export default Autocomplete;
+Autocomplete.defaultProps = {
+  accessors: {
+    value: d => d.value,
+    label: d => d.label
+  },
+  options: [],
+  groupBy: null,
+  creatable: false,
+  async: false,
+  loadOptions: null,
+  selection: null
+};
+
+const enhance = withStyles(() => ({
+  input: {
+    display: 'flex',
+    padding: 0
+  },
+  valueContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flex: 1,
+    alignItems: 'center'
+  }
+}));
+
+export default enhance(Autocomplete);

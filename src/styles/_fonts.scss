@@ -1,4 +1,4 @@
-@import "../fonts/anticon/iconfont.css";
+@import "~@mdi/font/scss/materialdesignicons.scss";
 
 @mixin define-font($filename, $weight, $name) {
   @font-face {

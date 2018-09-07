@@ -6,9 +6,7 @@ const webpackConfig = {
   output: {
     filename: '[name].min.js'
   },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin()
-  ]
+  plugins: [new webpack.optimize.UglifyJsPlugin()]
 };
 
 module.exports = merge(webpackBase, webpackConfig);
