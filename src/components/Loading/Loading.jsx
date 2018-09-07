@@ -8,13 +8,12 @@ import './Loading.scss';
 function Loading({ size, block, horizontal, showLoadingText, loadingText }) {
   const className = classNames(
     {
-      'loading--horizontal': horizontal,
-      'loading--small': size === 'small',
-      'loading--large': size === 'large',
-      'loading--huge': size === 'huge',
-      'loading--block': block
+      'ui-128__loading--horizontal': horizontal,
+      'ui-128__loading--small': size === 'small',
+      'ui-128__loading--large': size === 'large',
+      'ui-128__loading--huge': size === 'huge',
+      'ui-128__loading--block': block
     },
-    'loading',
     'ui-128',
     'ui-128__loading'
   );
@@ -22,7 +21,7 @@ function Loading({ size, block, horizontal, showLoadingText, loadingText }) {
   return (
     <div className={className}>
       <Spinner size={size} />
-      {showLoadingText ? <div className="loading__text">{loadingText}</div> : null}
+      {showLoadingText ? <div className="ui-128__loading__text">{loadingText}</div> : null}
     </div>
   );
 }
