@@ -34,18 +34,6 @@ Date time picker inline:
       <Picker inline variant="dateTime" />
     </Provider>
 
-Date Range picker:
-
-    <Provider>
-      <Picker variant="date" range />
-    </Provider>
-
-Time Range picker:
-
-    <Provider>
-      <Picker variant="time" range />
-    </Provider>
-
 Date time Range picker:
 
     <Provider>
