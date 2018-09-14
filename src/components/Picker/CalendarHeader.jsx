@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
+import classNames from 'classNames';
 import { withStyles } from '@material-ui/core/styles';
 
 import CalendarHeaderButton from './CalendarHeaderButton';
@@ -15,65 +16,61 @@ class CalendarHeader extends React.Component {
 
     return (
       <div className={classes.container}>
-        <div className={classes.dateTimeContainer}>
-          <div className={classes.dateContainer}>
-            <CalendarHeaderButton
-              variant="subheading"
-              selected={selectedView === VIEWS.START_YEAR}
-              onClick={_.partialRight(selectViewOnClick, VIEWS.START_YEAR)}
-            >
-              {formatOrElse(startDate, 'YYYY', '')}
-            </CalendarHeaderButton>
-            <CalendarHeaderButton
-              variant="headline"
-              selected={selectedView === VIEWS.START_MONTH}
-              onClick={_.partialRight(selectViewOnClick, VIEWS.START_MONTH)}
-            >
-              {formatOrElse(startDate, 'MMM DD', 'Start')}
-            </CalendarHeaderButton>
-            <CalendarHeaderButton
-              variant="headline"
-              className={classes.time}
-              selected={selectedView === VIEWS.START_TIME}
-              onClick={_.partialRight(selectViewOnClick, VIEWS.START_TIME)}
-            >
-              {formatOrElse(startDate, 'HH', '')}
-              {startDate && <span className={classes.colon}>:</span>}
-              {formatOrElse(startDate, 'mm', '')}
-            </CalendarHeaderButton>
-          </div>
+        <div className={classes.dateContainer}>
+          <CalendarHeaderButton
+            variant="subheading"
+            selected={selectedView === VIEWS.START_YEAR}
+            onClick={_.partialRight(selectViewOnClick, VIEWS.START_YEAR)}
+          >
+            {formatOrElse(startDate, 'YYYY', '')}
+          </CalendarHeaderButton>
+          <CalendarHeaderButton
+            variant="headline"
+            selected={selectedView === VIEWS.START_MONTH}
+            onClick={_.partialRight(selectViewOnClick, VIEWS.START_MONTH)}
+          >
+            {formatOrElse(startDate, 'MMM DD', 'Start')}
+          </CalendarHeaderButton>
+          <CalendarHeaderButton
+            variant="headline"
+            className={classes.time}
+            selected={selectedView === VIEWS.START_TIME}
+            onClick={_.partialRight(selectViewOnClick, VIEWS.START_TIME)}
+          >
+            {formatOrElse(startDate, 'HH', '')}
+            {startDate && <span className={classes.colon}>:</span>}
+            {formatOrElse(startDate, 'mm', '')}
+          </CalendarHeaderButton>
         </div>
         <div className={classes.dotsContainer}>
           <div className={classes.circle} />
-          <i className="mdi mdi-dots-vertical" />
+          <i className="mdi mdi-dots-horizontal" />
           <div className={classes.circle} />
         </div>
-        <div className={classes.dateTimeContainer}>
-          <div className={classes.dateContainer}>
-            <CalendarHeaderButton
-              variant="subheading"
-              selected={selectedView === VIEWS.END_YEAR}
-              onClick={_.partialRight(selectViewOnClick, VIEWS.END_YEAR)}
-            >
-              {formatOrElse(endDate, 'YYYY', '')}
-            </CalendarHeaderButton>
-            <CalendarHeaderButton
-              variant="headline"
-              selected={selectedView === VIEWS.END_MONTH}
-              onClick={_.partialRight(selectViewOnClick, VIEWS.END_MONTH)}
-            >
-              {formatOrElse(endDate, 'MMM DD', 'End')}
-            </CalendarHeaderButton>
-            <CalendarHeaderButton
-              variant="headline"
-              selected={selectedView === VIEWS.END_TIME}
-              onClick={_.partialRight(selectViewOnClick, VIEWS.END_TIME)}
-            >
-              {formatOrElse(endDate, 'HH', '')}
-              {endDate && <span className={classes.colon}>:</span>}
-              {formatOrElse(endDate, 'mm', '')}
-            </CalendarHeaderButton>
-          </div>
+        <div className={classNames(classes.dateContainer, classes.alignRight)}>
+          <CalendarHeaderButton
+            variant="subheading"
+            selected={selectedView === VIEWS.END_YEAR}
+            onClick={_.partialRight(selectViewOnClick, VIEWS.END_YEAR)}
+          >
+            {formatOrElse(endDate, 'YYYY', '')}
+          </CalendarHeaderButton>
+          <CalendarHeaderButton
+            variant="headline"
+            selected={selectedView === VIEWS.END_MONTH}
+            onClick={_.partialRight(selectViewOnClick, VIEWS.END_MONTH)}
+          >
+            {formatOrElse(endDate, 'MMM DD', 'End')}
+          </CalendarHeaderButton>
+          <CalendarHeaderButton
+            variant="headline"
+            selected={selectedView === VIEWS.END_TIME}
+            onClick={_.partialRight(selectViewOnClick, VIEWS.END_TIME)}
+          >
+            {formatOrElse(endDate, 'HH', '')}
+            {endDate && <span className={classes.colon}>:</span>}
+            {formatOrElse(endDate, 'mm', '')}
+          </CalendarHeaderButton>
         </div>
       </div>
     );
@@ -85,44 +82,47 @@ const enhance = withStyles(({ palette, spacing, shadows }) => ({
     backgroundColor: palette.primary.main,
     padding: `${spacing.unit * 2}px ${spacing.unit * 2}px`,
     boxShadow: shadows[1],
-    position: 'relative'
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    minHeight: 122,
+    boxSizing: 'border-box'
   },
   dateContainer: {
-    paddingLeft: spacing.unit * 2,
-    flexGrow: 1
+    paddingLeft: spacing.unit,
+    paddingRight: spacing.unit,
+    flexGrow: 1,
+    flexShrink: 0,
+    width: '40%',
+    boxSizing: 'border-box'
   },
   circle: {
     border: `2px solid ${palette.primary.light}`,
     height: 6,
     width: 6,
-    marginLeft: 5,
+    margin: 3,
     borderRadius: '100%'
   },
-  dateTimeContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    color: palette.primary.contrastText,
-    '&:first-child': {
-      paddingBottom: spacing.unit
-    }
-  },
   dotsContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     color: palette.primary.light,
     fontSize: 20,
-    position: 'absolute',
-    top: '50%',
-    transform: 'translate(0, -50%)'
-  },
-  monthTimeContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexGrow: 1,
-    alignItems: 'center'
+    flexShrink: 0,
+    width: '20%'
   },
   colon: {
     marginLeft: spacing.unit * 0.35,
     marginRight: spacing.unit * 0.35,
     fontSize: 28
+  },
+  alignRight: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-end'
   }
 }));
 

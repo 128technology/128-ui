@@ -28,7 +28,7 @@ export const selectYear = date => ({ selectedView, startDate, endDate }) => {
 
       return {
         startDate: newStartDate,
-        ...this.selectView(newStartDate.isAfter(endDate, 'year') ? VIEWS.END_MONTH : VIEWS.START_MONTH)({
+        ...selectView(newStartDate.isAfter(endDate, 'year') ? VIEWS.END_MONTH : VIEWS.START_MONTH)({
           endDate,
           startDate: newStartDate
         })
@@ -41,7 +41,7 @@ export const selectYear = date => ({ selectedView, startDate, endDate }) => {
 
       return {
         endDate: newEndDate,
-        ...this.selectView(newEndDate.isBefore(startDate, 'year') ? VIEWS.START_MONTH : VIEWS.END_MONTH)({
+        ...selectView(newEndDate.isBefore(startDate, 'year') ? VIEWS.START_MONTH : VIEWS.END_MONTH)({
           startDate,
           endDate: newEndDate
         })

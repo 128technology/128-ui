@@ -35,8 +35,7 @@ const enhance = withStyles(({ spacing }) => ({
   container: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingTop: spacing.unit
+    justifyContent: 'space-between'
   },
   iconButton: {
     '&:hover': {
