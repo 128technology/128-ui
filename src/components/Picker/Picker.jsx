@@ -180,7 +180,8 @@ const enhance = withStyles(({ palette, typography, spacing }) => ({
     width: 284
   },
   calendarContainer: {
-    padding: `${spacing.unit * 1}px ${spacing.unit * 2}px`
+    padding: spacing.unit * 2,
+    paddingTop: spacing.unit
   }
 }));
 
