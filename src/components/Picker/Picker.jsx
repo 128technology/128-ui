@@ -5,10 +5,11 @@ import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
 
+import CalendarController from './CalendarController';
 import CalendarDay from './CalendarDay';
 import CalendarHeader from './CalendarHeader';
 import YearPicker from './YearPicker';
-import CalendarController from './CalendarController';
+import TimePicker from './TimePicker';
 import * as stateHandlers from './stateHandlers';
 import { Calendar } from '../Calendar';
 import { VIEWS } from './constants';
@@ -19,7 +20,7 @@ class Picker extends React.Component {
 
     this.state = {
       visibleDate: moment(),
-      selectedView: VIEWS.START_MONTH,
+      selectedView: VIEWS.START_DATE,
       startDate: null,
       endDate: null,
       hoveredDate: null
@@ -32,6 +33,16 @@ class Picker extends React.Component {
 
   handleYearOnClick = (e, date) => {
     this.setState(stateHandlers.selectYear(date));
+    this.setState(stateHandlers.sortDates);
+  };
+
+  handleHourOnClick = (e, date) => {
+    this.setState(stateHandlers.selectHour(date));
+    this.setState(stateHandlers.sortDates);
+  };
+
+  handleMinuteOnClick = (e, date) => {
+    this.setState(stateHandlers.selectMinute(date));
     this.setState(stateHandlers.sortDates);
   };
 
@@ -88,13 +99,13 @@ class Picker extends React.Component {
   getVisibleStartDate = () => {
     const { selectedView } = this.state;
     const startDate = this.getStartDate();
-    return selectedView === VIEWS.START_MONTH && !startDate ? this.getHoveredDate() : startDate;
+    return selectedView === VIEWS.START_DATE && !startDate ? this.getHoveredDate() : startDate;
   };
 
   getVisibleEndDate = () => {
     const { selectedView } = this.state;
     const endDate = this.getEndDate();
-    return selectedView === VIEWS.END_MONTH && !endDate ? this.getHoveredDate() : endDate;
+    return selectedView === VIEWS.END_DATE && !endDate ? this.getHoveredDate() : endDate;
   };
 
   getHoveredDate = () => {
@@ -136,7 +147,7 @@ class Picker extends React.Component {
             startDate={startDate}
             endDate={endDate}
           />
-          {(selectedView === VIEWS.START_MONTH || selectedView === VIEWS.END_MONTH) && (
+          {(selectedView === VIEWS.START_DATE || selectedView === VIEWS.END_DATE) && (
             <div className={classes.calendarContainer} onMouseLeave={this.handleOnMouseLeave}>
               <CalendarController
                 date={visibleDate}
@@ -147,11 +158,13 @@ class Picker extends React.Component {
             </div>
           )}
           {(selectedView === VIEWS.START_YEAR || selectedView === VIEWS.END_YEAR) && (
-            <YearPicker
-              minDate={minDate}
-              maxDate={maxDate}
-              date={selectedView === VIEWS.START_YEAR ? startDate : endDate}
-              yearOnClick={this.handleYearOnClick}
+            <YearPicker minDate={minDate} maxDate={maxDate} date={visibleDate} yearOnClick={this.handleYearOnClick} />
+          )}
+          {(selectedView === VIEWS.START_TIME || selectedView === VIEWS.END_TIME) && (
+            <TimePicker
+              hourOnClick={this.handleHourOnClick}
+              minuteOnClick={this.handleMinuteOnClick}
+              date={visibleDate}
             />
           )}
         </Paper>

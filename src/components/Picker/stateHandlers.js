@@ -8,15 +8,81 @@ export const selectView = view => ({ startDate, endDate }) => {
     selectedView: view
   };
 
-  if (view === VIEWS.START_MONTH && startDate) {
+  if ([VIEWS.START_DATE, VIEWS.START_TIME, VIEWS.START_YEAR].includes(view) && startDate) {
     newState.visibleDate = startDate;
   }
 
-  if (view === VIEWS.END_MONTH && endDate) {
+  if ([VIEWS.END_DATE, VIEWS.END_TIME, VIEWS.END_YEAR].includes(view) && endDate) {
     newState.visibleDate = endDate;
   }
 
   return newState;
+};
+
+export const selectHour = date => ({ selectedView, startDate, endDate }) => {
+  switch (selectedView) {
+    case VIEWS.START_TIME: {
+      const newStartDate = ifElse(startDate, startDate, moment())
+        .clone()
+        .set('hour', date.hour());
+
+      return {
+        startDate: newStartDate,
+        ...selectView(newStartDate.isAfter(endDate) ? VIEWS.END_TIME : VIEWS.START_TIME)({
+          endDate,
+          startDate: newStartDate
+        })
+      };
+    }
+    case VIEWS.END_TIME: {
+      const newEndDate = ifElse(endDate, endDate, moment())
+        .clone()
+        .set('hour', date.hour());
+
+      return {
+        endDate: newEndDate,
+        ...selectView(newEndDate.isBefore(startDate) ? VIEWS.START_TIME : VIEWS.END_TIME)({
+          endDate,
+          startDate: newEndDate
+        })
+      };
+    }
+    default:
+      return {};
+  }
+};
+
+export const selectMinute = date => ({ selectedView, startDate, endDate }) => {
+  switch (selectedView) {
+    case VIEWS.START_TIME: {
+      const newStartDate = ifElse(startDate, startDate, moment())
+        .clone()
+        .set('minute', date.minute());
+
+      return {
+        startDate: newStartDate,
+        ...selectView(newStartDate.isAfter(endDate) ? VIEWS.END_DATE : VIEWS.START_DATE)({
+          endDate,
+          startDate: newStartDate
+        })
+      };
+    }
+    case VIEWS.END_TIME: {
+      const newEndDate = ifElse(endDate, endDate, moment())
+        .clone()
+        .set('minute', date.minute());
+
+      return {
+        endDate: newEndDate,
+        ...selectView(newEndDate.isBefore(startDate) ? VIEWS.START_DATE : VIEWS.END_DATE)({
+          endDate,
+          startDate: newEndDate
+        })
+      };
+    }
+    default:
+      return {};
+  }
 };
 
 export const selectYear = date => ({ selectedView, startDate, endDate }) => {
@@ -28,7 +94,7 @@ export const selectYear = date => ({ selectedView, startDate, endDate }) => {
 
       return {
         startDate: newStartDate,
-        ...selectView(newStartDate.isAfter(endDate, 'year') ? VIEWS.END_MONTH : VIEWS.START_MONTH)({
+        ...selectView(newStartDate.isAfter(endDate) ? VIEWS.END_DATE : VIEWS.START_DATE)({
           endDate,
           startDate: newStartDate
         })
@@ -41,7 +107,7 @@ export const selectYear = date => ({ selectedView, startDate, endDate }) => {
 
       return {
         endDate: newEndDate,
-        ...selectView(newEndDate.isBefore(startDate, 'year') ? VIEWS.START_MONTH : VIEWS.END_MONTH)({
+        ...selectView(newEndDate.isBefore(startDate) ? VIEWS.START_DATE : VIEWS.END_DATE)({
           startDate,
           endDate: newEndDate
         })
@@ -54,7 +120,7 @@ export const selectYear = date => ({ selectedView, startDate, endDate }) => {
 
 export const selectDate = date => ({ selectedView, startDate, endDate }) => {
   switch (selectedView) {
-    case VIEWS.START_MONTH: {
+    case VIEWS.START_DATE: {
       const newStartDate = ifElse(startDate, startDate, moment())
         .clone()
         .set('year', date.year())
@@ -67,13 +133,13 @@ export const selectDate = date => ({ selectedView, startDate, endDate }) => {
         startDate: newStartDate,
         endDate: newEndDate,
         visibleDate: newStartDate,
-        selectedView: !newEndDate ? VIEWS.END_MONTH : VIEWS.START_MONTH,
+        selectedView: !newEndDate ? VIEWS.END_DATE : VIEWS.START_DATE,
         hoveredDate: null
       };
 
       return newState;
     }
-    case VIEWS.END_MONTH: {
+    case VIEWS.END_DATE: {
       const newEndDate = ifElse(endDate, endDate, moment())
         .clone()
         .set('year', date.year())
@@ -83,7 +149,7 @@ export const selectDate = date => ({ selectedView, startDate, endDate }) => {
       const newState = {
         endDate: newEndDate,
         visibleDate: newEndDate,
-        selectedView: VIEWS.START_MONTH,
+        selectedView: VIEWS.START_DATE,
         hoveredDate: null
       };
 
@@ -111,11 +177,11 @@ export const sortHoverDatesAndView = ({ hoveredDate, startDate, endDate, selecte
   }
 
   if (
-    (selectedView === VIEWS.END_MONTH && startDate && hoveredDate.isBefore(startDate, 'day')) ||
-    (selectedView === VIEWS.START_MONTH && endDate && hoveredDate.isAfter(endDate, 'day'))
+    (selectedView === VIEWS.END_DATE && startDate && hoveredDate.isBefore(startDate)) ||
+    (selectedView === VIEWS.START_DATE && endDate && hoveredDate.isAfter(endDate))
   ) {
     return {
-      selectedView: selectedView === VIEWS.START_MONTH ? VIEWS.END_MONTH : VIEWS.START_MONTH,
+      selectedView: selectedView === VIEWS.START_DATE ? VIEWS.END_DATE : VIEWS.START_DATE,
       startDate: endDate,
       endDate: startDate
     };
@@ -125,7 +191,7 @@ export const sortHoverDatesAndView = ({ hoveredDate, startDate, endDate, selecte
 };
 
 export const sortDates = ({ startDate, endDate }) => {
-  if ((startDate && startDate.isAfter(endDate, 'day')) || (endDate && endDate.isBefore(startDate, 'day'))) {
+  if ((startDate && startDate.isAfter(endDate)) || (endDate && endDate.isBefore(startDate))) {
     return {
       startDate: endDate,
       endDate: startDate

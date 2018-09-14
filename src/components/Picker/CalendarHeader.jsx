@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import classNames from 'classNames';
+import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 
 import CalendarHeaderButton from './CalendarHeaderButton';
@@ -26,8 +26,8 @@ class CalendarHeader extends React.Component {
           </CalendarHeaderButton>
           <CalendarHeaderButton
             variant="headline"
-            selected={selectedView === VIEWS.START_MONTH}
-            onClick={_.partialRight(selectViewOnClick, VIEWS.START_MONTH)}
+            selected={selectedView === VIEWS.START_DATE}
+            onClick={_.partialRight(selectViewOnClick, VIEWS.START_DATE)}
           >
             {formatOrElse(startDate, 'MMM DD', 'Start')}
           </CalendarHeaderButton>
@@ -57,8 +57,8 @@ class CalendarHeader extends React.Component {
           </CalendarHeaderButton>
           <CalendarHeaderButton
             variant="headline"
-            selected={selectedView === VIEWS.END_MONTH}
-            onClick={_.partialRight(selectViewOnClick, VIEWS.END_MONTH)}
+            selected={selectedView === VIEWS.END_DATE}
+            onClick={_.partialRight(selectViewOnClick, VIEWS.END_DATE)}
           >
             {formatOrElse(endDate, 'MMM DD', 'End')}
           </CalendarHeaderButton>
@@ -87,7 +87,8 @@ const enhance = withStyles(({ palette, spacing, shadows }) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     minHeight: 122,
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    zIndex: 10
   },
   dateContainer: {
     paddingLeft: spacing.unit,

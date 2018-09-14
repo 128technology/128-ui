@@ -16,4 +16,3 @@ export { SubMenu } from './components/SubMenu';
 export { EnhancedTable, EnhancedTableHead, EnhancedTableBody, RowSelection } from './components/EnhancedTable';
 export { Tabs } from './components/Tabs';
 export { TabPane } from './components/TabPane';
-export { TimePicker } from './components/TimePicker';
