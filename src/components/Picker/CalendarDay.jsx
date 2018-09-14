@@ -21,13 +21,17 @@ class CalendarDay extends React.Component {
     const { dayProps, children, date, startDate, endDate, classes } = this.props;
     const betweenDate = startDate && endDate && date.isAfter(startDate) && date.isBefore(endDate.startOf('day'));
     const endCap = startDate && endDate && dayProps.selected && !startDate.isSame(endDate, 'day');
+    const weekStartCap = betweenDate && date.day() === 0;
+    const weekEndCap = betweenDate && date.day() === 6;
 
     return (
       <div
         className={classNames({
           [classes.betweenDate]: (betweenDate || endCap) && dayProps.inCurrentMonth,
           [classes.leftEndCap]: startDate && endCap && date.isSame(startDate, 'day'),
-          [classes.rightEndCap]: endDate && endCap && date.isSame(endDate, 'day')
+          [classes.rightEndCap]: endDate && endCap && date.isSame(endDate, 'day'),
+          [classes.weekStartCap]: weekStartCap,
+          [classes.weekEndCap]: weekEndCap
         })}
         onClick={this.handleDayOnClick}
         onMouseEnter={this.handleDayOnMouseEnter}
@@ -41,7 +45,7 @@ class CalendarDay extends React.Component {
 CalendarDay.propTypes = {};
 CalendarDay.defaultProps = {};
 
-const enhance = withStyles(({ palette }) => ({
+const enhance = withStyles(({ palette, shape }) => ({
   betweenDate: {
     height: 36,
     width: 36,
@@ -54,6 +58,14 @@ const enhance = withStyles(({ palette }) => ({
   rightEndCap: {
     borderTopRightRadius: '50%',
     borderBottomRightRadius: '50%'
+  },
+  weekStartCap: {
+    borderTopLeftRadius: shape.borderRadius,
+    borderBottomLeftRadius: shape.borderRadius
+  },
+  weekEndCap: {
+    borderTopRightRadius: shape.borderRadius,
+    borderBottomRightRadius: shape.borderRadius
   }
 }));
 

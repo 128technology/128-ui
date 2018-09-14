@@ -204,3 +204,10 @@ export const sortDates = ({ startDate, endDate }) => {
 export const incrementVisibleDate = ({ visibleDate }) => ({ visibleDate: visibleDate.clone().add(1, 'month') });
 
 export const decrementVisibleDate = ({ visibleDate }) => ({ visibleDate: visibleDate.clone().subtract(1, 'month') });
+
+export const openPopover = anchorEl => ({
+  open: true,
+  anchorEl
+});
+
+export const closePopover = { open: false, anchorEl: null };
