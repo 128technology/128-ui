@@ -1,5 +1,6 @@
 export { Autocomplete } from './components/Autocomplete';
 export { Button } from './components/Button';
+export { Calendar } from './components/Calendar';
 export { Picker } from './components/Picker';
 export { Dropdown } from './components/Dropdown';
 export { Duration } from './components/Duration';
