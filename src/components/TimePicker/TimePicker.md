@@ -1,5 +1,0 @@
-Example:
-
-    <Provider>
-      <TimePicker />
-    </Provider>
