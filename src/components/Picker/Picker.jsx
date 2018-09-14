@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
+import Popover from '@material-ui/core/Popover';
 import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -23,7 +24,9 @@ class Picker extends React.Component {
       selectedView: VIEWS.START_DATE,
       startDate: null,
       endDate: null,
-      hoveredDate: null
+      hoveredDate: null,
+      open: false,
+      anchorEl: null
     };
   }
 
@@ -58,6 +61,14 @@ class Picker extends React.Component {
 
   handleOnMouseLeave = () => {
     this.setState(stateHandlers.clearHoverDate);
+  };
+
+  handleTextFieldFocus = e => {
+    this.setState(stateHandlers.openPopover(e.currentTarget));
+  };
+
+  handlePopoverOnClose = () => {
+    this.setState(stateHandlers.closePopover);
   };
 
   handlePrevMonthOnClick = e => {
@@ -113,6 +124,18 @@ class Picker extends React.Component {
     return hoveredDate ? hoveredDate.clone() : hoveredDate;
   };
 
+  getFormattedDateRange = () => {
+    const startDate = this.getStartDate();
+    const endDate = this.getEndDate();
+    const startText = startDate ? startDate.format('YYYY/MM/d HH:mm') : 'Start';
+    const endText = endDate ? endDate.format('YYYY/MM/d HH:mm') : 'End';
+    return `${startText} - ${endText}`;
+  };
+
+  isPopoverOpen() {
+    return this.props.open === true || this.state.open === true;
+  }
+
   dayRenderer = (date, dayProps, symbol) => {
     const startDate = this.getVisibleStartDate();
     const endDate = this.getVisibleEndDate();
@@ -132,42 +155,56 @@ class Picker extends React.Component {
   };
 
   render() {
-    const { visibleDate, selectedView } = this.state;
+    const { visibleDate, selectedView, anchorEl } = this.state;
     const { classes, minDate, maxDate } = this.props;
     const startDate = this.getVisibleStartDate();
     const endDate = this.getVisibleEndDate();
 
     return (
       <div className={classes.calendar}>
-        <TextField />
-        <Paper elevation={1} className={classes.contentContainer}>
-          <CalendarHeader
-            selectedView={selectedView}
-            selectViewOnClick={this.handleSelectViewOnClick}
-            startDate={startDate}
-            endDate={endDate}
-          />
-          {(selectedView === VIEWS.START_DATE || selectedView === VIEWS.END_DATE) && (
-            <div className={classes.calendarContainer} onMouseLeave={this.handleOnMouseLeave}>
-              <CalendarController
-                date={visibleDate}
-                nextMonthOnClick={this.handleNextMonthOnClick}
-                prevMonthOnClick={this.handlePrevMonthOnClick}
-              />
-              <Calendar date={visibleDate} dayRenderer={this.dayRenderer} selectDay={this.selectDay} />
-            </div>
-          )}
-          {(selectedView === VIEWS.START_YEAR || selectedView === VIEWS.END_YEAR) && (
-            <YearPicker minDate={minDate} maxDate={maxDate} date={visibleDate} yearOnClick={this.handleYearOnClick} />
-          )}
-          {(selectedView === VIEWS.START_TIME || selectedView === VIEWS.END_TIME) && (
-            <TimePicker
-              hourOnClick={this.handleHourOnClick}
-              minuteOnClick={this.handleMinuteOnClick}
-              date={visibleDate}
+        <TextField onFocus={this.handleTextFieldFocus} value={this.getFormattedDateRange()} inputComponent="div" />
+        <Popover
+          open={this.isPopoverOpen()}
+          onClose={this.handlePopoverOnClose}
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left'
+          }}
+        >
+          <Paper elevation={1} className={classes.contentContainer}>
+            <CalendarHeader
+              selectedView={selectedView}
+              selectViewOnClick={this.handleSelectViewOnClick}
+              startDate={startDate}
+              endDate={endDate}
             />
-          )}
-        </Paper>
+            {(selectedView === VIEWS.START_DATE || selectedView === VIEWS.END_DATE) && (
+              <div className={classes.calendarContainer} onMouseLeave={this.handleOnMouseLeave}>
+                <CalendarController
+                  date={visibleDate}
+                  nextMonthOnClick={this.handleNextMonthOnClick}
+                  prevMonthOnClick={this.handlePrevMonthOnClick}
+                />
+                <Calendar date={visibleDate} dayRenderer={this.dayRenderer} selectDay={this.selectDay} />
+              </div>
+            )}
+            {(selectedView === VIEWS.START_YEAR || selectedView === VIEWS.END_YEAR) && (
+              <YearPicker minDate={minDate} maxDate={maxDate} date={visibleDate} yearOnClick={this.handleYearOnClick} />
+            )}
+            {(selectedView === VIEWS.START_TIME || selectedView === VIEWS.END_TIME) && (
+              <TimePicker
+                hourOnClick={this.handleHourOnClick}
+                minuteOnClick={this.handleMinuteOnClick}
+                date={visibleDate}
+              />
+            )}
+          </Paper>
+        </Popover>
       </div>
     );
   }
@@ -185,11 +222,10 @@ Picker.defaultProps = {
   maxDate: moment().add(50, 'years')
 };
 
-const enhance = withStyles(({ palette, typography, spacing }) => ({
+const enhance = withStyles(({ typography, spacing }) => ({
   contentContainer: {
     overflow: 'hidden',
     fontFamily: typography.fontFamily,
-    position: 'absolute',
     width: 284
   },
   calendarContainer: {
