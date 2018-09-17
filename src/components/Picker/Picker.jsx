@@ -162,7 +162,7 @@ class Picker extends React.Component {
 
     return (
       <div className={classes.calendar}>
-        <TextField onFocus={this.handleTextFieldFocus} value={this.getFormattedDateRange()} inputComponent="div" />
+        <TextField onFocus={this.handleTextFieldFocus} value={this.getFormattedDateRange()} />
         <Popover
           open={this.isPopoverOpen()}
           onClose={this.handlePopoverOnClose}

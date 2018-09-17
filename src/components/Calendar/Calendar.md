@@ -31,9 +31,7 @@ Controlled:
       }
     }
 
-    <Provider>
       <CalendarTest />
-    </Provider>
 
 Custom day component:
 
@@ -85,6 +83,4 @@ Custom day component:
       }
     }
 
-    <Provider>
       <CalendarTest />
-    </Provider>

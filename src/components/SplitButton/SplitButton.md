@@ -1,19 +1,25 @@
 Example: 
 
+    const List = require('@material-ui/core/List').default;
+    const ListItem = require('@material-ui/core/ListItem').default;
+
     const menu = (
-      <Menu>
-        <MenuItem>An Item</MenuItem>
-      </Menu>
+      <List>
+        <ListItem dense={true}>An Item</ListItem>
+      </List>
     );
 
-    <SplitButton overlay={menu}>Dropdown</SplitButton>
+      <SplitButton popoverContent={menu}>Dropdown</SplitButton>
 
 Example (Disabled):
 
-    const menu = (
-      <Menu>
-        <MenuItem>An Item</MenuItem>
-      </Menu>
-    );
+    const List = require('@material-ui/core/List').default;
+    const ListItem = require('@material-ui/core/ListItem').default;
 
-    <SplitButton disabled={true} overlay={menu}>Dropdown</SplitButton>
+    const menu = (
+      <List>
+        <ListItem dense={true}>An Item</ListItem>
+      </List>
+    );
+    
+      <SplitButton variant="raised" disabled={true} popoverContent={menu}>Dropdown</SplitButton>
