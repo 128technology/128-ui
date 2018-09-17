@@ -19,7 +19,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(gif|png|jpg|svg|woff|ttf|eot|woff2)([\?]?.*)$/,
+        test: /\.(gif|png|jpg|svg|woff|ttf|eot|woff2)([?]?.*)$/,
         use: [
           {
             loader: 'url-loader',
@@ -47,7 +47,7 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              data: '@import "./src/styles/common";',
+              data: '@import "./src/styles/variables";',
               sourceMap: true
             }
           }
@@ -58,16 +58,16 @@ module.exports = {
   externals: [
     {
       react: {
-        root: 'React',
         commonjs2: 'react',
         commonjs: 'react',
+        root: 'React',
         amd: 'react'
       },
       'react-dom': {
-        root: 'ReactDOM',
         commonjs2: 'react-dom',
         commonjs: 'react-dom',
-        amd: 'react-dom'
+        root: 'ReactDOM',
+        amd: 'ReactDOM'
       }
     }
   ]
