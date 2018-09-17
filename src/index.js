@@ -1,10 +1,14 @@
-export { Autocomplete } from './components/Autocomplete';
-export { Calendar } from './components/Calendar';
-export { Picker } from './components/Picker';
-export { Duration } from './components/Duration';
-export { Loading } from './components/Loading';
-export { Spinner } from './components/Spinner';
-export { locales } from './components/Provider/locales';
-export { MatchText } from './components/MatchText';
-export { SplitButton } from './components/SplitButton';
-export { EnhancedTable, EnhancedTableHead, EnhancedTableBody, RowSelection } from './components/EnhancedTable';
+export { default as Autocomplete } from './components/Autocomplete';
+export { default as Calendar } from './components/Calendar';
+export { default as Picker } from './components/Picker';
+export { default as Duration } from './components/Duration';
+export { default as Loading } from './components/Loading';
+export { default as Spinner } from './components/Spinner';
+export { default as MatchText } from './components/MatchText';
+export { default as SplitButton } from './components/SplitButton';
+export {
+  default as EnhancedTable,
+  EnhancedTableBody,
+  EnhancedTableHead,
+  RowSelection
+} from './components/EnhancedTable';

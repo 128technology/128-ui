@@ -1,20 +1,41 @@
+const _ = require('lodash');
 const path = require('path');
+const fs = require('fs');
 
 const APP_PATH = path.join(__dirname, 'src');
 
-module.exports = {
-  entry: {
-    '128UI': path.join(APP_PATH, 'index.js')
+const components = fs.readdirSync(path.join(APP_PATH, 'components'));
+const entries = _.reduce(
+  components,
+  (acc, x) => {
+    acc[`${x}/index`] = path.join(APP_PATH, `components/${x}/index.js`);
+    return acc;
   },
+  {}
+);
+
+module.exports = {
+  entry: Object.assign(
+    {},
+    {
+      index: path.join(APP_PATH, 'index.js')
+    },
+    entries
+  ),
   output: {
     path: path.join(__dirname, 'dist'),
     filename: '[name].js',
-    library: '128UI',
+    library: '128-ui',
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
   resolve: {
-    extensions: ['.jsx', '.js']
+    extensions: ['.jsx', '.js'],
+    alias: {
+      react: path.resolve(__dirname, './node_modules/react'),
+      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+      '@material-ui/core': path.resolve(__dirname, './node_modules/@material-ui/core')
+    }
   },
   module: {
     rules: [
@@ -24,14 +45,11 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
+              fallback: 'file-loader',
               limit: 10000
             }
           }
         ]
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.jsx?$/,
@@ -39,7 +57,7 @@ module.exports = {
         use: ['babel-loader']
       },
       {
-        test: /\.scss$/,
+        test: /\.*css$/,
         use: [
           'style-loader',
           'css-loader',
@@ -61,7 +79,7 @@ module.exports = {
         commonjs2: 'react',
         commonjs: 'react',
         root: 'React',
-        amd: 'react'
+        amd: 'React'
       },
       'react-dom': {
         commonjs2: 'react-dom',
@@ -69,6 +87,7 @@ module.exports = {
         root: 'ReactDOM',
         amd: 'ReactDOM'
       }
-    }
+    },
+    /@material-ui\/core\/*./
   ]
 };

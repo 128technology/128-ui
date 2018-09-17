@@ -1,4 +1,4 @@
-require('babel-polyfill');
+require('@babel/polyfill');
 require('ignore-styles');
 const { JSDOM } = require('jsdom');
 const Enzyme = require('enzyme');

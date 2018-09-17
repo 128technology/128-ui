@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { Spinner } from '../Spinner';
+import Spinner from '../Spinner';
 import './Loading.scss';
 
 function Loading({ size, block, horizontal, showLoadingText, loadingText }) {

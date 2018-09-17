@@ -1,6 +1,5 @@
 Example:
 
-    const { MuiThemeProvider, createMuiTheme } = require('@material-ui/core/styles');
     const Immutable = require('immutable');
 
     const columns = Immutable.fromJS([{
@@ -32,6 +31,4 @@ Example:
       healthy: 'No'
     }]);
 
-    <MuiThemeProvider theme={createMuiTheme()}>
-      <EnhancedTable dataSource={data} columns={columns} />
-    </MuiThemeProvider>
+    <EnhancedTable dataSource={data} columns={columns} />

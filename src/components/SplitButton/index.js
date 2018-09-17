@@ -1,1 +1,2 @@
-export { default as SplitButton } from './SplitButton';
+import SplitButton from './SplitButton';
+export default SplitButton;
