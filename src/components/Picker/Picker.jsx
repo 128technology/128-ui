@@ -12,7 +12,7 @@ import CalendarHeader from './CalendarHeader';
 import YearPicker from './YearPicker';
 import TimePicker from './TimePicker';
 import * as stateHandlers from './stateHandlers';
-import { Calendar } from '../Calendar';
+import Calendar from '../Calendar';
 import { VIEWS } from './constants';
 
 class Picker extends React.Component {

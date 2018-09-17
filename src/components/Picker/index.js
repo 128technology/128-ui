@@ -1,1 +1,2 @@
-export { default as Picker } from './Picker';
+import Picker from './Picker';
+export default Picker;

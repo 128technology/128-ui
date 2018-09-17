@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import naturalSort from 'javascript-natural-sort';
 
-import { Loading } from '../Loading';
+import Loading from '../Loading';
 import EnhancedTableHead from './EnhancedTableHead';
 import EnhancedTableBody from './EnhancedTableBody';
 import { RowSelection, defaultRowKey } from './enhancedTableUtil';

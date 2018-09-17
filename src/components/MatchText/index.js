@@ -1,1 +1,2 @@
-export { default as MatchText } from './MatchText';
+import MatchText from './MatchText';
+export default MatchText;
