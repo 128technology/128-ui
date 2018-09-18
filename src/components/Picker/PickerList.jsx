@@ -49,7 +49,7 @@ PickerList.propTypes = {
   data: PropTypes.array,
   classes: PropTypes.object,
   format: PropTypes.string,
-  selected: PropTypes.bool,
+  selected: PropTypes.func,
   itemOnClick: PropTypes.func,
   className: PropTypes.string
 };
