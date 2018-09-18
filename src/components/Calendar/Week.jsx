@@ -20,7 +20,7 @@ function CalendarWeek({ date, days, classes, dayRenderer, disableDay, selectDay 
           date={d}
           inCurrentMonth={inCurrentMonth(date, d)}
           renderer={dayRenderer}
-          disabled={disableDay(d)}
+          disabled={disableDay(d, inCurrentMonth(date, d))}
           selected={selectDay(d)}
         />
       ))}

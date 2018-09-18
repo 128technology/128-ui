@@ -154,6 +154,8 @@ class Picker extends React.Component {
     );
   };
 
+  disableDay = (d, inCurrentMonth) => !inCurrentMonth;
+
   render() {
     const { visibleDate, selectedView, anchorEl } = this.state;
     const { classes, minDate, maxDate } = this.props;
@@ -190,7 +192,12 @@ class Picker extends React.Component {
                   nextMonthOnClick={this.handleNextMonthOnClick}
                   prevMonthOnClick={this.handlePrevMonthOnClick}
                 />
-                <Calendar date={visibleDate} dayRenderer={this.dayRenderer} selectDay={this.selectDay} />
+                <Calendar
+                  date={visibleDate}
+                  dayRenderer={this.dayRenderer}
+                  selectDay={this.selectDay}
+                  disableDay={this.disableDay}
+                />
               </div>
             )}
             {(selectedView === VIEWS.START_YEAR || selectedView === VIEWS.END_YEAR) && (

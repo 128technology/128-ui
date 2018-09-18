@@ -6,15 +6,17 @@ import { withStyles } from '@material-ui/core/styles';
 
 class CalendarDay extends React.Component {
   handleDayOnClick = e => {
-    const { date, onClick } = this.props;
-    if (onClick) {
+    const { dayProps, date, onClick } = this.props;
+
+    if (onClick && !dayProps.disabled) {
       onClick(e, date);
     }
   };
 
   handleDayOnMouseEnter = e => {
-    const { date, onMouseEnter } = this.props;
-    if (onMouseEnter) {
+    const { dayProps, date, onMouseEnter } = this.props;
+
+    if (onMouseEnter && !dayProps.disabled) {
       onMouseEnter(e, date);
     }
   };
