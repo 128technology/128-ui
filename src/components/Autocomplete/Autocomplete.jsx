@@ -228,7 +228,7 @@ Autocomplete.defaultProps = {
   selection: null
 };
 
-const enhance = withStyles(() => ({
+const enhance = withStyles(({ spacing, palette }) => ({
   input: {
     display: 'flex',
     padding: 0
@@ -238,6 +238,14 @@ const enhance = withStyles(() => ({
     flexWrap: 'wrap',
     flex: 1,
     alignItems: 'center'
+  },
+  chipFocused: {
+    backgroundColor: palette.primary.main,
+    color: palette.primary.contrastText
+  },
+  chip: {
+    marginRight: spacing.unit * 0.5,
+    marginBottom: spacing.unit * 0.5
   }
 }));
 
