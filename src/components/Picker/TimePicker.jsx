@@ -53,6 +53,7 @@ TimePicker.propTypes = {
 };
 
 TimePicker.defaultProps = {
+  classes: {},
   date: moment(),
   minuteOnClick: _.noop,
   hourOnClick: _.noop,

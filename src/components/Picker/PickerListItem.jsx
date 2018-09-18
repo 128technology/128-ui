@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
@@ -24,6 +25,14 @@ class PickerListItem extends React.Component {
     );
   }
 }
+
+PickerListItem.propTypes = {
+  selected: PropTypes.bool
+};
+
+PickerListItem.defaultProps = {
+  selected: false
+};
 
 const enhance = withStyles(({ palette }) => ({
   listButton: {

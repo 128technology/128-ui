@@ -24,13 +24,16 @@ class YearPicker extends React.Component {
 YearPicker.propTypes = {
   minDate: PropTypes.instanceOf(moment),
   maxDate: PropTypes.instanceOf(moment),
-  format: PropTypes.string
+  format: PropTypes.string,
+  date: PropTypes.instanceOf(moment),
+  yearOnClick: PropTypes.func
 };
 
 YearPicker.defaultProps = {
   minDate: moment().subtract(50, 'years'),
   maxDate: moment().add(50, 'years'),
-  format: 'YYYY'
+  format: 'YYYY',
+  date: moment()
 };
 
 export default YearPicker;

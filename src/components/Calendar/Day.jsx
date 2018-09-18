@@ -7,11 +7,11 @@ import { withStyles } from '@material-ui/core/styles';
 
 class Day extends React.Component {
   render() {
-    const { date, classes, inCurrentMonth, renderer, props, disabled, selected } = this.props;
+    const { date, classes, inCurrentMonth, renderer, disabled, selected } = this.props;
     const dayClasses = classNames(classes.day, !inCurrentMonth && classes.outsideOfMonth, selected && classes.selected);
 
     const symbol = (
-      <IconButton className={dayClasses} disabled={disabled} {...props}>
+      <IconButton className={dayClasses} disabled={disabled}>
         {date.format('D')}
       </IconButton>
     );
@@ -29,9 +29,13 @@ Day.propTypes = {
   classes: PropTypes.object,
   inCurrentMonth: PropTypes.bool,
   renderer: PropTypes.func,
-  props: PropTypes.object,
   disabled: PropTypes.bool,
   selected: PropTypes.bool
+};
+
+Day.defaultProps = {
+  classes: {},
+  date: moment()
 };
 
 const enhance = withStyles(({ palette, typography }) => ({
@@ -53,5 +57,7 @@ const enhance = withStyles(({ palette, typography }) => ({
     }
   }
 }));
+
+export { Day };
 
 export default enhance(Day);

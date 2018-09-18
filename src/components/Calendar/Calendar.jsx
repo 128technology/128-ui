@@ -24,7 +24,7 @@ function getNestedDateRange(date) {
 
 class Calendar extends React.Component {
   render() {
-    const { date, dayRenderer, dayProps, disableDay, selectDay } = this.props;
+    const { date, dayRenderer, disableDay, selectDay } = this.props;
     const monthRange = getNestedDateRange(date);
 
     return (
@@ -36,7 +36,6 @@ class Calendar extends React.Component {
             key={w[0]}
             days={w}
             dayRenderer={dayRenderer}
-            dayProps={dayProps}
             disableDay={disableDay}
             selectDay={selectDay}
           />
@@ -49,7 +48,6 @@ class Calendar extends React.Component {
 Calendar.propTypes = {
   date: PropTypes.instanceOf(moment),
   dayRenderer: PropTypes.func,
-  dayProps: PropTypes.object,
   disableDay: PropTypes.func,
   selectDay: PropTypes.func
 };

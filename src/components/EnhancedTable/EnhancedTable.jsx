@@ -79,6 +79,11 @@ class EnhancedTable extends React.Component {
 
   sort(dataSource) {
     const { orderDirection, orderBy, numericSort } = this.state;
+
+    if (!orderBy || !orderDirection) {
+      return dataSource;
+    }
+
     return dataSource.sortBy(x => x.get(orderBy), sortComparator(numericSort, orderDirection));
   }
 
@@ -182,7 +187,7 @@ EnhancedTable.defaultProps = {
   fullHeight: false,
   noDataText: 'No data',
   defaultOrderBy: '',
-  defaultOrderDirection: 'desc',
+  defaultOrderDirection: 'asc',
   rowRenderOptions: Immutable.Map()
 };
 

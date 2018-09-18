@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
 
 import CalendarHeaderButton from './CalendarHeaderButton';
@@ -76,6 +78,20 @@ class CalendarHeader extends React.Component {
     );
   }
 }
+
+CalendarHeader.propTypes = {
+  classes: PropTypes.object,
+  selectedView: PropTypes.string,
+  selectViewOnClick: PropTypes.func,
+  startDate: PropTypes.instanceOf(moment),
+  endDate: PropTypes.instanceOf(moment)
+};
+
+CalendarHeader.defaultProps = {
+  classes: {},
+  startDate: moment(),
+  endDate: moment()
+};
 
 const enhance = withStyles(({ palette, spacing, shadows }) => ({
   container: {

@@ -172,16 +172,17 @@ export const clearHoverDate = {
 };
 
 export const sortHoverDatesAndView = ({ hoveredDate, startDate, endDate, selectedView }) => {
-  if (startDate && endDate) {
-    return {};
+  if (selectedView === VIEWS.END_DATE && startDate && !endDate && hoveredDate.isBefore(startDate)) {
+    return {
+      selectedView: VIEWS.START_DATE,
+      startDate: endDate,
+      endDate: startDate
+    };
   }
 
-  if (
-    (selectedView === VIEWS.END_DATE && startDate && hoveredDate.isBefore(startDate)) ||
-    (selectedView === VIEWS.START_DATE && endDate && hoveredDate.isAfter(endDate))
-  ) {
+  if (selectedView === VIEWS.START_DATE && endDate && !startDate && hoveredDate.isAfter(endDate)) {
     return {
-      selectedView: selectedView === VIEWS.START_DATE ? VIEWS.END_DATE : VIEWS.START_DATE,
+      selectedView: VIEWS.END_DATE,
       startDate: endDate,
       endDate: startDate
     };
@@ -201,9 +202,9 @@ export const sortDates = ({ startDate, endDate }) => {
   return {};
 };
 
-export const incrementVisibleDate = ({ visibleDate }) => ({ visibleDate: visibleDate.clone().add(1, 'month') });
+export const incrementVisibleMonth = ({ visibleDate }) => ({ visibleDate: visibleDate.clone().add(1, 'month') });
 
-export const decrementVisibleDate = ({ visibleDate }) => ({ visibleDate: visibleDate.clone().subtract(1, 'month') });
+export const decrementVisibleMonth = ({ visibleDate }) => ({ visibleDate: visibleDate.clone().subtract(1, 'month') });
 
 export const openPopover = anchorEl => ({
   open: true,
