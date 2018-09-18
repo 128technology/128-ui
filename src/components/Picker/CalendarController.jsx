@@ -23,12 +23,14 @@ function CalendarController({ date, format, classes, prevMonthOnClick, nextMonth
 
 CalendarController.propTypes = {
   date: PropTypes.instanceOf(moment),
-  format: PropTypes.string
+  format: PropTypes.string,
+  classes: PropTypes.object
 };
 
 CalendarController.defaultProps = {
   date: moment(),
-  format: 'MMMM YYYY'
+  format: 'MMMM YYYY',
+  classes: {}
 };
 
 const enhance = withStyles(({ spacing }) => ({

@@ -1,5 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
 
 class CalendarDay extends React.Component {
@@ -42,8 +44,21 @@ class CalendarDay extends React.Component {
   }
 }
 
-CalendarDay.propTypes = {};
-CalendarDay.defaultProps = {};
+CalendarDay.propTypes = {
+  dayProps: PropTypes.object,
+  date: PropTypes.instanceOf(moment),
+  startDate: PropTypes.instanceOf(moment),
+  endDate: PropTypes.instanceOf(moment),
+  classes: PropTypes.object
+};
+
+CalendarDay.defaultProps = {
+  dayProps: {},
+  date: moment(),
+  startDate: moment(),
+  endDate: moment(),
+  classes: {}
+};
 
 const enhance = withStyles(({ palette, shape }) => ({
   betweenDate: {

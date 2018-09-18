@@ -5,19 +5,21 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Day from './Day';
 
-function CalendarWeek({ date, days, classes, dayRenderer, dayProps, disableDay, selectDay }) {
-  const lastMonth = date.clone().subtract(1, 'month');
-  const nextMonth = date.clone().add(1, 'month');
+export function inCurrentMonth(month, date) {
+  const lastMonth = month.clone().subtract(1, 'month');
+  const nextMonth = month.clone().add(1, 'month');
+  return date.isAfter(lastMonth, 'month') && date.isBefore(nextMonth, 'month');
+}
 
+function CalendarWeek({ date, days, classes, dayRenderer, disableDay, selectDay }) {
   return (
     <div className={classes.week}>
       {days.map(d => (
         <Day
           key={d}
           date={d}
-          inCurrentMonth={d.isAfter(lastMonth, 'month') && d.isBefore(nextMonth, 'month')}
+          inCurrentMonth={inCurrentMonth(date, d)}
           renderer={dayRenderer}
-          props={dayProps}
           disabled={disableDay(d)}
           selected={selectDay(d)}
         />
@@ -31,14 +33,14 @@ CalendarWeek.propTypes = {
   days: PropTypes.array,
   classes: PropTypes.object,
   dayRenderer: PropTypes.func,
-  dayProps: PropTypes.object,
   disableDay: PropTypes.func,
   selectDay: PropTypes.func
 };
 
 CalendarWeek.defaultProps = {
   disableDay: x => false,
-  selectDay: x => false
+  selectDay: x => false,
+  classes: {}
 };
 
 const enhance = withStyles(() => ({

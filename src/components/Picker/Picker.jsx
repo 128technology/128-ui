@@ -77,7 +77,7 @@ class Picker extends React.Component {
     if (prevMonthOnClick) {
       prevMonthOnClick(e);
     } else {
-      this.setState(stateHandlers.decrementVisibleDate);
+      this.setState(stateHandlers.decrementVisibleMonth);
     }
   };
 
@@ -87,7 +87,7 @@ class Picker extends React.Component {
     if (nextMonthOnClick) {
       nextMonthOnClick(e);
     } else {
-      this.setState(stateHandlers.incrementVisibleDate);
+      this.setState(stateHandlers.incrementVisibleMonth);
     }
   };
 

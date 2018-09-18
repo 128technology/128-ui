@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
 import classNames from 'classnames';
 import { findDOMNode } from 'react-dom';
@@ -43,6 +44,21 @@ class PickerList extends React.Component {
     );
   }
 }
+
+PickerList.propTypes = {
+  data: PropTypes.array,
+  classes: PropTypes.object,
+  format: PropTypes.string,
+  selected: PropTypes.bool,
+  itemOnClick: PropTypes.func,
+  className: PropTypes.string
+};
+
+PickerList.defaultProps = {
+  data: [],
+  classes: {},
+  format: ''
+};
 
 const enhance = withStyles(({ palette, typography, spacing }) => ({
   list: {

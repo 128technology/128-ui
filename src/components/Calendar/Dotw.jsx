@@ -19,11 +19,13 @@ function Dotw({ format, classes }) {
 }
 
 Dotw.propTypes = {
-  format: PropTypes.string
+  format: PropTypes.string,
+  classes: PropTypes.object
 };
 
 Dotw.defaultProps = {
-  format: 'dd'
+  format: 'dd',
+  classes: {}
 };
 
 const enhance = withStyles(({ typography, palette, spacing }) => ({
