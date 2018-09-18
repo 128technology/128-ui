@@ -22,52 +22,122 @@ class Picker extends React.Component {
     this.state = {
       visibleDate: moment(),
       selectedView: VIEWS.START_DATE,
-      startDate: null,
-      endDate: null,
+      startDate: props.defaultStartDate,
+      endDate: props.defaultEndDate,
       hoveredDate: null,
       open: false,
       anchorEl: null
     };
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.startDate !== this.state.startDate || prevState.endDate !== this.state.endDate) {
+      this.handlePickerOnChange();
+    }
+  }
+
+  handlePickerOnChange() {
+    const { onChange } = this.props;
+    const startDate = this.getStartDate();
+    const endDate = this.getEndDate();
+
+    if (onChange) {
+      onChange(startDate, endDate);
+    }
+  }
+
   handleSelectViewOnClick = (e, view) => {
+    const { viewOnClick } = this.props;
+
+    if (viewOnClick) {
+      viewOnClick(e, view);
+    }
+
     this.setState(stateHandlers.selectView(view));
   };
 
   handleYearOnClick = (e, date) => {
+    const { yearOnClick } = this.props;
+
+    if (yearOnClick) {
+      yearOnClick(e, date);
+    }
+
     this.setState(stateHandlers.selectYear(date));
     this.setState(stateHandlers.sortDates);
   };
 
   handleHourOnClick = (e, date) => {
+    const { hourOnClick } = this.props;
+
+    if (hourOnClick) {
+      hourOnClick(e, date);
+    }
+
     this.setState(stateHandlers.selectHour(date));
     this.setState(stateHandlers.sortDates);
   };
 
   handleMinuteOnClick = (e, date) => {
+    const { minuteOnClick } = this.props;
+
+    if (minuteOnClick) {
+      minuteOnClick(e, date);
+    }
+
     this.setState(stateHandlers.selectMinute(date));
     this.setState(stateHandlers.sortDates);
   };
 
   handleDayOnClick = (e, date) => {
+    const { dayOnClick } = this.props;
+
+    if (dayOnClick) {
+      dayOnClick(e, date);
+    }
+
     this.setState(stateHandlers.selectDate(date));
     this.setState(stateHandlers.sortDates);
   };
 
   handleDayOnMouseEnter = (e, date) => {
+    const { dayOnMouseEnter } = this.props;
+
+    if (dayOnMouseEnter) {
+      dayOnMouseEnter(e, date);
+    }
+
     this.setState(stateHandlers.hoverDate(date));
     this.setState(stateHandlers.sortHoverDatesAndView);
   };
 
   handleOnMouseLeave = () => {
+    const { dayOnMouseLeave } = this.props;
+
+    if (dayOnMouseLeave) {
+      dayOnMouseLeave();
+    }
+
     this.setState(stateHandlers.clearHoverDate);
   };
 
   handleTextFieldFocus = e => {
+    const { textFieldOnFocus } = this.props;
+
+    if (textFieldOnFocus) {
+      textFieldOnFocus(e);
+    }
+
     this.setState(stateHandlers.openPopover(e.currentTarget));
   };
 
   handlePopoverOnClose = () => {
+    const { popoverOnClose } = this.props;
+
+    if (popoverOnClose) {
+      popoverOnClose();
+    }
+
     this.setState(stateHandlers.closePopover);
   };
 
@@ -132,6 +202,10 @@ class Picker extends React.Component {
     return `${startText} - ${endText}`;
   };
 
+  getVisibleDate = () => this.props.visibleDate || this.state.visibleDate;
+
+  getSelectedView = () => this.props.selectedView || this.state.selectedView;
+
   isPopoverOpen() {
     return this.props.open === true || this.state.open === true;
   }
@@ -157,10 +231,12 @@ class Picker extends React.Component {
   disableDay = (d, inCurrentMonth) => !inCurrentMonth;
 
   render() {
-    const { visibleDate, selectedView, anchorEl } = this.state;
+    const { anchorEl } = this.state;
     const { classes, minDate, maxDate } = this.props;
     const startDate = this.getVisibleStartDate();
     const endDate = this.getVisibleEndDate();
+    const visibleDate = this.getVisibleDate();
+    const selectedView = this.getSelectedView();
 
     return (
       <div className={classes.calendar}>
@@ -220,13 +296,37 @@ class Picker extends React.Component {
 Picker.propTypes = {
   classes: PropTypes.object,
   minDate: PropTypes.instanceOf(moment),
-  maxDate: PropTypes.instanceOf(moment)
+  maxDate: PropTypes.instanceOf(moment),
+  startDate: PropTypes.instanceOf(moment),
+  endDate: PropTypes.instanceOf(moment),
+  defaultStartDate: PropTypes.instanceOf(moment),
+  defaultEndDate: PropTypes.instanceOf(moment),
+  hoverDate: PropTypes.instanceOf(moment),
+  visibleDate: PropTypes.instanceOf(moment),
+  selectedView: PropTypes.string,
+  yearOnClick: PropTypes.func,
+  minuteOnClick: PropTypes.func,
+  hourOnClick: PropTypes.func,
+  dayOnClick: PropTypes.func,
+  viewOnClick: PropTypes.func,
+  dayOnMouseEnter: PropTypes.func,
+  dayOnMouseLeave: PropTypes.func,
+  onChange: PropTypes.func,
+  prevMonthOnClick: PropTypes.func,
+  nextMonthOnClick: PropTypes.func
 };
 
 Picker.defaultProps = {
   classes: {},
   minDate: moment().subtract(50, 'years'),
-  maxDate: moment().add(50, 'years')
+  maxDate: moment().add(50, 'years'),
+  startDate: null,
+  endDate: null,
+  hoverDate: null,
+  visibleDate: null,
+  selectedView: null,
+  defaultStartDate: null,
+  defaultEndDate: null
 };
 
 const enhance = withStyles(({ typography, spacing }) => ({
