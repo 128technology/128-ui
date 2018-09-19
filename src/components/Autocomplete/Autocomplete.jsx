@@ -286,6 +286,9 @@ const enhance = withStyles(({ spacing, palette }) => ({
   chip: {
     marginRight: spacing.unit * 0.5,
     marginBottom: spacing.unit * 0.5
+  },
+  noOptionsMessage: {
+    padding: spacing.unit
   }
 }));
 
