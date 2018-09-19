@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
@@ -10,8 +11,9 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
-import { withStyles } from '@material-ui/core/styles';
+import TetherComponent from 'react-tether';
 import classNames from 'classnames';
+import { withStyles } from '@material-ui/core/styles';
 
 function InputComponent({ inputRef, ...rest }) {
   return <div ref={inputRef} {...rest} />;
@@ -81,9 +83,25 @@ function MultiValue({ children, selectProps, isFocused, removeProps }) {
 
 function Menu({ selectProps, children, innerProps }) {
   return (
-    <Paper elevation={1} className={selectProps.classes.paper} {...innerProps}>
-      {children}
-    </Paper>
+    <TetherComponent
+      attachment="top center"
+      constraints={[
+        {
+          to: 'scrollParent',
+          attachment: 'together'
+        }
+      ]}
+    >
+      <div />
+      <Paper
+        elevation={1}
+        className={selectProps.classes.paper}
+        style={{ width: selectProps.selectWidth || 'auto' }}
+        {...innerProps}
+      >
+        {children}
+      </Paper>
+    </TetherComponent>
   );
 }
 
@@ -98,8 +116,27 @@ function formatGroupLabel(data) {
 class Autocomplete extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { selection: null };
+    this.el = null;
+    this.state = { selection: null, width: null };
   }
+
+  componentDidMount() {
+    this.setWidth();
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+  setWidth() {
+    const node = ReactDOM.findDOMNode(this.el);
+    this.setState({ width: node.clientWidth });
+  }
+
+  handleResize = () => {
+    this.setWidth();
+  };
 
   handleOnChange = (newSelection, ...args) => {
     const { onChange, selection } = this.props;
@@ -173,12 +210,14 @@ class Autocomplete extends React.Component {
   }
 
   render() {
+    const { width } = this.state;
     const { classes, async, selection, ...rest } = this.props;
     const SelectComponent = this.getSelectComponentType();
 
     return (
       <SelectComponent
         {...rest}
+        ref={el => (this.el = el)}
         classes={classes}
         components={{
           Control,
@@ -200,6 +239,7 @@ class Autocomplete extends React.Component {
         value={selection || this.state.selection}
         onChange={this.handleOnChange}
         formatGroupLabel={formatGroupLabel}
+        selectWidth={width}
       />
     );
   }
