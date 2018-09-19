@@ -92,6 +92,14 @@ Single-select:
       />
     </MuiThemeProvider>
 
+Single-select empty:
+
+    const { MuiThemeProvider, createMuiTheme } = require('@material-ui/core/styles');
+
+    <MuiThemeProvider theme={createMuiTheme()}>
+      <Autocomplete />
+    </MuiThemeProvider>
+
 Creatable Single-select:
 
     const { MuiThemeProvider, createMuiTheme } = require('@material-ui/core/styles');
