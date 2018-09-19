@@ -91,6 +91,7 @@ function Menu({ selectProps, children, innerProps }) {
           attachment: 'together'
         }
       ]}
+      style={{ zIndex: 1500 }}
     >
       <div />
       <Paper
