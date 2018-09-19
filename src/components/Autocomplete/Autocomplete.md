@@ -100,6 +100,24 @@ Single-select empty:
       <Autocomplete />
     </MuiThemeProvider>
 
+Single-select custom style:
+
+    const { withStyles } = require('@material-ui/core/styles');
+
+    const styles = {
+      placeholder: {
+        color: 'red'
+      }
+    };
+
+    function AutocompleteCustom({ classes }) {
+      return <Autocomplete classes={classes} />;
+    }
+
+    const Enhanced = withStyles(styles)(AutocompleteCustom);
+
+    <Enhanced />
+
 Creatable Single-select:
 
     const { MuiThemeProvider, createMuiTheme } = require('@material-ui/core/styles');
