@@ -33,8 +33,10 @@ function Control({ selectProps, innerRef, innerProps, children }) {
       fullWidth={true}
       InputProps={{
         inputComponent: InputComponent,
+        classes: {
+          input: selectProps.classes.input
+        },
         inputProps: {
-          className: selectProps.classes.input,
           inputRef: innerRef,
           children: children,
           ...innerProps
@@ -290,7 +292,8 @@ const enhance = withStyles(({ spacing, palette }) => ({
   },
   noOptionsMessage: {
     padding: spacing.unit
-  }
+  },
+  placeholder: {}
 }));
 
 export default enhance(Autocomplete);

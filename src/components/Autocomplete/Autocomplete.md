@@ -107,6 +107,11 @@ Single-select custom style:
     const styles = {
       placeholder: {
         color: 'red'
+      },
+      input: {
+        '& input': {
+          color: 'red !important'
+        }
       }
     };
 
