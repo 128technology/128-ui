@@ -92,6 +92,53 @@ Single-select:
       />
     </MuiThemeProvider>
 
+Single-select (controlled):
+
+    const { MuiThemeProvider, createMuiTheme } = require('@material-ui/core/styles');
+
+    const data = [{
+      name: 'Greg',
+      value: {
+        age: '99'
+      },
+      species: 'Human'
+    }, {
+      name: 'George',
+      value: {
+        age: '77'
+      },
+      species: 'Human'
+    }, {
+      name: 'Bob',
+      value: {
+        age: '2'
+      },
+      species: 'Human'
+    }, {
+      name: 'Scruffy',
+      value: {
+        age: '15'
+      },
+      species: 'Dog'
+    }, {
+      name: 'Kashmir',
+      value: {
+        age: '37'
+      },
+      species: 'Dog'
+    }];
+
+    <MuiThemeProvider theme={createMuiTheme()}>
+      <Autocomplete
+        options={data}
+        accessors={{
+          value: d => d.value.age,
+          label: d => `The ${d.name}`
+        }}
+        selection={data[1]}
+      />
+    </MuiThemeProvider>
+
 Single-select empty:
 
     const { MuiThemeProvider, createMuiTheme } = require('@material-ui/core/styles');

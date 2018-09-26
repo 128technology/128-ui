@@ -164,6 +164,27 @@ class Autocomplete extends React.Component {
 
   filterOptions = inputVal => options => options.filter(x => x.label.toLowerCase().includes(inputVal.toLowerCase()));
 
+  getSelection() {
+    const { selection, accessors } = this.props;
+
+    if (_.isNil(selection)) {
+      return this.state.selection;
+    }
+
+    if (_.isObject(selection)) {
+      return {
+        value: accessors.value(selection),
+        label: accessors.label(selection)
+      };
+    }
+
+    if (_.isArray(selection)) {
+      return this.mapOptions(selection);
+    }
+
+    return null;
+  }
+
   getOptions() {
     const { options, groupBy } = this.props;
 
@@ -214,7 +235,7 @@ class Autocomplete extends React.Component {
 
   render() {
     const { width } = this.state;
-    const { classes, async, selection, ...rest } = this.props;
+    const { classes, async, ...rest } = this.props;
     const SelectComponent = this.getSelectComponentType();
 
     return (
@@ -239,7 +260,7 @@ class Autocomplete extends React.Component {
         }}
         options={!async ? this.getOptions() : undefined}
         loadOptions={async ? this.loadOptions() : undefined}
-        value={selection || this.state.selection}
+        value={this.getSelection()}
         onChange={this.handleOnChange}
         formatGroupLabel={formatGroupLabel}
         selectWidth={width}
