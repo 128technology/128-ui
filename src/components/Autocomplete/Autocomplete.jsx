@@ -167,7 +167,7 @@ class Autocomplete extends React.Component {
   getSelection() {
     const { selection, accessors } = this.props;
 
-    if (_.isNil(selection)) {
+    if (!this.props.hasOwnProperty('selection')) {
       return this.state.selection;
     }
 
