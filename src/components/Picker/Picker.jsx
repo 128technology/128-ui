@@ -1,4 +1,6 @@
+import _ from 'lodash';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
@@ -25,9 +27,10 @@ class Picker extends React.Component {
       startDate: props.defaultStartDate,
       endDate: props.defaultEndDate,
       hoveredDate: null,
-      open: false,
-      anchorEl: null
+      open: false
     };
+
+    this.anchorEl = null;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -128,7 +131,7 @@ class Picker extends React.Component {
       textFieldOnFocus(e);
     }
 
-    this.setState(stateHandlers.openPopover(e.currentTarget));
+    this.openPopover();
   };
 
   handlePopoverOnClose = () => {
@@ -138,7 +141,7 @@ class Picker extends React.Component {
       popoverOnClose();
     }
 
-    this.setState(stateHandlers.closePopover);
+    this.closePopover();
   };
 
   handlePrevMonthOnClick = e => {
@@ -159,6 +162,19 @@ class Picker extends React.Component {
     } else {
       this.setState(stateHandlers.incrementVisibleMonth);
     }
+  };
+
+  setPopoverAnchor = el => {
+    const node = ReactDOM.findDOMNode(el);
+    this.anchorEl = node;
+  };
+
+  closePopover = () => {
+    this.setState(stateHandlers.closePopover);
+  };
+
+  openPopover = () => {
+    this.setState(stateHandlers.openPopover);
   };
 
   selectDay = date => {
@@ -231,8 +247,7 @@ class Picker extends React.Component {
   disableDay = (d, inCurrentMonth) => !inCurrentMonth;
 
   render() {
-    const { anchorEl } = this.state;
-    const { classes, minDate, maxDate } = this.props;
+    const { classes, minDate, maxDate, textFieldRenderer } = this.props;
     const startDate = this.getVisibleStartDate();
     const endDate = this.getVisibleEndDate();
     const visibleDate = this.getVisibleDate();
@@ -240,11 +255,21 @@ class Picker extends React.Component {
 
     return (
       <div className={classes.calendar}>
-        <TextField onFocus={this.handleTextFieldFocus} value={this.getFormattedDateRange()} />
+        {_.isFunction(textFieldRenderer) ? (
+          <div ref={this.setPopoverAnchor}>
+            {textFieldRenderer(startDate, endDate, this.openPopover, this.closePopover)}
+          </div>
+        ) : (
+          <TextField
+            ref={this.setPopoverAnchor}
+            onFocus={this.handleTextFieldFocus}
+            value={this.getFormattedDateRange()}
+          />
+        )}
         <Popover
           open={this.isPopoverOpen()}
           onClose={this.handlePopoverOnClose}
-          anchorEl={anchorEl}
+          anchorEl={this.isPopoverOpen() ? this.anchorEl : undefined}
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'left'
@@ -313,7 +338,8 @@ Picker.propTypes = {
   dayOnMouseLeave: PropTypes.func,
   onChange: PropTypes.func,
   prevMonthOnClick: PropTypes.func,
-  nextMonthOnClick: PropTypes.func
+  nextMonthOnClick: PropTypes.func,
+  textFieldRenderer: PropTypes.func
 };
 
 Picker.defaultProps = {
@@ -326,7 +352,8 @@ Picker.defaultProps = {
   visibleDate: null,
   selectedView: null,
   defaultStartDate: null,
-  defaultEndDate: null
+  defaultEndDate: null,
+  textFieldRenderer: undefined
 };
 
 const enhance = withStyles(({ typography, spacing }) => ({

@@ -22,27 +22,17 @@ function getNestedDateRange(date) {
   return _.chunk(calendarDays, 7);
 }
 
-class Calendar extends React.Component {
-  render() {
-    const { date, dayRenderer, disableDay, selectDay } = this.props;
-    const monthRange = getNestedDateRange(date);
+function Calendar({ date, dayRenderer, disableDay, selectDay }) {
+  const monthRange = getNestedDateRange(date);
 
-    return (
-      <div>
-        <Dotw />
-        {monthRange.map(w => (
-          <Week
-            date={date}
-            key={w[0]}
-            days={w}
-            dayRenderer={dayRenderer}
-            disableDay={disableDay}
-            selectDay={selectDay}
-          />
-        ))}
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Dotw />
+      {monthRange.map(w => (
+        <Week date={date} key={w[0]} days={w} dayRenderer={dayRenderer} disableDay={disableDay} selectDay={selectDay} />
+      ))}
+    </div>
+  );
 }
 
 Calendar.propTypes = {

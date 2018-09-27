@@ -364,6 +364,12 @@ Async Creatable Multi-select with Promise:
         age: '37'
       },
       species: 'Dog'
+    }, {
+      name: 'Some Really Really Really Really Really long name',
+      value: {
+        age: '37'
+      },
+      species: 'Dog'
     }];
 
     const loadOptions = () => new Promise((resolve) => {

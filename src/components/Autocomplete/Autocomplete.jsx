@@ -99,7 +99,7 @@ function Menu({ selectProps, children, innerProps }) {
       <Paper
         elevation={1}
         className={selectProps.classes.paper}
-        style={{ width: selectProps.selectWidth || 'auto' }}
+        style={{ minWidth: selectProps.selectWidth || 'auto' }}
         {...innerProps}
       >
         {children}

@@ -10,14 +10,14 @@
   }
 }
 
-@include define-font("montserrat/montserrat-hairline-webfont", 100, "Montserrat");
-@include define-font("montserrat/montserrat-ultralight-webfont", 200, "Montserrat");
-@include define-font("montserrat/montserrat-light-webfont", 300, "Montserrat");
-@include define-font("montserrat/montserrat-regular-webfont", 400, "Montserrat");
-@include define-font("montserrat/montserrat-semibold-webfont", 500, "Montserrat");
-@include define-font("montserrat/montserrat-bold-webfont", 600, "Montserrat");
-@include define-font("montserrat/montserrat-extrabold-webfont", 700, "Montserrat");
-@include define-font("montserrat/montserrat-black-webfont", 800, "Montserrat");
+@include define-font("montserrat/montserrat-v12-latin-100", 100, "Montserrat");
+@include define-font("montserrat/montserrat-v12-latin-200", 200, "Montserrat");
+@include define-font("montserrat/montserrat-v12-latin-300", 300, "Montserrat");
+@include define-font("montserrat/montserrat-v12-latin-regular", 400, "Montserrat");
+@include define-font("montserrat/montserrat-v12-latin-500", 500, "Montserrat");
+@include define-font("montserrat/montserrat-v12-latin-600", 600, "Montserrat");
+@include define-font("montserrat/montserrat-v12-latin-700", 700, "Montserrat");
+@include define-font("montserrat/montserrat-v12-latin-800", 800, "Montserrat");
 @include define-font("RbNo31/RbNo31_ExtraLight", 100, "RbNo31");
 @include define-font("RbNo31/RbNo31_Light", 200, "RbNo31");
 @include define-font("RbNo31/RbNo31_Book", 300, "RbNo31");
