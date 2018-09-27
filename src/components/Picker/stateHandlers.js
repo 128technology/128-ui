@@ -206,9 +206,8 @@ export const incrementVisibleMonth = ({ visibleDate }) => ({ visibleDate: visibl
 
 export const decrementVisibleMonth = ({ visibleDate }) => ({ visibleDate: visibleDate.clone().subtract(1, 'month') });
 
-export const openPopover = anchorEl => ({
-  open: true,
-  anchorEl
-});
+export const openPopover = {
+  open: true
+};
 
 export const closePopover = { open: false, anchorEl: null };
