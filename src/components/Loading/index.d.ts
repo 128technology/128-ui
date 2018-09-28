@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export enum Size {
+export enum LoadingSize {
   small,
   medium,
   large,
@@ -8,7 +8,7 @@ export enum Size {
 }
 
 export interface ILoadingProps {
-  size?: Size
+  size?: LoadingSize;
   block?: boolean;
   showLoadingText?: boolean;
   horizontal?: boolean;

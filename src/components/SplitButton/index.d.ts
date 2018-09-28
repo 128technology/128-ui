@@ -9,7 +9,7 @@ export interface ISplitButtonProps {
   variant: Variant;
   color: string;
   popoverContent: React.ReactNode;
-  defaultOnClick: (e?: React.SyntheticEvent) => void;
+  defaultOnClick: (e: React.SyntheticEvent) => void;
   children: React.ReactNode;
   dropdownIconClassName: string;
   disabled: boolean;

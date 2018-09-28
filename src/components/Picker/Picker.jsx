@@ -136,9 +136,11 @@ class Picker extends React.Component {
 
   handlePopoverOnClose = () => {
     const { popoverOnClose } = this.props;
+    const startDate = this.getStartDate();
+    const endDate = this.getEndDate();
 
     if (popoverOnClose) {
-      popoverOnClose();
+      popoverOnClose(startDate, endDate);
     }
 
     this.closePopover();
