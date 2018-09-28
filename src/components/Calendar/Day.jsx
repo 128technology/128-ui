@@ -25,7 +25,7 @@ class Day extends React.Component {
 }
 
 Day.propTypes = {
-  date: PropTypes.instanceOf(moment),
+  date: PropTypes.object,
   classes: PropTypes.object,
   inCurrentMonth: PropTypes.bool,
   renderer: PropTypes.func,

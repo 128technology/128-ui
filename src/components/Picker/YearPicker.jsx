@@ -22,10 +22,10 @@ class YearPicker extends React.Component {
 }
 
 YearPicker.propTypes = {
-  minDate: PropTypes.instanceOf(moment),
-  maxDate: PropTypes.instanceOf(moment),
+  minDate: PropTypes.object,
+  maxDate: PropTypes.object,
   format: PropTypes.string,
-  date: PropTypes.instanceOf(moment),
+  date: PropTypes.object,
   yearOnClick: PropTypes.func
 };
 

@@ -45,7 +45,7 @@ class TimePicker extends React.Component {
 
 TimePicker.propTypes = {
   classes: PropTypes.object,
-  date: PropTypes.instanceOf(moment),
+  date: PropTypes.object,
   minuteOnClick: PropTypes.func,
   hourOnClick: PropTypes.func,
   hourFormat: PropTypes.string,

@@ -48,9 +48,9 @@ class CalendarDay extends React.Component {
 
 CalendarDay.propTypes = {
   dayProps: PropTypes.object,
-  date: PropTypes.instanceOf(moment),
-  startDate: PropTypes.instanceOf(moment),
-  endDate: PropTypes.instanceOf(moment),
+  date: PropTypes.object,
+  startDate: PropTypes.object,
+  endDate: PropTypes.object,
   classes: PropTypes.object
 };
 
