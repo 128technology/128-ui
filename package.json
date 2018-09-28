@@ -71,8 +71,6 @@
     "style-loader": "^0.23.0",
     "stylelint": "^7.10.1",
     "stylelint-config-standard": "^16.0.0",
-    "ts-loader": "^5.2.1",
-    "typescript": "^3.1.1",
     "uglifyjs-webpack-plugin": "^2.0.0",
     "url-loader": "^1.1.1",
     "webpack": "^4.19.0",

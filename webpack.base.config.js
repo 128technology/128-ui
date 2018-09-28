@@ -57,11 +57,6 @@ module.exports = {
         use: ['babel-loader']
       },
       {
-        test: /\.tsx?$/,
-        include: [APP_PATH],
-        use: ['ts-loader']
-      },
-      {
         test: /\.*css$/,
         use: [
           'style-loader',
