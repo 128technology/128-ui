@@ -83,8 +83,8 @@ CalendarHeader.propTypes = {
   classes: PropTypes.object,
   selectedView: PropTypes.string,
   selectViewOnClick: PropTypes.func,
-  startDate: PropTypes.instanceOf(moment),
-  endDate: PropTypes.instanceOf(moment)
+  startDate: PropTypes.object,
+  endDate: PropTypes.object
 };
 
 CalendarHeader.defaultProps = {

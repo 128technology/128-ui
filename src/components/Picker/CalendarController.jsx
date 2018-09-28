@@ -22,7 +22,7 @@ function CalendarController({ date, format, classes, prevMonthOnClick, nextMonth
 }
 
 CalendarController.propTypes = {
-  date: PropTypes.instanceOf(moment),
+  date: PropTypes.object,
   format: PropTypes.string,
   classes: PropTypes.object
 };

@@ -36,7 +36,7 @@ function Calendar({ date, dayRenderer, disableDay, selectDay }) {
 }
 
 Calendar.propTypes = {
-  date: PropTypes.instanceOf(moment),
+  date: PropTypes.object,
   dayRenderer: PropTypes.func,
   disableDay: PropTypes.func,
   selectDay: PropTypes.func

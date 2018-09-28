@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
 
 import Day from './Day';
@@ -29,7 +28,7 @@ function CalendarWeek({ date, days, classes, dayRenderer, disableDay, selectDay 
 }
 
 CalendarWeek.propTypes = {
-  date: PropTypes.instanceOf(moment),
+  date: PropTypes.object,
   days: PropTypes.array,
   classes: PropTypes.object,
   dayRenderer: PropTypes.func,
