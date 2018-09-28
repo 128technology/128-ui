@@ -182,7 +182,7 @@ class Autocomplete extends React.Component {
       return this.mapOptions(selection);
     }
 
-    return null;
+    return this.state.selection;
   }
 
   getOptions() {

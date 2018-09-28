@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export enum Size {
+export enum SpinnerSize {
   small,
   medium,
   large,
@@ -8,7 +8,7 @@ export enum Size {
 }
 
 export interface ISpinnerProps {
-  size?: Size 
+  size?: SpinnerSize;
 }
 
 declare function Spinner(props: ISpinnerProps): JSX.Element;

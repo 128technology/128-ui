@@ -3,10 +3,10 @@ import * as React from 'react';
 export interface IAutocompleteProps {
   options: any[];
   accessors?: {
-    value: (d?: any) => any;
-    label: (d?: any) => any;
+    value: (d: any) => any;
+    label: (d: any) => any;
   };
-  groupBy?: (d?: any) => any;
+  groupBy?: (d: any) => any;
   creatable?: boolean;
   async?: boolean;
   loadOptions?: () => Promise<any[]>;
