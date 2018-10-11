@@ -18,7 +18,7 @@ function getMinuteRange() {
 
 class TimePicker extends React.Component {
   render() {
-    const { classes, date, minuteOnClick, hourOnClick, hourFormat, minuteFormat } = this.props;
+    const { classes, date, minuteOnClick, hourOnClick, hourFormat, minuteFormat, disableDate } = this.props;
     const hourRange = getHourRange();
     const minuteRange = getMinuteRange();
 
@@ -30,6 +30,7 @@ class TimePicker extends React.Component {
           itemOnClick={hourOnClick}
           data={hourRange}
           format={hourFormat}
+          disabled={disableDate}
         />
         <PickerList
           className={classes.list}
@@ -37,6 +38,7 @@ class TimePicker extends React.Component {
           itemOnClick={minuteOnClick}
           data={minuteRange}
           format={minuteFormat}
+          disabled={disableDate}
         />
       </div>
     );
@@ -49,7 +51,8 @@ TimePicker.propTypes = {
   minuteOnClick: PropTypes.func,
   hourOnClick: PropTypes.func,
   hourFormat: PropTypes.string,
-  minuteFormat: PropTypes.string
+  minuteFormat: PropTypes.string,
+  disableDate: PropTypes.func
 };
 
 TimePicker.defaultProps = {

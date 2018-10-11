@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
@@ -25,7 +26,7 @@ class PickerList extends React.Component {
   }
 
   render() {
-    const { data, classes, format, selected, itemOnClick, className } = this.props;
+    const { data, classes, format, selected, itemOnClick, className, disabled } = this.props;
 
     return (
       <List className={classNames(className, classes.list)}>
@@ -34,6 +35,7 @@ class PickerList extends React.Component {
             ref={selected(d) ? el => (this.selectedYear = el) : undefined}
             key={d}
             selected={selected(d)}
+            disabled={_.isFunction(disabled) && disabled(d)}
             date={d}
             onClick={itemOnClick}
           >
@@ -50,6 +52,7 @@ PickerList.propTypes = {
   classes: PropTypes.object,
   format: PropTypes.string,
   selected: PropTypes.func,
+  disabled: PropTypes.func,
   itemOnClick: PropTypes.func,
   className: PropTypes.string
 };

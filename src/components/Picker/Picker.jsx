@@ -24,8 +24,8 @@ class Picker extends React.Component {
     this.state = {
       visibleDate: moment(),
       selectedView: VIEWS.START_DATE,
-      startDate: props.defaultStartDate,
-      endDate: props.defaultEndDate,
+      startDate: props.defaultStartDate ? props.defaultStartDate.clone() : null,
+      endDate: props.defaultEndDate ? props.defaultEndDate.clone() : null,
       hoveredDate: null,
       open: false
     };
@@ -34,10 +34,21 @@ class Picker extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { defaultStartDate, defaultEndDate } = this.props;
+
     if (prevState.startDate !== this.state.startDate || prevState.endDate !== this.state.endDate) {
       this.handlePickerOnChange();
     }
+
+    if (prevProps.defaultStartDate !== defaultStartDate || prevProps.defaultEndDate !== defaultEndDate) {
+      this.handleDefaultDateChange();
+    }
   }
+
+  handleDefaultDateChange = () => {
+    const { defaultStartDate, defaultEndDate } = this.props;
+    this.setState(stateHandlers.updateDefaultDates(defaultStartDate, defaultEndDate));
+  };
 
   handlePickerOnChange() {
     const { onChange } = this.props;
@@ -246,10 +257,22 @@ class Picker extends React.Component {
     );
   };
 
-  disableDay = (d, inCurrentMonth) => !inCurrentMonth;
+  disableDay = (d, inCurrentMonth) => {
+    const { disableDate } = this.props;
+    return !inCurrentMonth || (_.isFunction(disableDate) && disableDate(d, inCurrentMonth));
+  };
 
   render() {
-    const { classes, minDate, maxDate, textFieldRenderer } = this.props;
+    const {
+      classes,
+      minDate,
+      maxDate,
+      textFieldRenderer,
+      disableDate,
+      popoverAnchorOrigin,
+      popoverTransformOrigin
+    } = this.props;
+
     const startDate = this.getVisibleStartDate();
     const endDate = this.getVisibleEndDate();
     const visibleDate = this.getVisibleDate();
@@ -274,11 +297,13 @@ class Picker extends React.Component {
           anchorEl={this.isPopoverOpen() ? this.anchorEl : undefined}
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'left'
+            horizontal: 'left',
+            ...popoverAnchorOrigin
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'left'
+            horizontal: 'left',
+            ...popoverTransformOrigin
           }}
         >
           <Paper elevation={1} className={classes.contentContainer}>
@@ -304,13 +329,20 @@ class Picker extends React.Component {
               </div>
             )}
             {(selectedView === VIEWS.START_YEAR || selectedView === VIEWS.END_YEAR) && (
-              <YearPicker minDate={minDate} maxDate={maxDate} date={visibleDate} yearOnClick={this.handleYearOnClick} />
+              <YearPicker
+                minDate={minDate}
+                maxDate={maxDate}
+                date={visibleDate}
+                yearOnClick={this.handleYearOnClick}
+                disableDate={disableDate}
+              />
             )}
             {(selectedView === VIEWS.START_TIME || selectedView === VIEWS.END_TIME) && (
               <TimePicker
                 hourOnClick={this.handleHourOnClick}
                 minuteOnClick={this.handleMinuteOnClick}
                 date={visibleDate}
+                disableDate={disableDate}
               />
             )}
           </Paper>
@@ -341,7 +373,10 @@ Picker.propTypes = {
   onChange: PropTypes.func,
   prevMonthOnClick: PropTypes.func,
   nextMonthOnClick: PropTypes.func,
-  textFieldRenderer: PropTypes.func
+  textFieldRenderer: PropTypes.func,
+  disableDate: PropTypes.func,
+  popoverAnchorOrigin: PropTypes.object,
+  popoverTransformOrigin: PropTypes.object
 };
 
 Picker.defaultProps = {
@@ -355,7 +390,9 @@ Picker.defaultProps = {
   selectedView: null,
   defaultStartDate: null,
   defaultEndDate: null,
-  textFieldRenderer: undefined
+  textFieldRenderer: undefined,
+  popoverAnchorOrigin: {},
+  popoverTransformOrigin: {}
 };
 
 const enhance = withStyles(({ typography, spacing }) => ({

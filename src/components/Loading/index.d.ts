@@ -1,11 +1,10 @@
 import * as React from 'react';
 
-export enum LoadingSize {
-  small,
-  medium,
-  large,
-  huge
-}
+export type LoadingSize =
+  'small' |
+  'medium' |
+  'large' |
+  'huge'
 
 export interface ILoadingProps {
   size?: LoadingSize;

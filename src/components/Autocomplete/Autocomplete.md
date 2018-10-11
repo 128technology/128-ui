@@ -1,7 +1,5 @@
 Multi-select:
 
-    const { MuiThemeProvider, createMuiTheme } = require('@material-ui/core/styles');
-
     const data = [{
       name: 'Greg',
       value: {
@@ -34,21 +32,66 @@ Multi-select:
       species: 'Dog'
     }];
 
-    <MuiThemeProvider theme={createMuiTheme()}>
-      <Autocomplete
-        isMulti={true}
-        options={data}
-        accessors={{
-          value: d => d.value.age,
-          label: d => `The ${d.name}`
-        }}
-        groupBy={d => d.species}
-      />
-    </MuiThemeProvider>
+    <Autocomplete
+      isMulti={true}
+      options={data}
+      accessors={{
+        value: d => d.value.age,
+        label: d => `The ${d.name}`
+      }}
+      groupBy={d => d.species}
+    />
 
 Single-select:
 
-    const { MuiThemeProvider, createMuiTheme } = require('@material-ui/core/styles');
+    const data = [{
+      name: 'Greg',
+      value: {
+        age: '99'
+      },
+      species: 'Human'
+    }, {
+      name: 'George',
+      value: {
+        age: '77'
+      },
+      species: 'Human'
+    }, {
+      name: 'Bob',
+      value: {
+        age: '2'
+      },
+      species: 'Human'
+    }, {
+      name: 'Scruffy',
+      value: {
+        age: '15'
+      },
+      species: 'Dog'
+    }, {
+      name: 'Kashmir',
+      value: {
+        age: '37'
+      },
+      species: 'Dog'
+    }];
+
+    <Autocomplete
+      options={data}
+      accessors={{
+        value: d => d.value.age,
+        label: d => `The ${d.name}`
+      }}
+    />
+
+Single-select Large Dataset:
+
+    const _ = require('lodash');
+    const data = _.range(0, 100).map(x => ({ value: x, label: `Item ${x + 1}` }));
+
+    <Autocomplete options={data} />
+
+Single-select with an error:
 
     const data = [{
       name: 'Greg',
@@ -82,20 +125,17 @@ Single-select:
       species: 'Dog'
     }];
 
-    <MuiThemeProvider theme={createMuiTheme()}>
-      <Autocomplete
-        options={data}
-        accessors={{
-          value: d => d.value.age,
-          label: d => `The ${d.name}`
-        }}
-      />
-    </MuiThemeProvider>
+    <Autocomplete
+      options={data}
+      errorText={"There was an error!"}
+      accessors={{
+        value: d => d.value.age,
+        label: d => `The ${d.name}`
+      }}
+    />
 
 Single-select (controlled):
 
-    const { MuiThemeProvider, createMuiTheme } = require('@material-ui/core/styles');
-
     const data = [{
       name: 'Greg',
       value: {
@@ -128,24 +168,18 @@ Single-select (controlled):
       species: 'Dog'
     }];
 
-    <MuiThemeProvider theme={createMuiTheme()}>
-      <Autocomplete
-        options={data}
-        accessors={{
-          value: d => d.value.age,
-          label: d => `The ${d.name}`
-        }}
-        selection={data[1]}
-      />
-    </MuiThemeProvider>
+    <Autocomplete
+      options={data}
+      accessors={{
+        value: d => d.value.age,
+        label: d => `The ${d.name}`
+      }}
+      selection={data[1]}
+    />
 
 Single-select empty:
 
-    const { MuiThemeProvider, createMuiTheme } = require('@material-ui/core/styles');
-
-    <MuiThemeProvider theme={createMuiTheme()}>
       <Autocomplete />
-    </MuiThemeProvider>
 
 Single-select custom style:
 
@@ -162,8 +196,21 @@ Single-select custom style:
       }
     };
 
+    const data = [{
+      label: 'Some Label',
+      value: 'Some Value'
+    }, {
+      label: 'Another Label',
+      value: 'Another Value'
+    }];
+
     function AutocompleteCustom({ classes }) {
-      return <Autocomplete classes={classes} />;
+      return (
+        <Autocomplete
+          classes={classes}
+          options={data}
+        />
+      );
     }
 
     const Enhanced = withStyles(styles)(AutocompleteCustom);
@@ -171,8 +218,6 @@ Single-select custom style:
     <Enhanced />
 
 Creatable Single-select:
-
-    const { MuiThemeProvider, createMuiTheme } = require('@material-ui/core/styles');
 
     const data = [{
       name: 'Greg',
@@ -206,21 +251,17 @@ Creatable Single-select:
       species: 'Dog'
     }];
 
-    <MuiThemeProvider theme={createMuiTheme()}>
-      <Autocomplete
-        options={data}
-        accessors={{
-          value: d => d.value.age,
-          label: d => `The ${d.name}`
-        }}
-        creatable={true}
-        onChange={d => console.log(d)}
-      />
-    </MuiThemeProvider>
+    <Autocomplete
+      options={data}
+      accessors={{
+        value: d => d.value.age,
+        label: d => `The ${d.name}`
+      }}
+      creatable={true}
+      onChange={d => console.log(d)}
+    />
 
 Async Creatable Single-select with Promise:
-
-    const { MuiThemeProvider, createMuiTheme } = require('@material-ui/core/styles');
 
     const data = [{
       name: 'Greg',
@@ -260,23 +301,19 @@ Async Creatable Single-select with Promise:
       }, 2000)
     });
 
-    <MuiThemeProvider theme={createMuiTheme()}>
-      <Autocomplete
-        defaultOptions={true}
-        accessors={{
-          value: d => d.value.age,
-          label: d => `The ${d.name}`
-        }}
-        creatable={true}
-        async={true}
-        onChange={d => console.log(d)}
-        loadOptions={loadOptions}
-      />
-    </MuiThemeProvider>
+    <Autocomplete
+      defaultOptions={true}
+      accessors={{
+        value: d => d.value.age,
+        label: d => `The ${d.name}`
+      }}
+      creatable={true}
+      async={true}
+      onChange={d => console.log(d)}
+      loadOptions={loadOptions}
+    />
 
 Async Creatable Single-select with Callback:
-
-    const { MuiThemeProvider, createMuiTheme } = require('@material-ui/core/styles');
 
     const data = [{
       name: 'Greg',
@@ -316,23 +353,19 @@ Async Creatable Single-select with Callback:
       }, 2000)
     };
 
-    <MuiThemeProvider theme={createMuiTheme()}>
-      <Autocomplete
-        defaultOptions={true}
-        accessors={{
-          value: d => d.value.age,
-          label: d => `The ${d.name}`
-        }}
-        creatable={true}
-        async={true}
-        onChange={d => console.log(d)}
-        loadOptions={loadOptions}
-      />
-    </MuiThemeProvider>
+    <Autocomplete
+      defaultOptions={true}
+      accessors={{
+        value: d => d.value.age,
+        label: d => `The ${d.name}`
+      }}
+      creatable={true}
+      async={true}
+      onChange={d => console.log(d)}
+      loadOptions={loadOptions}
+    />
 
 Async Creatable Multi-select with Promise:
-
-    const { MuiThemeProvider, createMuiTheme } = require('@material-ui/core/styles');
 
     const data = [{
       name: 'Greg',
@@ -378,24 +411,20 @@ Async Creatable Multi-select with Promise:
       }, 2000)
     });
 
-    <MuiThemeProvider theme={createMuiTheme()}>
-      <Autocomplete
-        isMulti={true}
-        defaultOptions={true}
-        accessors={{
-          value: d => d.value.age,
-          label: d => `The ${d.name}`
-        }}
-        creatable={true}
-        async={true}
-        onChange={d => console.log(d)}
-        loadOptions={loadOptions}
-      />
-    </MuiThemeProvider>
+    <Autocomplete
+      isMulti={true}
+      defaultOptions={true}
+      accessors={{
+        value: d => d.value.age,
+        label: d => `The ${d.name}`
+      }}
+      creatable={true}
+      async={true}
+      onChange={d => console.log(d)}
+      loadOptions={loadOptions}
+    />
 
 Single-select Controlled:
-
-    const { MuiThemeProvider, createMuiTheme } = require('@material-ui/core/styles');
 
     const data = [{
       name: 'Greg',
@@ -448,12 +477,10 @@ Single-select Controlled:
       }
     };
 
-    <MuiThemeProvider theme={createMuiTheme()}>
-      <AutocompleteControlled
-        accessors={{
-          value: d => d.value.age,
-          label: d => `The ${d.name}`
-        }}
-        options={data}
-      />
-    </MuiThemeProvider>
+    <AutocompleteControlled
+      accessors={{
+        value: d => d.value.age,
+        label: d => `The ${d.name}`
+      }}
+      options={data}
+    />

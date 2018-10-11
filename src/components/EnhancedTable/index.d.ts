@@ -1,14 +1,28 @@
 import * as React from 'react';
 import * as Immutable from 'immutable';
 
-type RowSelection = Immutable.Record.Class;
+type RowSelectionParams = {
+  selectorType?: string | null,
+  onSelect?: (e: React.ChangeEvent, isChecked: boolean, datum: Immutable.Map<string, any>, key: string | number) => void,
+  rowIsSelected?: (datum: Immutable.Map<string, any>, key: string | number) => boolean,
+  onSelectAll?: (e: React.ChangeEvent, isChecked: boolean, datum: Immutable.Map<string, any>, key: Immutable.Set<string | number>) => void
+}
+export class RowSelection extends Immutable.Record<RowSelectionParams>({}) {
+  selectorType: RowSelectionParams['selectorType'];
+  onSelect: RowSelectionParams['onSelect'];
+  rowIsSelected: RowSelectionParams['rowIsSelected'];
+  onSelectAll: RowSelectionParams['onSelectAll'];
+  constructor(params?: RowSelectionParams)
+  with(values: RowSelectionParams)
+}
+
 type GenericObject = { [key: string]: any };
 type RowPropsFunction = (datum: any) => GenericObject;
 
 export interface IEnhancedTableProps {
-  columns: Immutable.List<any>;
-  dataSource: Immutable.List<any>;
-  rowKey?: (datum: any) => string,
+  columns: Immutable.List<Immutable.Map<string, any>>;
+  dataSource: Immutable.List<Immutable.Map<string, any>>;
+  rowKey?: (datum: Immutable.Map<string, any>) => string,
   rowsPerPage?: number,
   loading?: boolean,
   rowSelection?: RowSelection;
@@ -17,7 +31,7 @@ export interface IEnhancedTableProps {
   noDataText?: string;
   defaultOrderDirection?: string;
   defaultOrderBy?: string;
-  rowRenderOptions?: Immutable.Map<string, any>;
+  rowRenderOptions?: any;
 }
 
 declare class EnhancedTable extends React.Component<IEnhancedTableProps, any> {}

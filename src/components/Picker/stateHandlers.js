@@ -42,8 +42,8 @@ export const selectHour = date => ({ selectedView, startDate, endDate }) => {
       return {
         endDate: newEndDate,
         ...selectView(newEndDate.isBefore(startDate) ? VIEWS.START_TIME : VIEWS.END_TIME)({
-          endDate,
-          startDate: newEndDate
+          endDate: newEndDate,
+          startDate
         })
       };
     }
@@ -201,6 +201,11 @@ export const sortDates = ({ startDate, endDate }) => {
 
   return {};
 };
+
+export const updateDefaultDates = (startDate, endDate) => ({
+  startDate: startDate ? startDate.clone() : null,
+  endDate: endDate ? endDate.clone() : null
+});
 
 export const incrementVisibleMonth = ({ visibleDate }) => ({ visibleDate: visibleDate.clone().add(1, 'month') });
 
