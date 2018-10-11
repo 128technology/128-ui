@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
-import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 
 class SplitButton extends React.PureComponent {
@@ -42,7 +41,13 @@ class SplitButton extends React.PureComponent {
     const { open, anchorEl } = this.state;
 
     return (
-      <Paper elevation={variant === 'raised' ? 1 : 0} className={classes.container}>
+      <div
+        className={classNames(
+          classes.container,
+          variant === 'flat' && classes.flat,
+          variant === 'raised' && classes.raised
+        )}
+      >
         <div className={classes.buttonContainer}>
           <Button
             variant="flat"
@@ -73,7 +78,7 @@ class SplitButton extends React.PureComponent {
         >
           <div onClick={closePopoverOnClick ? this.handleRequestClose : undefined}>{popoverContent}</div>
         </Popover>
-      </Paper>
+      </div>
     );
   }
 }
@@ -91,7 +96,7 @@ SplitButton.propTypes = {
 };
 
 SplitButton.defaultProps = {
-  variant: 'flat',
+  variant: 'raised',
   color: 'default',
   defaultOnClick: () => {},
   dropdownIconClassName: 'mdi mdi-menu-down',
@@ -100,9 +105,10 @@ SplitButton.defaultProps = {
   closePopoverOnClick: false
 };
 
-const enhance = withStyles(({ palette }) => ({
+const enhance = withStyles(({ palette, shape }) => ({
   container: {
-    display: 'inline-block'
+    display: 'inline-block',
+    borderRadius: shape.borderRadius
   },
   buttonContainer: {
     display: 'flex',
@@ -114,14 +120,21 @@ const enhance = withStyles(({ palette }) => ({
     paddingLeft: 0,
     paddingRight: 0,
     minWidth: 40,
-    borderLeft: `solid 1px ${palette.grey['300']}`
+    borderLeft: '1px solid #f2f2f2'
   },
   baseButton: {
     borderTopRightRadius: 0,
-    borderBottomRightRadius: 0
+    borderBottomRightRadius: 0,
+    fontSize: 13
   },
   icon: {
     fontSize: 16
+  },
+  flat: {
+    border: `1px solid ${palette.grey['300']}`
+  },
+  raised: {
+    boxShadow: '0 1px 4px 0 rgba(0, 0, 0, 0.18)'
   }
 }));
 

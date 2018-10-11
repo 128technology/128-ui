@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import Immutable from 'immutable';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -9,11 +10,11 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
 import { onlyUpdateForPropTypes } from '../../utils/hoc';
-import { RowSelection, defaultRowKey } from './enhancedTableUtil';
+import { defaultRowKey } from './enhancedTableUtil';
 
 class EnhancedTableHead extends React.Component {
   createSortHandler(dataIndex, isNumeric) {
-    return event => this.props.onRequestSort(dataIndex, isNumeric);
+    return () => this.props.onRequestSort(dataIndex, isNumeric);
   }
 
   getTitle(col) {
@@ -46,7 +47,7 @@ class EnhancedTableHead extends React.Component {
       <TableCell key={x.get('key')} numeric={x.get('numeric')} style={x.get('headStyle', Immutable.Map()).toJS() || {}}>
         {x.get('title') && (
           <TableSortLabel
-            active={x.get('dataIndex') && x.get('dataIndex') === orderBy}
+            active={x.get('dataIndex') && Immutable.is(x.get('dataIndex'), orderBy)}
             direction={orderDirection}
             onClick={this.createSortHandler(x.get('dataIndex'), x.get('numeric'))}
           >
@@ -79,11 +80,11 @@ class EnhancedTableHead extends React.Component {
 }
 
 EnhancedTableHead.propTypes = {
-  columns: PropTypes.instanceOf(Immutable.List),
-  orderBy: PropTypes.string,
+  columns: ImmutablePropTypes.list,
+  orderBy: PropTypes.oneOfType([PropTypes.string, ImmutablePropTypes.list]),
   orderDirection: PropTypes.string,
   onRequestSort: PropTypes.func,
-  rowSelection: PropTypes.instanceOf(RowSelection),
+  rowSelection: ImmutablePropTypes.record,
   rowKey: PropTypes.func
 };
 

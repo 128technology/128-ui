@@ -12,11 +12,17 @@ function getYearRange(minDate, maxDate) {
 
 class YearPicker extends React.Component {
   render() {
-    const { minDate, maxDate, format, date, yearOnClick } = this.props;
+    const { minDate, maxDate, format, date, yearOnClick, disableDate } = this.props;
     const yearRange = getYearRange(minDate, maxDate);
 
     return (
-      <PickerList selected={d => d.year() === date.year()} itemOnClick={yearOnClick} data={yearRange} format={format} />
+      <PickerList
+        selected={d => d.year() === date.year()}
+        itemOnClick={yearOnClick}
+        data={yearRange}
+        format={format}
+        disabled={disableDate}
+      />
     );
   }
 }
@@ -26,7 +32,8 @@ YearPicker.propTypes = {
   maxDate: PropTypes.object,
   format: PropTypes.string,
   date: PropTypes.object,
-  yearOnClick: PropTypes.func
+  yearOnClick: PropTypes.func,
+  disableDate: PropTypes.func
 };
 
 YearPicker.defaultProps = {

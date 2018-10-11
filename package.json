@@ -85,14 +85,15 @@
   "dependencies": {
     "@mdi/font": "^2.7.94",
     "classnames": "^2.2.5",
-    "immutable": "^3.8.2",
+    "immutable": "^4.0.0-rc.9",
     "javascript-natural-sort": "^0.7.1",
     "moment": "^2.22.2",
     "prop-types": "^15.5.8",
     "react-autocomplete": "^1.8.1",
+    "react-immutable-proptypes": "^2.1.0",
     "react-select": "^2.0.0",
     "react-tether": "^0.6.1",
-    "react-virtualized": "^9.18.5",
+    "react-virtualized": "^9.20.1",
     "react-virtualized-select": "^3.1.1",
     "recompose": "^0.30.0"
   }

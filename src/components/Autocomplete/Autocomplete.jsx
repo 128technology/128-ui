@@ -13,6 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import TetherComponent from 'react-tether';
 import classNames from 'classnames';
+import { List } from 'react-virtualized';
 import { withStyles } from '@material-ui/core/styles';
 
 function InputComponent({ inputRef, ...rest }) {
@@ -21,20 +22,31 @@ function InputComponent({ inputRef, ...rest }) {
 
 function NoOptionsMessage({ children, selectProps, innerProps }) {
   return (
-    <Typography color="textSecondary" className={selectProps.classes.noOptionsMessage} {...innerProps}>
+    <Typography
+      color="textSecondary"
+      className={selectProps.classes.noOptionsMessage}
+      style={{ height: selectProps.rowHeight }}
+      {...innerProps}
+    >
       {children}
     </Typography>
   );
 }
 
 function Control({ selectProps, innerRef, innerProps, children }) {
+  const { InputProps = {}, ...rest } = selectProps.textFieldProps;
+  const inputPropsClasses = InputProps.classes || {};
+
   return (
     <TextField
       fullWidth={true}
       InputProps={{
+        ...InputProps,
         inputComponent: InputComponent,
         classes: {
-          input: selectProps.classes.input
+          input: classNames(inputPropsClasses.input, selectProps.classes.input),
+          underline: classNames(inputPropsClasses.underline, selectProps.classes.inputUnderline),
+          ...inputPropsClasses
         },
         inputProps: {
           inputRef: innerRef,
@@ -42,15 +54,24 @@ function Control({ selectProps, innerRef, innerProps, children }) {
           ...innerProps
         }
       }}
-      {...selectProps.textFieldProps}
+      {...rest}
     />
   );
 }
 
-function Option({ innerRef, isFocused, innerProps, children }) {
+function Option(props) {
+  const { innerRef, isFocused, innerProps, children, selectProps } = props;
+
   return (
-    <MenuItem buttonRef={innerRef} selected={isFocused} component="div" {...innerProps}>
-      {children}
+    <MenuItem
+      buttonRef={innerRef}
+      selected={isFocused}
+      component="div"
+      className={selectProps.classes.menuItem}
+      style={{ height: selectProps.rowHeight }}
+      {...innerProps}
+    >
+      {_.isFunction(selectProps.optionRenderer) ? selectProps.optionRenderer(props) : children}
     </MenuItem>
   );
 }
@@ -83,13 +104,34 @@ function MultiValue({ children, selectProps, isFocused, removeProps }) {
   );
 }
 
+function MenuList({ selectProps, children }) {
+  const rowCount = children && _.isNumber(children.length) ? children.length : 1;
+  const visibleRows = Math.min(selectProps.visibleRows, rowCount);
+
+  return (
+    <List
+      width={selectProps.selectWidth}
+      height={visibleRows * selectProps.rowHeight}
+      rowCount={rowCount}
+      rowHeight={selectProps.rowHeight}
+      rowRenderer={({ key, index, style }) => {
+        return (
+          <div key={key} style={style}>
+            {_.isArray(children) ? children[index] : children}
+          </div>
+        );
+      }}
+    />
+  );
+}
+
 function Menu({ selectProps, children, innerProps }) {
   return (
     <TetherComponent
       attachment="top center"
       constraints={[
         {
-          to: 'scrollParent',
+          to: 'window',
           attachment: 'together'
         }
       ]}
@@ -99,7 +141,7 @@ function Menu({ selectProps, children, innerProps }) {
       <Paper
         elevation={1}
         className={selectProps.classes.paper}
-        style={{ minWidth: selectProps.selectWidth || 'auto' }}
+        style={{ maxWidth: selectProps.selectWidth, width: selectProps.selectWidth || 'auto' }}
         {...innerProps}
       >
         {children}
@@ -153,33 +195,23 @@ class Autocomplete extends React.Component {
     }
   };
 
-  mapOptions = options => {
-    const { accessors } = this.props;
-
-    return options.map(x => ({
-      value: accessors.value(x),
-      label: accessors.label(x)
-    }));
-  };
-
-  filterOptions = inputVal => options => options.filter(x => x.label.toLowerCase().includes(inputVal.toLowerCase()));
+  filterOptions = inputVal => options =>
+    options.filter(x =>
+      this.props.accessors
+        .label(x)
+        .toLowerCase()
+        .includes(inputVal.toLowerCase())
+    );
 
   getSelection() {
-    const { selection, accessors } = this.props;
+    const { selection } = this.props;
 
-    if (!this.props.hasOwnProperty('selection')) {
-      return this.state.selection;
+    if (_.isString(selection)) {
+      return { label: selection, value: selection };
     }
 
-    if (_.isObject(selection)) {
-      return {
-        value: accessors.value(selection),
-        label: accessors.label(selection)
-      };
-    }
-
-    if (_.isArray(selection)) {
-      return this.mapOptions(selection);
+    if (selection !== undefined) {
+      return selection;
     }
 
     return this.state.selection;
@@ -192,11 +224,11 @@ class Autocomplete extends React.Component {
       const groups = _.groupBy(options, groupBy);
       return _.map(groups, (x, k) => ({
         label: k,
-        options: this.mapOptions(x)
+        options: x
       }));
     }
 
-    return this.mapOptions(options);
+    return options;
   }
 
   getSelectComponentType() {
@@ -222,11 +254,11 @@ class Autocomplete extends React.Component {
 
     if (_.isFunction(loadOptions)) {
       if (loadOptions.length === 0) {
-        return inputVal => loadOptions().then(_.flow(this.mapOptions, this.filterOptions(inputVal)));
+        return inputVal => loadOptions().then(this.filterOptions(inputVal));
       }
 
       if (loadOptions.length >= 1) {
-        return (inputVal, cb) => loadOptions(_.flow(this.mapOptions, this.filterOptions(inputVal), cb));
+        return (inputVal, cb) => loadOptions(_.flow(this.filterOptions(inputVal), cb));
       }
     }
 
@@ -235,8 +267,9 @@ class Autocomplete extends React.Component {
 
   render() {
     const { width } = this.state;
-    const { classes, async, ...rest } = this.props;
+    const { classes, async, accessors, errorText, groupBy, textFieldProps, ...rest } = this.props;
     const SelectComponent = this.getSelectComponentType();
+    const virtualized = groupBy ? {} : { MenuList };
 
     return (
       <SelectComponent
@@ -244,6 +277,7 @@ class Autocomplete extends React.Component {
         ref={el => (this.el = el)}
         classes={classes}
         components={{
+          ...virtualized,
           Control,
           Menu,
           MultiValue,
@@ -256,7 +290,10 @@ class Autocomplete extends React.Component {
           label: '',
           InputLabelProps: {
             shrink: true
-          }
+          },
+          error: Boolean(errorText),
+          helperText: errorText,
+          ...textFieldProps
         }}
         options={!async ? this.getOptions() : undefined}
         loadOptions={async ? this.loadOptions() : undefined}
@@ -264,6 +301,8 @@ class Autocomplete extends React.Component {
         onChange={this.handleOnChange}
         formatGroupLabel={formatGroupLabel}
         selectWidth={width}
+        getOptionLabel={accessors.label}
+        getOptionValue={accessors.value}
       />
     );
   }
@@ -276,26 +315,33 @@ Autocomplete.propTypes = {
   creatable: PropTypes.bool,
   async: PropTypes.bool,
   loadOptions: PropTypes.func,
-  selection: PropTypes.any
+  selection: PropTypes.any,
+  optionRenderer: PropTypes.func,
+  errorText: PropTypes.string,
+  rowHeight: PropTypes.number,
+  visibleRows: PropTypes.number,
+  textFieldProps: PropTypes.object
 };
 
 Autocomplete.defaultProps = {
-  accessors: {
-    value: d => d.value,
-    label: d => d.label
-  },
+  accessors: {},
   options: [],
   groupBy: null,
   creatable: false,
   async: false,
   loadOptions: null,
-  selection: null
+  rowHeight: 48,
+  visibleRows: 5,
+  textFieldProps: {}
 };
 
 const enhance = withStyles(({ spacing, palette }) => ({
   input: {
     display: 'flex',
-    padding: 0
+    padding: 0,
+    '& > div:last-child > span': {
+      backgroundColor: 'transparent'
+    }
   },
   valueContainer: {
     display: 'flex',
@@ -312,9 +358,21 @@ const enhance = withStyles(({ spacing, palette }) => ({
     marginBottom: spacing.unit * 0.5
   },
   noOptionsMessage: {
-    padding: spacing.unit
+    boxSizing: 'border-box',
+    padding: spacing.unit,
+    display: 'flex',
+    alignItems: 'center'
   },
-  placeholder: {}
+  menuItem: {
+    boxSizing: 'border-box'
+  },
+  placeholder: {},
+  inputUnderline: {
+    borderBottom: '0',
+    '&::before': {
+      borderBottom: '1px solid rgba(224, 224, 224) !important'
+    }
+  }
 }));
 
 export default enhance(Autocomplete);

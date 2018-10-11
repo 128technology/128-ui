@@ -2,16 +2,17 @@ import _ from 'lodash';
 import React from 'react';
 import Immutable from 'immutable';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import Table from '@material-ui/core/Table';
 import TablePagination from '@material-ui/core/TablePagination';
 import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
 import naturalSort from 'javascript-natural-sort';
+import { withStyles } from '@material-ui/core/styles';
 
 import Loading from '../Loading';
 import EnhancedTableHead from './EnhancedTableHead';
 import EnhancedTableBody from './EnhancedTableBody';
-import { RowSelection, defaultRowKey } from './enhancedTableUtil';
+import { defaultRowKey } from './enhancedTableUtil';
 
 const styles = {
   tableContainer: {
@@ -84,7 +85,10 @@ class EnhancedTable extends React.Component {
       return dataSource;
     }
 
-    return dataSource.sortBy(x => x.get(orderBy), sortComparator(numericSort, orderDirection));
+    return dataSource.sortBy(
+      x => (Immutable.List.isList(orderBy) ? x.getIn(orderBy) : x.get(orderBy)),
+      sortComparator(numericSort, orderDirection)
+    );
   }
 
   validateColumnKeys() {
@@ -165,18 +169,18 @@ class EnhancedTable extends React.Component {
 }
 
 EnhancedTable.propTypes = {
-  columns: PropTypes.instanceOf(Immutable.List),
-  dataSource: PropTypes.instanceOf(Immutable.List),
+  columns: ImmutablePropTypes.list,
+  dataSource: ImmutablePropTypes.list,
   rowKey: PropTypes.func,
   rowsPerPage: PropTypes.number,
   loading: PropTypes.bool,
-  rowSelection: PropTypes.instanceOf(RowSelection),
+  rowSelection: ImmutablePropTypes.record,
   fullHeight: PropTypes.bool,
   rowProps: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   noDataText: PropTypes.string,
   defaultOrderDirection: PropTypes.string,
   defaultOrderBy: PropTypes.string,
-  rowRenderOptions: PropTypes.instanceOf(Immutable.Map)
+  rowRenderOptions: ImmutablePropTypes.map
 };
 
 EnhancedTable.defaultProps = {

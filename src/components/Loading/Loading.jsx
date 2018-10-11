@@ -5,8 +5,9 @@ import classNames from 'classnames';
 import Spinner from '../Spinner';
 import './Loading.scss';
 
-function Loading({ size, block, horizontal, showLoadingText, loadingText }) {
-  const className = classNames(
+function Loading({ size, block, horizontal, showLoadingText, loadingText, className }) {
+  const classes = classNames(
+    className,
     {
       'ui-128__loading--horizontal': horizontal,
       'ui-128__loading--small': size === 'small',
@@ -19,7 +20,7 @@ function Loading({ size, block, horizontal, showLoadingText, loadingText }) {
   );
 
   return (
-    <div className={className}>
+    <div className={classes}>
       <Spinner size={size} />
       {showLoadingText ? <div className="ui-128__loading__text">{loadingText}</div> : null}
     </div>

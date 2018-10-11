@@ -1,11 +1,10 @@
 import * as React from 'react';
 
-export enum SpinnerSize {
-  small,
-  medium,
-  large,
-  huge
-}
+export type SpinnerSize = 
+  'small' |
+  'medium' |
+  'large' |
+  'huge'
 
 export interface ISpinnerProps {
   size?: SpinnerSize;

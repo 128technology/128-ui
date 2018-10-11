@@ -27,6 +27,9 @@ export interface IPickerProps {
   prevMonthOnClick?: (e: React.SyntheticEvent) => void;
   nextMonthOnClick?: (e: React.SyntheticEvent) => void;
   textFieldRenderer?: (startDate: Moment, endDate: Moment, openPopover: () => void, closePopover: () => void) => JSX.Element;
+  disableDate?: (d: Moment, inCurrentMonth: boolean) => boolean;
+  popoverAnchorOrigin?: { vertical?: string; horizontal?: string };
+  popoverTransformOrigin?: { vertical?: string; horizontal?: string };
 }
 
 declare class Picker extends React.Component<IPickerProps, any> {}

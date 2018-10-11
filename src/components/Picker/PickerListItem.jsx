@@ -13,12 +13,26 @@ class PickerListItem extends React.Component {
     }
   };
 
+  getColor = () => {
+    const { disabled, selected } = this.props;
+
+    if (disabled) {
+      return 'inherit';
+    }
+
+    if (selected) {
+      return 'primary';
+    }
+
+    return 'textPrimary';
+  };
+
   render() {
-    const { selected, children, classes } = this.props;
+    const { selected, disabled, children, classes } = this.props;
 
     return (
-      <ListItem className={classes.listButton} button={true} onClick={this.handleOnClick}>
-        <Typography color={selected ? 'primary' : 'textPrimary'} variant={selected ? 'title' : 'button'}>
+      <ListItem className={classes.listButton} disabled={disabled} button={true} onClick={this.handleOnClick}>
+        <Typography color={this.getColor()} variant={selected ? 'title' : 'button'}>
           {children}
         </Typography>
       </ListItem>

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
@@ -11,7 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { HORIZONTAL_BAR } from '../../constants/emptyCell';
 import Colors from '../../constants/colors';
-import { RowSelection, defaultRowKey } from './enhancedTableUtil';
+import { defaultRowKey } from './enhancedTableUtil';
 
 const styles = {
   tableCell: {
@@ -115,14 +116,14 @@ class EnhancedTableBody extends React.Component {
 }
 
 EnhancedTableBody.propTypes = {
-  columns: PropTypes.instanceOf(Immutable.List),
-  dataSource: PropTypes.instanceOf(Immutable.List),
+  columns: ImmutablePropTypes.list,
+  dataSource: ImmutablePropTypes.list,
   rowKey: PropTypes.func,
   rowsPerPage: PropTypes.number,
   page: PropTypes.number,
-  rowSelection: PropTypes.instanceOf(RowSelection),
+  rowSelection: ImmutablePropTypes.record,
   noDataText: PropTypes.string,
-  rowRenderOptions: PropTypes.instanceOf(Immutable.Map)
+  rowRenderOptions: ImmutablePropTypes.map
 };
 
 EnhancedTableBody.defaultProps = {
