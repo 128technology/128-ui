@@ -36,9 +36,9 @@ class Duration extends React.Component {
       { remainingTime: ms }
     );
 
-    return `${duration.years > 0 ? `${duration.years}y ` : ''}${duration.days}d ${duration.hours}h ${
-      duration.minutes
-    }m ${duration.seconds}s`;
+    return `${duration.years > 0
+      ? `${duration.years}y `
+      : ''}${duration.days}d ${duration.hours}h ${duration.minutes}m ${duration.seconds}s`;
   }
 
   render() {
