@@ -10,7 +10,7 @@
     "build:prod": "webpack --mode production --config webpack.production.config.js && npm run copyDefs",
     "build": "npm run clean:dist && npm run build:dev && npm run build:prod",
     "styleguide": "styleguidist server",
-    "styleguide:build": "npm run clean::styleguide && styleguidist build",
+    "styleguide:build": "npm run clean:styleguide && styleguidist build",
     "lint:js": "eslint --ext .js --ext .jsx src/components",
     "lint:style": "stylelint src/**/*.scss",
     "lint": "npm run lint:js && npm run lint:style",
@@ -89,12 +89,10 @@
     "javascript-natural-sort": "^0.7.1",
     "moment": "^2.22.2",
     "prop-types": "^15.5.8",
-    "react-autocomplete": "^1.8.1",
     "react-immutable-proptypes": "^2.1.0",
     "react-select": "^2.0.0",
     "react-tether": "^0.6.1",
     "react-virtualized": "^9.20.1",
-    "react-virtualized-select": "^3.1.1",
     "recompose": "^0.30.0"
   }
 }
