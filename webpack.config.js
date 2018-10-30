@@ -1,6 +1,8 @@
 const _ = require('lodash');
 const path = require('path');
 const fs = require('fs');
+const nodeExternals = require('webpack-node-externals');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const APP_PATH = path.join(__dirname, 'src');
 
@@ -14,7 +16,7 @@ const entries = _.reduce(
   {}
 );
 
-module.exports = {
+const config = {
   entry: Object.assign(
     {},
     {
@@ -73,21 +75,14 @@ module.exports = {
       }
     ]
   },
-  externals: [
-    {
-      react: {
-        commonjs2: 'react',
-        commonjs: 'react',
-        root: 'React',
-        amd: 'React'
-      },
-      'react-dom': {
-        commonjs2: 'react-dom',
-        commonjs: 'react-dom',
-        root: 'ReactDOM',
-        amd: 'ReactDOM'
-      }
-    },
-    /@material-ui\/core\/*./
-  ]
+  externals: [nodeExternals()],
+  plugins: [new UglifyJsPlugin()]
+};
+
+module.exports = (env, argv = {}) => {
+  if (argv.mode === 'development') {
+    config.devtool = 'sourcemap';
+  }
+
+  return config;
 };
