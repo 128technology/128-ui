@@ -5,6 +5,6 @@ module.exports = {
   styleguideDir: path.join(__dirname, 'docs'),
   components: 'src/components/**/[A-Z]*.jsx',
   title: '128 UI Style Guide',
-  webpackConfig: require('./webpack.development.config.js'),
+  webpackConfig: require('./webpack.config.js'),
   skipComponentsWithoutExample: true
 };
