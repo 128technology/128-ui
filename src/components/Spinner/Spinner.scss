@@ -66,6 +66,7 @@ $spinner-icon-margin: 10px;
     height: $spinner-medium-size;
     width: $spinner-medium-size;
     border: 3px solid $white;
+    box-sizing: border-box;
   }
 }
 
