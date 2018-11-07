@@ -6,21 +6,21 @@ import { withStyles } from '@material-ui/core/styles';
 
 import PickerList from './PickerList';
 
-function getHourRange() {
-  const now = moment().startOf('day');
+function getHourRange(date) {
+  const now = date.clone().startOf('day');
   return _.range(0, 24).map(x => now.clone().add(x, 'hour'));
 }
 
-function getMinuteRange() {
-  const now = moment().startOf('hour');
+function getMinuteRange(date) {
+  const now = date.clone().startOf('hour');
   return _.range(0, 60).map(x => now.clone().add(x, 'minute'));
 }
 
 class TimePicker extends React.Component {
   render() {
     const { classes, date, minuteOnClick, hourOnClick, hourFormat, minuteFormat, disableDate } = this.props;
-    const hourRange = getHourRange();
-    const minuteRange = getMinuteRange();
+    const hourRange = getHourRange(date);
+    const minuteRange = getMinuteRange(date);
 
     return (
       <div className={classes.container}>
