@@ -84,6 +84,49 @@ Single-select:
       }}
     />
 
+Single-select Disabled:
+
+    const data = [{
+      name: 'Greg',
+      value: {
+        age: '99'
+      },
+      species: 'Human'
+    }, {
+      name: 'George',
+      value: {
+        age: '77'
+      },
+      species: 'Human'
+    }, {
+      name: 'Bob',
+      value: {
+        age: '2'
+      },
+      species: 'Human'
+    }, {
+      name: 'Scruffy',
+      value: {
+        age: '15'
+      },
+      species: 'Dog'
+    }, {
+      name: 'Kashmir',
+      value: {
+        age: '37'
+      },
+      species: 'Dog'
+    }];
+
+    <Autocomplete
+      options={data}
+      disabled={true}
+      accessors={{
+        value: d => d.value.age,
+        label: d => `The ${d.name}`
+      }}
+    />
+
 Single-select Large Dataset:
 
     const _ = require('lodash');
