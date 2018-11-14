@@ -267,13 +267,14 @@ class Autocomplete extends React.Component {
 
   render() {
     const { width } = this.state;
-    const { classes, async, accessors, errorText, groupBy, textFieldProps, ...rest } = this.props;
+    const { classes, async, accessors, errorText, groupBy, textFieldProps, disabled, ...rest } = this.props;
     const SelectComponent = this.getSelectComponentType();
     const virtualized = groupBy ? {} : { MenuList };
 
     return (
       <SelectComponent
         {...rest}
+        isDisabled={disabled}
         ref={el => (this.el = el)}
         classes={classes}
         components={{
@@ -320,7 +321,8 @@ Autocomplete.propTypes = {
   errorText: PropTypes.string,
   rowHeight: PropTypes.number,
   visibleRows: PropTypes.number,
-  textFieldProps: PropTypes.object
+  textFieldProps: PropTypes.object,
+  disabled: PropTypes.boolean
 };
 
 Autocomplete.defaultProps = {
@@ -332,7 +334,8 @@ Autocomplete.defaultProps = {
   loadOptions: null,
   rowHeight: 48,
   visibleRows: 5,
-  textFieldProps: {}
+  textFieldProps: {},
+  disabled: false
 };
 
 const enhance = withStyles(({ spacing, palette }) => ({
