@@ -45,7 +45,11 @@ function Control({ selectProps, innerRef, innerProps, children }) {
         inputComponent: InputComponent,
         classes: {
           input: classNames(inputPropsClasses.input, selectProps.classes.input),
-          underline: classNames(inputPropsClasses.underline, selectProps.classes.inputUnderline),
+          underline: classNames(
+            inputPropsClasses.underline,
+            selectProps.classes.inputUnderline,
+            selectProps.isDisabled && selectProps.classes.inputUnderlineDisabled
+          ),
           ...inputPropsClasses
         },
         inputProps: {
@@ -373,7 +377,13 @@ const enhance = withStyles(({ spacing, palette }) => ({
   inputUnderline: {
     borderBottom: '0',
     '&::before': {
-      borderBottom: '1px solid rgba(224, 224, 224) !important'
+      borderBottom: '1px solid rgba(0, 0, 0, 0.42) !important'
+    }
+  },
+  inputUnderlineDisabled: {
+    borderBottom: '0',
+    '&::before': {
+      borderBottom: '1px dotted rgba(0, 0, 0, 0.42) !important'
     }
   }
 }));
