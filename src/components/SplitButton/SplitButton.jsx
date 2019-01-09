@@ -108,7 +108,8 @@ SplitButton.defaultProps = {
 const enhance = withStyles(({ palette, shape }) => ({
   container: {
     display: 'inline-block',
-    borderRadius: shape.borderRadius
+    borderRadius: shape.borderRadius,
+    backgroundColor: '#fff'
   },
   buttonContainer: {
     display: 'flex',
