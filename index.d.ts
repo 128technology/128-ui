@@ -9,6 +9,7 @@ export interface IAutocompleteProps extends select.Props {
     value: (d: any) => any;
     label: (d: any) => any;
   };
+  chipAvatar?: (d: any) => React.ReactNode;
   groupBy?: (d: any) => any;
   creatable?: boolean;
   async?: boolean;

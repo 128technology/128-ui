@@ -1,5 +1,7 @@
 Multi-select:
 
+    const Avatar = require('@material-ui/core/Avatar').default;
+
     const data = [{
       name: 'Greg',
       value: {
@@ -35,6 +37,7 @@ Multi-select:
     <Autocomplete
       isMulti={true}
       options={data}
+      chipAvatar={d => <Avatar>{d.name.slice(0, 1)}</Avatar>}
       accessors={{
         value: d => d.value.age,
         label: d => `The ${d.name}`

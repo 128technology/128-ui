@@ -92,9 +92,10 @@ function ValueContainer({ selectProps, children }) {
   return <div className={selectProps.classes.valueContainer}>{children}</div>;
 }
 
-function MultiValue({ children, selectProps, isFocused, removeProps }) {
+function MultiValue({ children, selectProps, isFocused, removeProps, data }) {
   return (
     <Chip
+      avatar={selectProps.chipAvatar ? selectProps.chipAvatar(data) : undefined}
       tabIndex={-1}
       label={children}
       className={classNames(selectProps.classes.chip, {
@@ -326,7 +327,8 @@ Autocomplete.propTypes = {
   rowHeight: PropTypes.number,
   visibleRows: PropTypes.number,
   textFieldProps: PropTypes.object,
-  disabled: PropTypes.boolean
+  disabled: PropTypes.boolean,
+  chipAvatar: PropTypes.func
 };
 
 Autocomplete.defaultProps = {
