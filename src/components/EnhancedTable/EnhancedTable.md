@@ -32,3 +32,32 @@ Example:
     }]);
 
     <EnhancedTable dataSource={data} columns={columns} />
+
+
+Example:
+
+    const Immutable = require('immutable');
+    const { RowSelection } = require('./enhancedTableUtil');
+
+    const columns = Immutable.fromJS([{
+      title: 'Name',
+      key: 'name',
+      dataIndex: 'name'
+    }, {
+      title: 'Healthy',
+      key: 'health',
+      dataIndex: 'healthy'
+    }]);
+
+    const data = Immutable.fromJS([{
+      name: 'Burger',
+      healthy: 'Kinda'
+    }, {
+      name: 'Carrot',
+      healthy: 'Yes'
+    }, {
+      name: 'Cookie',
+      healthy: 'No'
+    }]);
+
+    <EnhancedTable dataSource={data} columns={columns} rowSelection={new RowSelection()} />
