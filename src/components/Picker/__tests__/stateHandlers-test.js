@@ -1,10 +1,21 @@
 import moment from 'moment';
+import sinon from 'sinon';
 import { expect } from 'chai';
 
 import * as stateHandlers from '../stateHandlers';
 import { VIEWS } from '../constants';
 
 describe('State Handlers', () => {
+  let timers;
+
+  beforeEach(() => {
+    timers = sinon.useFakeTimers(new Date('2019-01-29T18:27:59.199Z'));
+  });
+
+  afterEach(() => {
+    timers.restore();
+  });
+
   describe('selectView', () => {
     [VIEWS.START_DATE, VIEWS.START_TIME, VIEWS.START_YEAR].forEach(view => {
       it(`should set start date when ${view} view is selected`, () => {
