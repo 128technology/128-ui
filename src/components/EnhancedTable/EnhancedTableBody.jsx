@@ -21,6 +21,10 @@ const styles = {
   noDataTableCell: {
     textAlign: 'center',
     color: Colors.WARM_GREY
+  },
+  checkboxCell: {
+    maxWidth: 120,
+    width: 120
   }
 };
 
@@ -94,7 +98,7 @@ class EnhancedTableBody extends React.Component {
     const rows = dataSource.map(datum => (
       <TableRow key={rowKey(datum)} {...this.getRowProps(datum)}>
         {rowSelection && (
-          <TableCell padding="checkbox" onClick={e => e.stopPropagation()}>
+          <TableCell className={classes.checkboxCell} padding="checkbox" onClick={e => e.stopPropagation()}>
             {this.getRowSelector(datum)}
           </TableCell>
         )}
