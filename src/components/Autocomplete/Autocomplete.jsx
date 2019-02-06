@@ -263,7 +263,13 @@ class Autocomplete extends React.Component {
       }
 
       if (loadOptions.length >= 1) {
-        return (inputVal, cb) => loadOptions(_.flow(this.filterOptions(inputVal), cb));
+        return (inputVal, cb) =>
+          loadOptions(
+            _.flow(
+              this.filterOptions(inputVal),
+              cb
+            )
+          );
       }
     }
 
