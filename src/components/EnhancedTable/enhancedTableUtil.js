@@ -9,5 +9,5 @@ export const RowSelection = Immutable.Record({
 });
 
 export function defaultRowKey(x) {
-  return x.get('_id') || x.get('id') || x.get('key') || JSON.stringify(_.isFunction(x.toJS) ? x.toJS() : x);
+  return x._id || x.id || x.key || JSON.stringify(_.isFunction(x.toJS) ? x.toJS() : x);
 }
