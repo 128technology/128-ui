@@ -40,7 +40,7 @@ Loading.defaultProps = {
   block: false,
   horizontal: false,
   showLoadingText: true,
-  loadingText: 'Loading...'
+  loadingText: 'Loading'
 };
 
 export default Loading;

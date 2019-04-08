@@ -65,7 +65,7 @@ $spinner-icon-margin: 10px;
     background-color: $cyan-128;
     height: $spinner-medium-size;
     width: $spinner-medium-size;
-    border: 3px solid $white;
+    box-shadow: 1px 0 5px 0 rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
   }
 }
@@ -87,7 +87,7 @@ $spinner-icon-margin: 10px;
   .ui-128__spinner-icon-outer {
     height: $spinner-small-size;
     width: $spinner-small-size;
-    border: 2px solid $white;
+    box-shadow: 1px 0 3px 0 rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -120,6 +120,6 @@ $spinner-icon-margin: 10px;
   .ui-128__spinner-icon-outer {
     height: $spinner-huge-size;
     width: $spinner-huge-size;
-    border: 4px solid $white;
+    box-shadow: 1px 0 10px 0 rgba(0, 0, 0, 0.2);
   }
 }
