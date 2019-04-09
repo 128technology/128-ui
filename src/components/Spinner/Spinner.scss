@@ -4,7 +4,7 @@ $spinner-medium-size: 40px;
 $spinner-small-size: 16px;
 $spinner-icon-margin: 10px;
 
-@keyframes pulse {
+@keyframes t128-pulse {
   0% {
     opacity: 0.05;
     transform: scale(1);
@@ -51,11 +51,11 @@ $spinner-icon-margin: 10px;
   }
 
   .ui-128__spinner-pulse-outer {
-    animation: pulse 1.5s Infinite;
+    animation: t128-pulse 1.5s Infinite;
   }
 
   .ui-128__spinner-pulse-inner {
-    animation: pulse 1.5s Infinite 0.4s;
+    animation: t128-pulse 1.5s Infinite 0.4s;
   }
 
   .ui-128__spinner-icon-outer {
