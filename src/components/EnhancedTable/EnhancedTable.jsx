@@ -60,6 +60,7 @@ class EnhancedTable extends React.Component {
     this.state = {
       orderBy: props.defaultOrderBy,
       orderDirection: props.defaultOrderDirection,
+      isNumeric: false,
       cols: null,
       data: null,
       scrollbars: null,
@@ -80,6 +81,7 @@ class EnhancedTable extends React.Component {
 
   setupData = () => {
     const { columns, dataSource, rowSelection } = this.props;
+    const { orderBy, orderDirection, isNumeric } = this.state;
 
     // TODO: force usage of plain js?
     let cols = columns.toJS ? columns.toJS() : columns;
@@ -89,6 +91,7 @@ class EnhancedTable extends React.Component {
       cols.unshift({ width: 75, selectorType: rowSelection.get('selectorType'), key: 'checkbox', disableSort: true });
     }
 
+    data = this.sort(data, orderBy, orderDirection, isNumeric);
     const headerRow = { grid__header: cols, name: 'grid__header' };
     data.unshift(headerRow);
 
@@ -115,13 +118,18 @@ class EnhancedTable extends React.Component {
 
     this.setState(({ orderBy, orderDirection, data }) => {
       const newDirection = dataKey !== orderBy ? 'desc' : otherDirection[orderDirection];
-      const newData = _.filter(data, i => !i.grid__header).sort(sortComparator(dataKey, newDirection, isNumeric));
+      const newData = this.sort(data, dataKey, newDirection, isNumeric);
       return {
         orderBy: dataKey,
         orderDirection: newDirection,
-        data: [data[0], ...newData]
+        data: [data[0], ...newData],
+        isNumeric
       };
     });
+  };
+
+  sort = (data, orderBy, orderDirection, isNumeric) => {
+    return _.filter(data, i => !i.grid__header).sort(sortComparator(orderBy, orderDirection, isNumeric));
   };
 
   getRowProps = datum => {
@@ -182,7 +190,7 @@ class EnhancedTable extends React.Component {
     return _.isFunction(rowKey) ? _.map(data, rowKey) : [];
   };
 
-  _cellRenderer = cellRenderData => {
+  cellRenderer = cellRenderData => {
     const { columnIndex, key: cellKey, rowIndex, style } = cellRenderData;
     const { classes, rowRenderOptions, rowSelection, rowKey } = this.props;
     const { cols, data, orderBy, orderDirection } = this.state;
@@ -199,7 +207,6 @@ class EnhancedTable extends React.Component {
     const content = _.isNil(renderedContent) || renderedContent === '' ? placeholder : renderedContent;
 
     // RENDER HEADER ROW
-
     if (rowIndex === 0) {
       const { disableSort, dataKey, label } = colData;
 
@@ -308,7 +315,7 @@ class EnhancedTable extends React.Component {
     );
   };
 
-  _getColumnWidth = ({ index }, gridWidth) => {
+  getColumnWidth = ({ index }, gridWidth) => {
     const { columnMinWidth } = this.props;
     const { cols, scrollbars, colsWithoutFixedWidth, totalFixedWidth: fixedWidth, numColsFixedWidth } = this.state;
 
@@ -352,7 +359,6 @@ class EnhancedTable extends React.Component {
       return `${rowHeight}px`;
     }
 
-    // TODO: fix this? data.length checks for 1 because we insert a dummy row for the column header
     const numVisibleRenderedRows = data.length === 1 ? 2 : data.length;
 
     const padding = scrollbars && scrollbars.horizontal ? scrollbars.size : 0;
@@ -417,9 +423,9 @@ class EnhancedTable extends React.Component {
               fixedColumnCount={rowSelection && data.length - 1 > 0 ? 1 : 0}
               rowCount={data.length}
               columnCount={cols.length}
-              cellRenderer={this._cellRenderer}
+              cellRenderer={this.cellRenderer}
               noContentRenderer={this.noRowsRenderer}
-              columnWidth={_.partial(this._getColumnWidth, _, width)}
+              columnWidth={_.partial(this.getColumnWidth, _, width)}
               rowHeight={rowHeight}
               height={height}
               width={width}
