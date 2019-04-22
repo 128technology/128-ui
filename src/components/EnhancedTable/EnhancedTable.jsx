@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import React from 'react';
-import Immutable from 'immutable';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import classNames from 'classnames';
@@ -11,16 +10,12 @@ import Radio from '@material-ui/core/Radio';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
-import { AutoSizer, MultiGrid } from 'react-virtualized';
+import { MultiGrid } from 'react-virtualized';
 import ResizeDetector from 'react-resize-detector';
 
 import { HORIZONTAL_BAR } from '../../constants/emptyCell';
 import Loading from '../Loading';
 import { defaultRowKey } from './enhancedTableUtil';
-
-const DEFAULT_CELL_HEIGHT = 50;
-const DEFAULT_TABLE_HEIGHT = '400px';
-const UPDATE_THRESHOLD = 250; // ms
 
 const styles = theme => ({
   table: {
@@ -62,7 +57,6 @@ class EnhancedTable extends React.Component {
   constructor(props) {
     super(props);
 
-    this.lastUpdateTime = Date.now();
     this.state = {
       orderBy: props.defaultOrderBy,
       orderDirection: props.defaultOrderDirection,
@@ -173,7 +167,7 @@ class EnhancedTable extends React.Component {
 
     return (
       <TableCell
-        style={{ height: `${rowHeight || DEFAULT_CELL_HEIGHT}px` }}
+        style={{ height: `${rowHeight}px` }}
         component="div"
         variant="body"
         className={classNames(classes.tableCellFlex, classes.centerFlex)}
@@ -189,7 +183,6 @@ class EnhancedTable extends React.Component {
   };
 
   _cellRenderer = cellRenderData => {
-    // console.log('cellRenderer called');
     const { columnIndex, key: cellKey, rowIndex, style } = cellRenderData;
     const { classes, rowRenderOptions, rowSelection, rowKey } = this.props;
     const { cols, data, orderBy, orderDirection } = this.state;
@@ -251,7 +244,7 @@ class EnhancedTable extends React.Component {
           onClick={disableSort ? _.noop : _.partial(this.handleRequestSort, colData.dataKey, colData.numeric)}
         >
           {!disableSort && (
-            <TableSortLabel active={orderBy === dataKey} direction={_.toLower(orderDirection)}>
+            <TableSortLabel active={orderBy === dataKey} direction={orderDirection}>
               {label}
             </TableSortLabel>
           )}
@@ -260,12 +253,11 @@ class EnhancedTable extends React.Component {
       );
     }
 
-    const rowSelectFn =
-      rowSelection && _.isFunction(rowSelection.get('onSelect')) ? rowSelection.get('onSelect') : () => {};
-    const onChangeHandler = _.partialRight(rowSelectFn, rowData, rowKeyFn(rowData));
-
     // RENDER SELECTION BUTTON COLUMNS
     if (rowSelection && columnIndex === 0) {
+      const rowSelectFn =
+        rowSelection && _.isFunction(rowSelection.get('onSelect')) ? rowSelection.get('onSelect') : () => {};
+      const onChangeHandler = _.partialRight(rowSelectFn, rowData, rowKeyFn(rowData));
       if (rowSelection.get('selectorType') === 'radio') {
         return (
           <TableCell
@@ -315,7 +307,6 @@ class EnhancedTable extends React.Component {
   };
 
   _getColumnWidth = ({ index }, gridWidth) => {
-    // console.log('columnWidth called', index);
     const { columnMinWidth } = this.props;
     const { cols, scrollbars, colsWithoutFixedWidth, totalFixedWidth: fixedWidth, numColsFixedWidth } = this.state;
 
@@ -356,14 +347,14 @@ class EnhancedTable extends React.Component {
     }
 
     if (!data) {
-      return DEFAULT_TABLE_HEIGHT;
+      return `${rowHeight}px`;
     }
 
     // TODO: fix this? data.length checks for 1 because we insert a dummy row for the column header
     const numVisibleRenderedRows = data.length === 1 ? 2 : data.length;
 
     const padding = scrollbars && scrollbars.horizontal ? scrollbars.size : 0;
-    let calcHeight = rowHeight ? rowHeight * numVisibleRenderedRows : DEFAULT_CELL_HEIGHT * numVisibleRenderedRows;
+    let calcHeight = rowHeight * numVisibleRenderedRows;
     calcHeight += padding;
     if (calcHeight > maxHeight) {
       calcHeight = maxHeight;
@@ -373,7 +364,6 @@ class EnhancedTable extends React.Component {
   };
 
   recomputeGridSize = () => {
-    console.log('recomputegridsizde');
     if (this.ref) {
       this.ref.recomputeGridSize();
     }
@@ -404,7 +394,7 @@ class EnhancedTable extends React.Component {
   render() {
     const { cols, data, width, height } = this.state;
 
-    const { loading, classes, rowSelection, rowHeight, tableClassName } = this.props;
+    const { loading, rowSelection, resizeThreshold, rowHeight, classes, tableClassName } = this.props;
 
     if (!loading && !data) {
       this.setupData();
@@ -416,7 +406,7 @@ class EnhancedTable extends React.Component {
         {loading && <Loading />}
         {!loading && data && (
           <React.Fragment>
-            <ResizeDetector handleWidth handleHeight onResize={_.debounce(this.onResize, 1000)} />
+            <ResizeDetector handleWidth handleHeight onResize={_.debounce(this.onResize, resizeThreshold)} />
             <MultiGrid
               ref={this.setRef}
               data={data}
@@ -424,16 +414,16 @@ class EnhancedTable extends React.Component {
               fixedRowCount={1}
               fixedColumnCount={rowSelection && data.length - 1 > 0 ? 1 : 0}
               rowCount={data.length}
+              columnCount={cols.length}
               cellRenderer={this._cellRenderer}
               noContentRenderer={this.noRowsRenderer}
               columnWidth={_.partial(this._getColumnWidth, _, width)}
-              columnCount={cols.length}
-              enableFixedColumnScroll
-              enableFixedRowScroll
-              rowHeight={rowHeight || DEFAULT_CELL_HEIGHT}
+              rowHeight={rowHeight}
               height={height}
               width={width}
               onScrollbarPresenceChange={this.scrollbarPresenceChange}
+              enableFixedRowScroll
+              enableFixedColumnScroll
               hideTopRightGridScrollbar
               hideBottomLeftGridScrollbar
             />
@@ -447,24 +437,29 @@ EnhancedTable.propTypes = {
   columns: PropTypes.array,
   dataSource: PropTypes.array,
   rowKey: PropTypes.func,
+  rowHeight: PropTypes.number,
   loading: PropTypes.bool,
   rowSelection: ImmutablePropTypes.record,
   rowProps: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   noDataText: PropTypes.string,
   defaultOrderDirection: PropTypes.string,
   defaultOrderBy: PropTypes.string,
-  rowRenderOptions: PropTypes.object
+  rowRenderOptions: PropTypes.object,
+  resizeThreshold: PropTypes.number,
+  height: PropTypes.string
 };
 
 EnhancedTable.defaultProps = {
   columns: [],
   dataSource: [],
   rowKey: defaultRowKey,
+  rowHeight: 50,
   loading: false,
   noDataText: 'No data',
   defaultOrderBy: '',
   defaultOrderDirection: 'asc',
-  rowRenderOptions: {}
+  rowRenderOptions: {},
+  resizeThreshold: 500
 };
 
 export default withStyles(styles)(EnhancedTable);
