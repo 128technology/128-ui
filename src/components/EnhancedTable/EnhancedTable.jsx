@@ -115,11 +115,11 @@ class EnhancedTable extends React.Component {
 
     this.setState(({ orderBy, orderDirection, data }) => {
       const newDirection = dataKey !== orderBy ? 'desc' : otherDirection[orderDirection];
-      const newData = _.cloneDeep(data).sort(sortComparator(dataKey, newDirection, isNumeric));
+      const newData = _.filter(data, i => !i.grid__header).sort(sortComparator(dataKey, newDirection, isNumeric));
       return {
         orderBy: dataKey,
         orderDirection: newDirection,
-        data: newData
+        data: [data[0], ...newData]
       };
     });
   };
@@ -194,7 +194,9 @@ class EnhancedTable extends React.Component {
     const rowKeyFn = _.isFunction(rowKey) ? rowKey : defaultRowKey;
     const customRenderer = colData.render;
     const placeholder = colData.numeric ? 0 : HORIZONTAL_BAR;
-    const content = _.isNil(cellData) || cellData === '' ? placeholder : cellData;
+    const renderedContent =
+      _.isFunction(customRenderer) && rowIndex !== 0 ? customRenderer(cellData, rowData, rowRenderOptions) : cellData;
+    const content = _.isNil(renderedContent) || renderedContent === '' ? placeholder : renderedContent;
 
     // RENDER HEADER ROW
 
@@ -203,7 +205,7 @@ class EnhancedTable extends React.Component {
 
       if (rowSelection && columnIndex === 0) {
         if (rowSelection.get('selectorType') === 'radio') {
-          return <div key={cellKey} />;
+          return <TableCell style={style} className={classes.tableCellFlex} key={cellKey} component="div" />;
         }
         const nonHeaderData = data.slice(1);
         const dataLength = nonHeaderData.length;
@@ -301,7 +303,7 @@ class EnhancedTable extends React.Component {
         variant="body"
         className={classNames(classes.tableCellFlex, colData.className)}
       >
-        {_.isFunction(customRenderer) ? customRenderer(cellData, rowData, rowRenderOptions) : content}
+        {content}
       </TableCell>
     );
   };
@@ -434,8 +436,8 @@ class EnhancedTable extends React.Component {
   }
 }
 EnhancedTable.propTypes = {
-  columns: PropTypes.array,
-  dataSource: PropTypes.array,
+  columns: PropTypes.oneOfType([PropTypes.array, ImmutablePropTypes.list]),
+  dataSource: PropTypes.oneOfType([PropTypes.array, ImmutablePropTypes.list]),
   rowKey: PropTypes.func,
   rowHeight: PropTypes.number,
   loading: PropTypes.bool,
