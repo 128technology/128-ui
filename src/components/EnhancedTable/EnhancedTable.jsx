@@ -85,7 +85,7 @@ class EnhancedTable extends React.Component {
     const { orderBy, orderDirection, isNumeric } = this.state;
 
     // TODO: force usage of plain js?
-    let cols = columns.toJS ? columns.toJS() : columns;
+    const cols = columns.toJS ? columns.toJS() : columns;
     let data = dataSource.toJS ? dataSource.toJS() : dataSource;
 
     if (rowSelection) {
@@ -212,7 +212,7 @@ class EnhancedTable extends React.Component {
 
     // RENDER HEADER ROW
     if (rowIndex === 0) {
-      const { disableSort, dataIndex, title } = colData;
+      const { disableSort, title } = colData;
 
       if (rowSelection && columnIndex === 0) {
         if (rowSelection.get('selectorType') === 'radio') {
@@ -338,7 +338,7 @@ class EnhancedTable extends React.Component {
     const unusedSpace = remainingWidth > 0 && numColsFixedWidth === colLength;
     const numColsNoFixedWidth = colLength - numColsFixedWidth;
 
-    let padding =
+    const padding =
       isVerticalScrollbarVisible && (isLastColWithoutFixedWidth || (isLastColumn && unusedSpace)) ? scrollbars.size : 0;
     if (cols[index].width) {
       if (unusedSpace) {
@@ -417,7 +417,11 @@ class EnhancedTable extends React.Component {
         {loading && <Loading />}
         {!loading && data && (
           <React.Fragment>
-            <ResizeDetector handleWidth handleHeight onResize={_.debounce(this.onResize, resizeThreshold)} />
+            <ResizeDetector
+              handleWidth={true}
+              handleHeight={true}
+              onResize={_.debounce(this.onResize, resizeThreshold)}
+            />
             <MultiGrid
               ref={this.ref}
               data={data}
@@ -433,10 +437,10 @@ class EnhancedTable extends React.Component {
               height={height}
               width={width}
               onScrollbarPresenceChange={this.scrollbarPresenceChange}
-              enableFixedRowScroll
-              enableFixedColumnScroll
-              hideTopRightGridScrollbar
-              hideBottomLeftGridScrollbar
+              enableFixedRowScroll={true}
+              enableFixedColumnScroll={true}
+              hideTopRightGridScrollbar={true}
+              hideBottomLeftGridScrollbar={true}
             />
           </React.Fragment>
         )}
