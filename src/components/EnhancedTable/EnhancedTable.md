@@ -3,18 +3,18 @@ Example:
     const Immutable = require('immutable');
 
     const columns = Immutable.fromJS([{
-      label: 'Name',
+      title: 'Name',
       key: 'name',
-      dataKey: 'name'
+      dataIndex: 'name'
     }, {
-      label: 'Healthy',
+      title: 'Healthy',
       key: 'health',
-      dataKey: 'healthy'
+      dataIndex: 'healthy'
     }, {
-      label: 'Calories',
+      title: 'Calories',
       key: 'cals',
       numeric: true,
-      dataKey: 'cals'
+      dataIndex: 'cals'
     }]);
 
     const d = Immutable.fromJS([{
@@ -42,13 +42,13 @@ Example:
     const { RowSelection } = require('./enhancedTableUtil');
 
     const columns = Immutable.fromJS([{
-      label: 'Name',
+      title: 'Name',
       key: 'name',
-      dataKey: 'name'
+      dataIndex: 'name'
     }, {
-      label: 'Healthy',
+      title: 'Healthy',
       key: 'health',
-      dataKey: 'healthy'
+      dataIndex: 'healthy'
     }]);
 
     const data = Immutable.fromJS([{
