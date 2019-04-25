@@ -2,13 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
-// import EnhancedTable from '../EnhancedTable';
-// import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import Checkbox from '@material-ui/core/Checkbox';
 import Radio from '@material-ui/core/Radio';
-// import { expect } from 'chai';
-// import { shallow } from 'enzyme';
 
 import { EnhancedTable } from '../EnhancedTable';
 import { HORIZONTAL_BAR } from '../../../constants/emptyCell';
