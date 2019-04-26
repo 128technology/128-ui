@@ -1,35 +1,45 @@
 import _ from 'lodash';
 import React from 'react';
-import Immutable from 'immutable';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import Table from '@material-ui/core/Table';
-import TablePagination from '@material-ui/core/TablePagination';
 import classNames from 'classnames';
 import naturalSort from 'javascript-natural-sort';
+import TableCell from '@material-ui/core/TableCell';
+import Checkbox from '@material-ui/core/Checkbox';
+import Radio from '@material-ui/core/Radio';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { withStyles } from '@material-ui/core/styles';
+import { MultiGrid } from 'react-virtualized';
+import ResizeDetector from 'react-resize-detector';
 
+import { HORIZONTAL_BAR } from '../../constants/emptyCell';
 import Loading from '../Loading';
-import EnhancedTableHead from './EnhancedTableHead';
-import EnhancedTableBody from './EnhancedTableBody';
 import { defaultRowKey } from './enhancedTableUtil';
 
-const styles = {
-  tableContainer: {
-    position: 'relative'
+const styles = theme => ({
+  table: {
+    fontFamily: theme.typography.fontFamily,
+    outline: 'none',
+    '&:focus': { outline: 'none' }
   },
-  tableScrollArea: {
-    overflowY: 'auto',
-    flexGrow: '1'
-  },
-  tableContainerFullHeight: {
-    height: '100%',
+  tableCellFlex: {
+    cursor: 'pointer',
     display: 'flex',
-    flexDirection: 'column'
+    flex: 1,
+    alignItems: 'center',
+    boxSizing: 'border-box',
+    flexDirection: 'row',
+    outline: 'none',
+    '&:focus': { outline: 'none' }
+  },
+  centerFlex: {
+    justifyContent: 'center'
   }
-};
+});
 
-const sortComparator = (isNumeric, orderDirection) => (a, b) => {
+const sortComparator = (orderBy, orderDirection, isNumeric) => (first, second) => {
+  const a = _.get(first, orderBy);
+  const b = _.get(second, orderBy);
   if (_.isNil(a)) {
     return 1;
   }
@@ -46,153 +56,427 @@ class EnhancedTable extends React.Component {
   constructor(props) {
     super(props);
 
+    this.ref = React.createRef();
+
     this.state = {
       orderBy: props.defaultOrderBy,
       orderDirection: props.defaultOrderDirection,
-      numericSort: false,
-      page: 0,
-      rowsPerPage: props.rowsPerPage || null
+      isNumeric: false,
+      cols: null,
+      data: null,
+      scrollbars: null,
+      width: 0,
+      height: 0
     };
-
-    _.bindAll(this, ['handleRequestSort', 'handleRequestChangePage', 'handleRequestChangeRowsPerPage', 'sort']);
   }
 
-  handleRequestSort(dataIndex, isNumeric) {
+  componentDidUpdate = prevProps => {
+    if (prevProps.dataSource !== this.props.dataSource) {
+      this.setupData();
+    }
+
+    if (prevProps.columns !== this.props.columns) {
+      this.recomputeGridSize();
+    }
+  };
+
+  setupData = () => {
+    const { columns, dataSource, rowSelection } = this.props;
+    const { orderBy, orderDirection, isNumeric } = this.state;
+
+    // TODO: force usage of plain js?
+    const cols = columns.toJS ? columns.toJS() : columns;
+    let data = dataSource.toJS ? dataSource.toJS() : dataSource;
+
+    if (rowSelection) {
+      cols.unshift({ width: 75, selectorType: rowSelection.get('selectorType'), key: 'checkbox', disableSort: true });
+    }
+
+    data = this.sort(data, orderBy, orderDirection, isNumeric);
+    const headerRow = { grid__header: cols, name: 'grid__header' };
+
+    const colsWithFixedWidth = _.filter(cols, col => col.width);
+    const colsWithoutFixedWidth = _.differenceBy(cols, colsWithFixedWidth, 'title');
+    const fixedWidth = _.reduce(colsWithFixedWidth, (total, cur) => total + cur.width, 0);
+    const numColsFixedWidth = colsWithFixedWidth.length;
+
+    this.setState({
+      colsWithFixedWidth,
+      colsWithoutFixedWidth,
+      numColsFixedWidth,
+      totalFixedWidth: fixedWidth,
+      cols,
+      data,
+      headerData: [headerRow]
+    });
+  };
+
+  handleRequestSort = (dataIndex, isNumeric) => {
     const otherDirection = {
       asc: 'desc',
       desc: 'asc'
     };
 
-    this.setState(({ orderBy, orderDirection }) => ({
-      orderBy: dataIndex,
-      numericSort: Boolean(isNumeric),
-      orderDirection: dataIndex !== orderBy ? 'desc' : otherDirection[orderDirection]
-    }));
-  }
+    this.setState(({ orderBy, orderDirection, data }) => {
+      const newDirection = dataIndex !== orderBy ? 'desc' : otherDirection[orderDirection];
+      const newData = this.sort(data, dataIndex, newDirection, isNumeric);
+      return {
+        orderBy: dataIndex,
+        orderDirection: newDirection,
+        data: newData,
+        isNumeric
+      };
+    });
+  };
 
-  handleRequestChangePage(event, page) {
-    this.setState({ page });
-  }
+  sort = (data, orderBy, orderDirection, isNumeric) => {
+    if (!orderBy) {
+      return data;
+    }
+    return _.clone(data).sort(sortComparator(orderBy, orderDirection, isNumeric));
+  };
 
-  handleRequestChangeRowsPerPage(event) {
-    this.setState({ rowsPerPage: event.target.value });
-  }
+  getRowProps = datum => {
+    const { rowProps } = this.props;
 
-  sort(dataSource) {
-    const { orderDirection, orderBy, numericSort } = this.state;
-
-    if (!orderBy || !orderDirection) {
-      return dataSource;
+    if (_.isFunction(rowProps)) {
+      const calculatedRowProps = rowProps(datum);
+      return _.isPlainObject(calculatedRowProps) ? calculatedRowProps : {};
     }
 
-    return dataSource.sortBy(
-      x => (Immutable.List.isList(orderBy) ? x.getIn(orderBy) : x.get(orderBy)),
-      sortComparator(numericSort, orderDirection)
-    );
-  }
+    if (_.isObject(rowProps)) {
+      return rowProps;
+    }
 
-  validateColumnKeys() {
-    const { columns } = this.props;
+    return {};
+  };
 
-    const missingKeys = columns
-      .filter(x => !x.has('key'))
-      .map(x => x.get('title'))
-      .toSet();
+  validateColumnKeys(columns) {
+    const missingKeys = _.map(_.filter(columns, x => !_.has(x, 'key')), x => x.title);
 
-    if (missingKeys.size > 0) {
+    if (missingKeys.length > 0) {
       throw `The key property is required and must be unique for each column configured. Affected columns ${missingKeys.join(
         ','
       )}`;
     }
   }
 
-  render() {
-    const { orderBy, orderDirection, page, rowsPerPage } = this.state;
+  getSelectedRowCount = () => {
+    const { rowSelection, rowKey } = this.props;
+    const { data } = this.state;
 
-    const {
-      columns,
-      dataSource,
-      rowKey,
-      rowProps,
-      className,
-      loading,
-      classes,
-      rowSelection,
-      fullHeight,
-      noDataText,
-      rowRenderOptions
-    } = this.props;
+    const rowKeyFn = _.isFunction(rowKey) ? rowKey : defaultRowKey;
 
-    this.validateColumnKeys();
+    if (rowSelection && _.isFunction(rowSelection.get('rowIsSelected'))) {
+      return _.filter(data, x => rowSelection.get('rowIsSelected')(x, rowKeyFn(x))).length;
+    }
+
+    return 0;
+  };
+
+  noRowsRenderer = () => {
+    const { noDataText, rowHeight, classes } = this.props;
 
     return (
-      <div className={classNames(classes.tableContainer, { [classes.tableContainerFullHeight]: fullHeight })}>
-        {loading && <Loading />}
-        <div className={classes.tableScrollArea}>
-          <Table className={className}>
-            <EnhancedTableHead
-              columns={columns}
-              onRequestSort={this.handleRequestSort}
-              orderBy={orderBy}
-              orderDirection={orderDirection}
-              dataSource={dataSource}
-              rowSelection={rowSelection}
-              rowKey={rowKey}
-            />
-            <EnhancedTableBody
-              columns={columns}
-              dataSource={this.sort(dataSource)}
-              rowKey={rowKey}
-              page={page}
-              rowsPerPage={rowsPerPage}
-              rowSelection={rowSelection}
-              rowProps={rowProps}
-              noDataText={noDataText}
-              rowRenderOptions={rowRenderOptions}
-            />
-          </Table>
-        </div>
-        {rowsPerPage && (
-          <TablePagination
-            rowsPerPage={rowsPerPage}
-            count={dataSource.size}
-            page={page}
-            onChangePage={this.handleRequestChangePage}
-            onChangeRowsPerPage={this.handleRequestChangeRowsPerPage}
-            rowsPerPageOptions={[5, 10, 15, 25]}
+      <TableCell
+        style={{ height: `${rowHeight}px` }}
+        component="div"
+        variant="body"
+        className={classNames(classes.tableCellFlex, classes.centerFlex)}
+      >
+        {noDataText}
+      </TableCell>
+    );
+  };
+
+  getRowKeys = data => {
+    const { rowKey } = this.props;
+    return _.isFunction(rowKey) ? _.map(data, rowKey) : [];
+  };
+
+  cellRenderer = cellRenderData => {
+    const { columnIndex, key: cellKey, rowIndex, style } = cellRenderData;
+    const { classes, rowRenderOptions, rowSelection, rowKey } = this.props;
+    const { cols, data, headerData, orderBy, orderDirection } = this.state;
+    const colData = cols[columnIndex];
+    const dataIndex = colData.dataIndex;
+    const rowData = rowIndex > 0 ? data[rowIndex - 1] : headerData[0];
+    const cellData = _.get(rowData, dataIndex);
+
+    const rowKeyFn = _.isFunction(rowKey) ? rowKey : defaultRowKey;
+    const customRenderer = colData.render;
+    const placeholder = colData.numeric ? 0 : HORIZONTAL_BAR;
+    const renderedContent =
+      _.isFunction(customRenderer) && rowIndex !== 0 ? customRenderer(cellData, rowData, rowRenderOptions) : cellData;
+    const content = _.isNil(renderedContent) || renderedContent === '' ? placeholder : renderedContent;
+
+    // RENDER HEADER ROW
+    if (rowIndex === 0) {
+      const { disableSort, title } = colData;
+
+      if (rowSelection && columnIndex === 0) {
+        if (rowSelection.get('selectorType') === 'radio') {
+          return <TableCell style={style} className={classes.tableCellFlex} key={cellKey} component="div" />;
+        }
+        const dataLength = data.length;
+        const allRowSelectFn = _.isFunction(rowSelection.get('onSelectAll'))
+          ? rowSelection.get('onSelectAll')
+          : () => {};
+
+        const onChangeHandler = _.partialRight(allRowSelectFn, data, this.getRowKeys(data));
+
+        const selectedRowCount = this.getSelectedRowCount();
+
+        return (
+          <TableCell
+            key={cellKey}
+            style={style}
             component="div"
+            variant="body"
+            padding="checkbox"
+            className={classNames(classes.tableCellFlex, colData.className)}
+          >
+            <Checkbox
+              indeterminate={selectedRowCount > 0 && selectedRowCount < dataLength}
+              checked={selectedRowCount === dataLength && dataLength > 0}
+              onChange={onChangeHandler}
+              disabled={dataLength === 0}
+            />
+          </TableCell>
+        );
+      }
+
+      return (
+        <TableCell
+          key={cellKey}
+          style={style}
+          component="div"
+          variant="head"
+          className={classNames(classes.tableCellFlex, colData.className)}
+          onClick={disableSort ? _.noop : _.partial(this.handleRequestSort, colData.dataIndex, colData.numeric)}
+        >
+          {!disableSort && (
+            <TableSortLabel active={orderBy === dataIndex} direction={orderDirection}>
+              {title}
+            </TableSortLabel>
+          )}
+          {disableSort && title}
+        </TableCell>
+      );
+    }
+
+    // RENDER SELECTION BUTTON COLUMNS
+    if (rowSelection && columnIndex === 0) {
+      const rowSelectFn =
+        rowSelection && _.isFunction(rowSelection.get('onSelect')) ? rowSelection.get('onSelect') : () => {};
+      const onChangeHandler = _.partialRight(rowSelectFn, rowData, rowKeyFn(rowData));
+      if (rowSelection.get('selectorType') === 'radio') {
+        return (
+          <TableCell
+            key={cellKey}
+            style={style}
+            component="div"
+            variant="body"
+            padding="checkbox"
+            className={classNames(classes.tableCellFlex, colData.className)}
+          >
+            <Radio checked={rowSelection.get('rowIsSelected')(rowData, rowKeyFn(rowData))} onChange={onChangeHandler} />
+          </TableCell>
+        );
+      }
+      return (
+        <TableCell
+          key={cellKey}
+          style={style}
+          component="div"
+          variant="body"
+          padding="checkbox"
+          className={classNames(classes.tableCellFlex, colData.className)}
+        >
+          <Checkbox
+            checked={rowSelection.get('rowIsSelected')(rowData, rowKeyFn(rowData))}
+            onChange={onChangeHandler}
           />
+        </TableCell>
+      );
+    }
+
+    const calcRowProps = this.getRowProps(rowData);
+
+    // ANY OTHER CELL
+    return (
+      <TableCell
+        {...calcRowProps}
+        style={style}
+        key={cellKey}
+        component="div"
+        variant="body"
+        className={classNames(classes.tableCellFlex, colData.className)}
+      >
+        {content}
+      </TableCell>
+    );
+  };
+
+  getColumnWidth = ({ index }) => {
+    const { columnMinWidth } = this.props;
+    const {
+      cols,
+      scrollbars,
+      width,
+      colsWithoutFixedWidth,
+      totalFixedWidth: fixedWidth,
+      numColsFixedWidth
+    } = this.state;
+
+    const remainingWidth = width - fixedWidth;
+    const colLength = cols.length;
+    const isVerticalScrollbarVisible = scrollbars && scrollbars.vertical;
+    const isLastColumn = index === colLength - 1;
+    const lastColWithoutFixedWidth = _.last(colsWithoutFixedWidth);
+    const isLastColWithoutFixedWidth = _.isEqual(lastColWithoutFixedWidth, cols[index]);
+    const unusedSpace = remainingWidth > 0 && numColsFixedWidth === colLength;
+    const numColsNoFixedWidth = colLength - numColsFixedWidth;
+
+    const padding =
+      isVerticalScrollbarVisible && (isLastColWithoutFixedWidth || (isLastColumn && unusedSpace)) ? scrollbars.size : 0;
+    if (cols[index].width) {
+      if (unusedSpace) {
+        return remainingWidth + cols[index].width - padding;
+      }
+      return cols[index].width;
+    }
+
+    if (remainingWidth <= 0) {
+      return columnMinWidth;
+    }
+
+    const adjustedWidth = numColsNoFixedWidth > 0 ? remainingWidth / numColsNoFixedWidth : columnMinWidth;
+
+    const finalWidth = adjustedWidth - padding < columnMinWidth ? columnMinWidth : adjustedWidth - padding;
+    return _.floor(finalWidth);
+  };
+
+  getTableHeight = () => {
+    const { rowHeight, height, maxHeight } = this.props;
+    const { data, headerData, scrollbars } = this.state;
+
+    if (height) {
+      return height;
+    }
+
+    if (!data) {
+      return `${rowHeight}px`;
+    }
+
+    const numVisibleRenderedRows = data.length === 0 ? 2 : data.length + headerData.length;
+
+    const padding = scrollbars && scrollbars.horizontal ? scrollbars.size : 0;
+    let calcHeight = rowHeight * numVisibleRenderedRows + padding;
+    if (calcHeight > maxHeight) {
+      calcHeight = maxHeight;
+    }
+
+    return `${calcHeight}px`;
+  };
+
+  recomputeGridSize = () => {
+    if (this.ref) {
+      this.ref.current.recomputeGridSize();
+    }
+  };
+
+  scrollbarPresenceChange = scrollbars => {
+    const refreshGridSize = this.state.scrollbars ? _.noop : this.recomputeGridSize;
+
+    this.setState(
+      {
+        scrollbars
+      },
+      refreshGridSize
+    );
+  };
+
+  onResize = (width, height) => {
+    this.setState({ width, height });
+    this.recomputeGridSize();
+  };
+
+  render() {
+    const { cols, data, headerData, width, height } = this.state;
+
+    const { loading, rowSelection, resizeThreshold, rowHeight, classes, tableClassName } = this.props;
+
+    if (!loading && !data) {
+      this.setupData();
+      this.validateColumnKeys(cols);
+    }
+
+    return (
+      <div style={{ height: this.getTableHeight() }}>
+        {loading && <Loading />}
+        {!loading && data && (
+          <React.Fragment>
+            <ResizeDetector
+              handleWidth={true}
+              handleHeight={true}
+              onResize={_.debounce(this.onResize, resizeThreshold)}
+            />
+            <MultiGrid
+              ref={this.ref}
+              data={data}
+              className={classNames(classes.table, tableClassName)}
+              fixedRowCount={1}
+              fixedColumnCount={rowSelection && data.length > 0 ? 1 : 0}
+              rowCount={data.length + headerData.length}
+              columnCount={cols.length}
+              cellRenderer={this.cellRenderer}
+              noContentRenderer={this.noRowsRenderer}
+              columnWidth={this.getColumnWidth}
+              rowHeight={rowHeight}
+              height={height}
+              width={width}
+              onScrollbarPresenceChange={this.scrollbarPresenceChange}
+              enableFixedRowScroll={true}
+              enableFixedColumnScroll={true}
+              hideTopRightGridScrollbar={true}
+              hideBottomLeftGridScrollbar={true}
+            />
+          </React.Fragment>
         )}
       </div>
     );
   }
 }
-
 EnhancedTable.propTypes = {
-  columns: ImmutablePropTypes.list,
-  dataSource: ImmutablePropTypes.list,
+  columns: PropTypes.oneOfType([PropTypes.array, ImmutablePropTypes.list]),
+  dataSource: PropTypes.oneOfType([PropTypes.array, ImmutablePropTypes.list]),
   rowKey: PropTypes.func,
-  rowsPerPage: PropTypes.number,
+  rowHeight: PropTypes.number,
   loading: PropTypes.bool,
   rowSelection: ImmutablePropTypes.record,
-  fullHeight: PropTypes.bool,
   rowProps: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   noDataText: PropTypes.string,
   defaultOrderDirection: PropTypes.string,
   defaultOrderBy: PropTypes.string,
-  rowRenderOptions: ImmutablePropTypes.map
+  rowRenderOptions: PropTypes.object,
+  resizeThreshold: PropTypes.number,
+  height: PropTypes.string
 };
 
 EnhancedTable.defaultProps = {
-  columns: Immutable.List(),
-  dataSource: Immutable.List(),
+  columns: [],
+  dataSource: [],
   rowKey: defaultRowKey,
+  rowHeight: 50,
   loading: false,
-  fullHeight: false,
   noDataText: 'No data',
   defaultOrderBy: '',
   defaultOrderDirection: 'asc',
-  rowRenderOptions: Immutable.Map()
+  rowRenderOptions: {},
+  resizeThreshold: 500
 };
 
 export default withStyles(styles)(EnhancedTable);
+
+export { EnhancedTable };

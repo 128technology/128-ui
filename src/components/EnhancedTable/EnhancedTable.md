@@ -14,10 +14,10 @@ Example:
       title: 'Calories',
       key: 'cals',
       numeric: true,
-      dataIndex: 'cals' 
+      dataIndex: 'cals'
     }]);
 
-    const data = Immutable.fromJS([{
+    const d = Immutable.fromJS([{
       name: 'Burger',
       cals: 1400,
       healthy: 'Kinda'
@@ -31,7 +31,9 @@ Example:
       healthy: 'No'
     }]);
 
-    <EnhancedTable dataSource={data} columns={columns} />
+    const data = d.flatMap(i => [i, i, i, i]);
+
+    <EnhancedTable height={'400px'} dataSource={data} columns={columns} />
 
 
 Example:
