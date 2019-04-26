@@ -381,7 +381,7 @@ class EnhancedTable extends React.Component {
   };
 
   recomputeGridSize = () => {
-    if (this.ref) {
+    if (this.ref && this.ref.current) {
       this.ref.current.recomputeGridSize();
     }
   };
