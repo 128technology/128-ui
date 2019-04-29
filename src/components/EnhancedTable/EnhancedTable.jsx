@@ -461,7 +461,10 @@ EnhancedTable.propTypes = {
   defaultOrderBy: PropTypes.string,
   rowRenderOptions: PropTypes.object,
   resizeThreshold: PropTypes.number,
-  height: PropTypes.string
+  tableClassName: PropTypes.string,
+  height: PropTypes.string,
+  maxHeight: PropTypes.number,
+  columnMinWidth: PropTypes.number
 };
 
 EnhancedTable.defaultProps = {

@@ -68,14 +68,9 @@ export { Duration };
 
 type RowSelectionParams = {
   selectorType?: string | null;
-  onSelect?: (e: React.ChangeEvent, isChecked: boolean, datum: GenericObject, key: string | number) => void;
-  rowIsSelected?: (datum: GenericObject, key: string | number) => boolean;
-  onSelectAll?: (
-    e: React.ChangeEvent,
-    isChecked: boolean,
-    datum: Immutable.Map<string, any>,
-    key: Immutable.Set<string | number>
-  ) => void;
+  onSelect?: <T>(e: React.ChangeEvent, isChecked: boolean, datum: T, key: string | number) => void;
+  rowIsSelected?: <T>(datum: T, key: string | number) => boolean;
+  onSelectAll?: <T>(e: React.ChangeEvent, isChecked: boolean, datum: T, key: string[]) => void;
 };
 export class RowSelection extends Immutable.Record<RowSelectionParams>({}) {
   selectorType: RowSelectionParams['selectorType'];
@@ -92,7 +87,8 @@ type RowPropsFunction = (datum: any) => GenericObject;
 export interface IEnhancedTableProps {
   columns: Immutable.List<Immutable.Map<string, any>>;
   dataSource: Immutable.List<Immutable.Map<string, any>>;
-  rowKey?: (datum: GenericObject) => string;
+  rowKey?: <T>(datum: T) => string;
+  rowHeight?: number;
   loading?: boolean;
   rowSelection?: RowSelection;
   rowProps?: GenericObject | RowPropsFunction;
@@ -100,9 +96,11 @@ export interface IEnhancedTableProps {
   defaultOrderDirection?: string;
   defaultOrderBy?: string;
   rowRenderOptions?: any;
-  rowHeight?: number;
   resizeThreshold?: number;
+  tableClassName?: string;
   height?: string;
+  maxHeight?: number;
+  columnMinWidth?: number;
 }
 
 declare class EnhancedTable extends React.Component<IEnhancedTableProps, any> {}
