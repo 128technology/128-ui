@@ -66,28 +66,28 @@ declare class Duration extends React.Component<IDurationProps, any> {}
 
 export { Duration };
 
-type RowSelectionParams = {
+type RowSelectionParams<T> = {
   selectorType?: string | null;
-  onSelect?: <T>(e: React.ChangeEvent, isChecked: boolean, datum: T, key: string | number) => void;
-  rowIsSelected?: <T>(datum: T, key: string | number) => boolean;
-  onSelectAll?: <T>(e: React.ChangeEvent, isChecked: boolean, datum: T, key: string[]) => void;
+  onSelect?: (e: React.ChangeEvent, isChecked: boolean, datum: T, key: string | number) => void;
+  rowIsSelected?: (datum: T, key: string | number) => boolean;
+  onSelectAll?: (e: React.ChangeEvent, isChecked: boolean, datum: T[], key: string[]) => void;
 };
-export class RowSelection extends Immutable.Record<RowSelectionParams>({}) {
-  selectorType: RowSelectionParams['selectorType'];
-  onSelect: RowSelectionParams['onSelect'];
-  rowIsSelected: RowSelectionParams['rowIsSelected'];
-  onSelectAll: RowSelectionParams['onSelectAll'];
-  constructor(params?: RowSelectionParams);
-  with(values: RowSelectionParams): void;
+export class RowSelection<T> extends Immutable.Record<RowSelectionParams<T>>({}) {
+  selectorType: RowSelectionParams<T>['selectorType'];
+  onSelect: RowSelectionParams<T>['onSelect'];
+  rowIsSelected: RowSelectionParams<T>['rowIsSelected'];
+  onSelectAll: RowSelectionParams<T>['onSelectAll'];
+  constructor(params?: RowSelectionParams<T>);
+  with(values: RowSelectionParams<T>): void;
 }
 
 type GenericObject = { [key: string]: any };
 type RowPropsFunction = (datum: any) => GenericObject;
 
 export interface IEnhancedTableProps {
-  columns: Immutable.List<Immutable.Map<string, any>>;
-  dataSource: Immutable.List<Immutable.Map<string, any>>;
-  rowKey?: <T>(datum: T) => string;
+  columns: Immutable.List<Immutable.Map<string, any>> | any[];
+  dataSource: Immutable.List<Immutable.Map<string, any>> | any[];
+  rowKey?: (datum: any) => string;
   rowHeight?: number;
   loading?: boolean;
   rowSelection?: RowSelection;
