@@ -82,16 +82,16 @@ export class RowSelection<T> extends Immutable.Record<RowSelectionParams<T>>({})
 }
 
 type GenericObject = { [key: string]: any };
-type RowPropsFunction = (datum: any) => GenericObject;
+type RowPropsFunction<T> = (datum: T) => GenericObject;
 
-export interface IEnhancedTableProps {
-  columns: Immutable.List<Immutable.Map<string, any>> | any[];
-  dataSource: Immutable.List<Immutable.Map<string, any>> | any[];
-  rowKey?: (datum: any) => string;
+export interface IEnhancedTableProps<T> {
+  columns: Immutable.List<Immutable.Map<string, any>>;
+  dataSource: Immutable.List<T>;
+  rowKey?: (datum: T) => string;
   rowHeight?: number;
   loading?: boolean;
-  rowSelection?: RowSelection;
-  rowProps?: GenericObject | RowPropsFunction;
+  rowSelection?: RowSelection<T>;
+  rowProps?: GenericObject | RowPropsFunction<T>;
   noDataText?: string;
   defaultOrderDirection?: string;
   defaultOrderBy?: string;
