@@ -28,9 +28,11 @@ describe('Enhanced Table', () => {
         noDataText="NO DATA"
         classes={{}}
         loading={false}
+        height={500}
+        width={500}
       />
     );
-    component.setState({ width: 500, height: 500 });
+
     expect(
       component
         .find(TableCell)
@@ -60,9 +62,16 @@ describe('Enhanced Table', () => {
     ];
 
     const component = mount(
-      <EnhancedTable dataSource={dataSource} columns={columns} noDataText="NO DATA" classes={{}} loading={false} />
+      <EnhancedTable
+        dataSource={dataSource}
+        columns={columns}
+        noDataText="NO DATA"
+        classes={{}}
+        loading={false}
+        height={500}
+        width={500}
+      />
     );
-    component.setState({ width: 500, height: 500 });
 
     expect(component.find(TableCell)).to.have.lengthOf(4);
   });
@@ -73,9 +82,16 @@ describe('Enhanced Table', () => {
       const col = [{ dataIndex: 'name' }, { dataIndex: 'age' }];
 
       const component = mount(
-        <EnhancedTable dataSource={datum} columns={col} noDataText="NO DATA" classes={{}} loading={false} />
+        <EnhancedTable
+          dataSource={datum}
+          columns={col}
+          noDataText="NO DATA"
+          classes={{}}
+          loading={false}
+          height={500}
+          width={500}
+        />
       );
-      component.setState({ width: 500, height: 500 });
 
       expect(
         component
@@ -90,9 +106,16 @@ describe('Enhanced Table', () => {
       const col = [{ dataIndex: 'name' }];
 
       const component = mount(
-        <EnhancedTable dataSource={datum} columns={col} noDataText="NO DATA" classes={{}} loading={false} />
+        <EnhancedTable
+          dataSource={datum}
+          columns={col}
+          noDataText="NO DATA"
+          classes={{}}
+          loading={false}
+          height={500}
+          width={500}
+        />
       );
-      component.setState({ width: 500, height: 500 });
 
       expect(
         component
@@ -106,9 +129,16 @@ describe('Enhanced Table', () => {
       const datum = [{ name: '' }];
       const col = [{ dataIndex: 'name' }];
       const component = mount(
-        <EnhancedTable dataSource={datum} columns={col} noDataText="NO DATA" classes={{}} loading={false} />
+        <EnhancedTable
+          dataSource={datum}
+          columns={col}
+          noDataText="NO DATA"
+          classes={{}}
+          loading={false}
+          height={500}
+          width={500}
+        />
       );
-      component.setState({ width: 500, height: 500 });
 
       expect(
         component
@@ -123,9 +153,16 @@ describe('Enhanced Table', () => {
       const col = [{ dataIndex: 'name' }];
 
       const component = mount(
-        <EnhancedTable dataSource={datum} columns={col} noDataText="NO DATA" classes={{}} loading={false} />
+        <EnhancedTable
+          dataSource={datum}
+          columns={col}
+          noDataText="NO DATA"
+          classes={{}}
+          loading={false}
+          height={500}
+          width={500}
+        />
       );
-      component.setState({ width: 500, height: 500 });
 
       expect(
         component
@@ -140,9 +177,16 @@ describe('Enhanced Table', () => {
       const col = [{ dataIndex: ['name', 'first'] }];
 
       const component = mount(
-        <EnhancedTable dataSource={datum} columns={col} noDataText="NO DATA" classes={{}} loading={false} />
+        <EnhancedTable
+          dataSource={datum}
+          columns={col}
+          noDataText="NO DATA"
+          classes={{}}
+          loading={false}
+          height={500}
+          width={500}
+        />
       );
-      component.setState({ width: 500, height: 500 });
 
       expect(
         component
@@ -157,9 +201,16 @@ describe('Enhanced Table', () => {
       const col = [{ dataIndex: ['name', 'first'], render: cellText => `first name: ${cellText}` }];
 
       const component = mount(
-        <EnhancedTable dataSource={datum} columns={col} noDataText="NO DATA" classes={{}} loading={false} />
+        <EnhancedTable
+          dataSource={datum}
+          columns={col}
+          noDataText="NO DATA"
+          classes={{}}
+          loading={false}
+          height={500}
+          width={500}
+        />
       );
-      component.setState({ width: 500, height: 500 });
 
       expect(
         component
@@ -182,9 +233,10 @@ describe('Enhanced Table', () => {
         classes={{}}
         loading={false}
         rowSelection={new RowSelection()}
+        height={500}
+        width={500}
       />
     );
-    component.setState({ width: 500, height: 500 });
 
     expect(component.find(Checkbox)).to.have.length(2);
   });
@@ -201,9 +253,10 @@ describe('Enhanced Table', () => {
         classes={{}}
         loading={false}
         rowSelection={new RowSelection({ selectorType: 'radio' })}
+        height={500}
+        width={500}
       />
     );
-    component.setState({ width: 500, height: 500 });
 
     expect(component.find(Radio)).to.have.length(1);
   });
@@ -216,9 +269,16 @@ describe('Enhanced Table', () => {
     const col = [{ dataIndex: 'name', width: 200 }, { dataIndex: 'college' }];
 
     const component = mount(
-      <EnhancedTable dataSource={datum} columns={col} noDataText="NO DATA" classes={{}} loading={false} />
+      <EnhancedTable
+        dataSource={datum}
+        columns={col}
+        noDataText="NO DATA"
+        classes={{}}
+        loading={false}
+        height={500}
+        width={500}
+      />
     );
-    component.setState({ width: 500, height: 500 });
 
     expect(
       component
@@ -267,9 +327,10 @@ describe('Enhanced Table', () => {
         loading={false}
         rowSelection={rowSelection}
         rowKey={x => x.key}
+        height={500}
+        width={500}
       />
     );
-    component.setState({ width: 500, height: 500 });
 
     expect(component.instance().getSelectedRowCount()).to.equal(2);
   });
@@ -316,9 +377,10 @@ describe('Enhanced Table', () => {
         loading={false}
         rowSelection={rowSelection}
         rowKey={x => x.key}
+        height={500}
+        width={500}
       />
     );
-    component.setState({ width: 500, height: 500 });
 
     component
       .find(TableCell)
