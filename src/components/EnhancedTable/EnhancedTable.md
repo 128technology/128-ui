@@ -33,7 +33,7 @@ Example:
 
     const data = d.flatMap(i => [i, i, i, i]);
 
-    <EnhancedTable height={'400px'} dataSource={data} columns={columns} />
+    <EnhancedTable height={'400px'} dataSource={data} columns={columns} height={200} />
 
 
 Example:
@@ -62,4 +62,4 @@ Example:
       healthy: 'No'
     }]);
 
-    <EnhancedTable dataSource={data} columns={columns} rowSelection={new RowSelection()} />
+    <EnhancedTable dataSource={data} columns={columns} rowSelection={new RowSelection()} height={200} />
