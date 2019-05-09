@@ -382,7 +382,16 @@ class EnhancedTable extends React.Component {
   render() {
     const { cols, data, headerData } = this.state;
 
-    const { loading, rowSelection, resizeThreshold, rowHeight, classes, tableClassName } = this.props;
+    const {
+      loading,
+      rowSelection,
+      resizeThreshold,
+      rowHeight,
+      classes,
+      tableClassName,
+      height: propHeight,
+      width: propWidth
+    } = this.props;
 
     if (!loading && !data) {
       this.setupData();
@@ -412,8 +421,8 @@ class EnhancedTable extends React.Component {
                     noContentRenderer={this.noRowsRenderer}
                     columnWidth={this.getColumnWidth}
                     rowHeight={rowHeight}
-                    height={height}
-                    width={width}
+                    height={propHeight || height}
+                    width={propWidth || width}
                     onScrollbarPresenceChange={this.scrollbarPresenceChange}
                     enableFixedRowScroll={true}
                     enableFixedColumnScroll={true}
@@ -443,7 +452,7 @@ EnhancedTable.propTypes = {
   resizeThreshold: PropTypes.number,
   tableClassName: PropTypes.string,
   height: PropTypes.string,
-  maxHeight: PropTypes.number,
+  width: PropTypes.string,
   columnMinWidth: PropTypes.number
 };
 
@@ -457,7 +466,8 @@ EnhancedTable.defaultProps = {
   defaultOrderBy: '',
   defaultOrderDirection: 'asc',
   rowRenderOptions: {},
-  resizeThreshold: 500
+  resizeThreshold: 500,
+  columnMinWidth: 200
 };
 
 export default withStyles(styles)(EnhancedTable);
