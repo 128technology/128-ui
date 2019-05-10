@@ -401,38 +401,37 @@ class EnhancedTable extends React.Component {
     return (
       <React.Fragment>
         {loading && <Loading />}
-        {!loading &&
-          data && (
-            <React.Fragment>
-              <ResizeDetector
-                handleWidth={true}
-                handleHeight={true}
-                onResize={_.debounce(this.onResize, resizeThreshold)}
-                render={({ width, height }) => (
-                  <MultiGrid
-                    ref={this.ref}
-                    data={data}
-                    className={classNames(classes.table, tableClassName)}
-                    fixedRowCount={1}
-                    fixedColumnCount={rowSelection && data.length > 0 ? 1 : 0}
-                    rowCount={data.length + headerData.length}
-                    columnCount={cols.length}
-                    cellRenderer={this.cellRenderer}
-                    noContentRenderer={this.noRowsRenderer}
-                    columnWidth={this.getColumnWidth}
-                    rowHeight={rowHeight}
-                    height={propHeight || height}
-                    width={propWidth || width}
-                    onScrollbarPresenceChange={this.scrollbarPresenceChange}
-                    enableFixedRowScroll={true}
-                    enableFixedColumnScroll={true}
-                    hideTopRightGridScrollbar={true}
-                    hideBottomLeftGridScrollbar={true}
-                  />
-                )}
-              />
-            </React.Fragment>
-          )}
+        {!loading && data && (
+          <React.Fragment>
+            <ResizeDetector
+              handleWidth={true}
+              handleHeight={true}
+              onResize={_.debounce(this.onResize, resizeThreshold)}
+              render={({ width, height }) => (
+                <MultiGrid
+                  ref={this.ref}
+                  data={data}
+                  className={classNames(classes.table, tableClassName)}
+                  fixedRowCount={1}
+                  fixedColumnCount={rowSelection && data.length > 0 ? 1 : 0}
+                  rowCount={data.length + headerData.length}
+                  columnCount={cols.length}
+                  cellRenderer={this.cellRenderer}
+                  noContentRenderer={this.noRowsRenderer}
+                  columnWidth={this.getColumnWidth}
+                  rowHeight={rowHeight}
+                  height={propHeight || height}
+                  width={propWidth || width}
+                  onScrollbarPresenceChange={this.scrollbarPresenceChange}
+                  enableFixedRowScroll={true}
+                  enableFixedColumnScroll={true}
+                  hideTopRightGridScrollbar={true}
+                  hideBottomLeftGridScrollbar={true}
+                />
+              )}
+            />
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }
