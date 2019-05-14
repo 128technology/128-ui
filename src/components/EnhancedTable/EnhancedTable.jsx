@@ -182,7 +182,7 @@ class EnhancedTable extends React.Component {
         style={{ height: `${rowHeight}px` }}
         component="div"
         variant="body"
-        className={classNames(classes.tableCellFlex, classes.centerFlex)}
+        className={classNames('ui-128__table-empty', classes.tableCellFlex, classes.centerFlex)}
       >
         {noDataText}
       </TableCell>
@@ -216,7 +216,14 @@ class EnhancedTable extends React.Component {
 
       if (rowSelection && columnIndex === 0) {
         if (rowSelection.get('selectorType') === 'radio') {
-          return <TableCell style={style} className={classes.tableCellFlex} key={cellKey} component="div" />;
+          return (
+            <TableCell
+              style={style}
+              className={classNames('ui-128__table-header', classes.tableCellFlex)}
+              key={cellKey}
+              component="div"
+            />
+          );
         }
         const dataLength = data.length;
         const allRowSelectFn = _.isFunction(rowSelection.get('onSelectAll'))
@@ -234,7 +241,7 @@ class EnhancedTable extends React.Component {
             component="div"
             variant="body"
             padding="checkbox"
-            className={classNames(classes.tableCellFlex, colData.className)}
+            className={classNames('ui-128__table-header', classes.tableCellFlex, colData.className)}
           >
             <Checkbox
               indeterminate={selectedRowCount > 0 && selectedRowCount < dataLength}
@@ -252,7 +259,7 @@ class EnhancedTable extends React.Component {
           style={style}
           component="div"
           variant="head"
-          className={classNames(classes.tableCellFlex, colData.className)}
+          className={classNames('ui-128__table-header', classes.tableCellFlex, colData.className)}
           onClick={disableSort ? _.noop : _.partial(this.handleRequestSort, colData.dataIndex, colData.numeric)}
         >
           {!disableSort && (
@@ -278,7 +285,7 @@ class EnhancedTable extends React.Component {
             component="div"
             variant="body"
             padding="checkbox"
-            className={classNames(classes.tableCellFlex, colData.className)}
+            className={classNames('ui-128__table-cell', `row-${rowIndex}`, classes.tableCellFlex, colData.className)}
           >
             <Radio checked={rowSelection.get('rowIsSelected')(rowData, rowKeyFn(rowData))} onChange={onChangeHandler} />
           </TableCell>
@@ -291,7 +298,7 @@ class EnhancedTable extends React.Component {
           component="div"
           variant="body"
           padding="checkbox"
-          className={classNames(classes.tableCellFlex, colData.className)}
+          className={classNames('ui-128__table-cell', `row-${rowIndex}`, classes.tableCellFlex, colData.className)}
         >
           <Checkbox
             checked={rowSelection.get('rowIsSelected')(rowData, rowKeyFn(rowData))}
@@ -311,7 +318,7 @@ class EnhancedTable extends React.Component {
         key={cellKey}
         component="div"
         variant="body"
-        className={classNames(classes.tableCellFlex, colData.className)}
+        className={classNames('ui-128__table-cell', `row-${rowIndex}`, classes.tableCellFlex, colData.className)}
       >
         {content}
       </TableCell>
