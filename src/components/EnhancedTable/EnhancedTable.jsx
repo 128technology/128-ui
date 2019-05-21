@@ -64,22 +64,20 @@ const EnhancedTable = ({ loading, width: propWidth, data, ...tableProps }) => {
     <React.Fragment>
       {loading && <Loading />}
       {!loading && data && (
-        <React.Fragment>
-          <AutoSizer disableHeight={true} disableWidth={Boolean(propWidth)}>
-            {({ width }) => (
-              <MuiTable
-                {...tableProps}
-                fixedRowCount={1}
-                orderBy={orderBy}
-                orderDirection={orderDirection}
-                data={sortedData}
-                width={propWidth || width}
-                onHeaderClick={dispatchSortParams}
-                includeHeaders={true}
-              />
-            )}
-          </AutoSizer>
-        </React.Fragment>
+        <AutoSizer disableHeight={true} disableWidth={Boolean(propWidth)}>
+          {({ width }) => (
+            <MuiTable
+              {...tableProps}
+              fixedRowCount={1}
+              orderBy={orderBy}
+              orderDirection={orderDirection}
+              data={sortedData}
+              width={propWidth || width}
+              onHeaderClick={dispatchSortParams}
+              includeHeaders={true}
+            />
+          )}
+        </AutoSizer>
       )}
     </React.Fragment>
   );
