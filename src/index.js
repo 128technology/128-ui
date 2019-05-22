@@ -6,4 +6,4 @@ export { default as Loading } from './components/Loading';
 export { default as Spinner } from './components/Spinner';
 export { default as MatchText } from './components/MatchText';
 export { default as SplitButton } from './components/SplitButton';
-export { default as EnhancedTable, RowSelection } from './components/EnhancedTable';
+export { default as EnhancedTable } from './components/EnhancedTable';

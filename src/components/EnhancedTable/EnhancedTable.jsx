@@ -29,7 +29,7 @@ const sort = (data, orderBy, orderDirection, isNumeric) => {
   return _.clone(data).sort(sortComparator(orderBy, orderDirection, isNumeric));
 };
 
-const EnhancedTable = ({ loading, width: propWidth, data, ...tableProps }) => {
+const EnhancedTable = ({ loading, width: propWidth, height: propHeight, data, maxHeight, ...tableProps }) => {
   const [sortParams, dispatchSortParams] = React.useReducer(
     (state, action) => {
       if (action.disableSort) {
@@ -64,8 +64,8 @@ const EnhancedTable = ({ loading, width: propWidth, data, ...tableProps }) => {
     <React.Fragment>
       {loading && <Loading />}
       {!loading && data && (
-        <AutoSizer disableHeight={true} disableWidth={Boolean(propWidth)}>
-          {({ width }) => (
+        <AutoSizer disableHeight={maxHeight || propHeight} disableWidth={propWidth}>
+          {({ width, height }) => (
             <MuiTable
               {...tableProps}
               fixedRowCount={1}
@@ -73,6 +73,8 @@ const EnhancedTable = ({ loading, width: propWidth, data, ...tableProps }) => {
               orderDirection={orderDirection}
               data={sortedData}
               width={propWidth || width}
+              height={propHeight || height}
+              maxHeight={maxHeight}
               onHeaderClick={dispatchSortParams}
               includeHeaders={true}
             />
