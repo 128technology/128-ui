@@ -69,6 +69,8 @@ export { Duration };
 
 export interface IEnhancedTableProps<TRowProps> extends IMuiVirtualizedTableProps<TRowProps> {
   loading?: boolean;
+  defaultOrderBy?: string;
+  defaultOrderDirection?: string;
 }
 
 declare class EnhancedTable extends React.SFC<IEnhancedTableProps> {}

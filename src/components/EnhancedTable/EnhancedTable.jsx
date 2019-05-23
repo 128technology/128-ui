@@ -29,7 +29,16 @@ const sort = (data, orderBy, orderDirection, isNumeric) => {
   return _.clone(data).sort(sortComparator(orderBy, orderDirection, isNumeric));
 };
 
-const EnhancedTable = ({ loading, width: propWidth, height: propHeight, data, maxHeight, ...tableProps }) => {
+const EnhancedTable = ({
+  loading,
+  defaultOrderBy,
+  defaultOrderDirection,
+  data,
+  width: propWidth,
+  height: propHeight,
+  maxHeight,
+  ...tableProps
+}) => {
   const [sortParams, dispatchSortParams] = React.useReducer(
     (state, action) => {
       if (action.disableSort) {
@@ -48,8 +57,8 @@ const EnhancedTable = ({ loading, width: propWidth, height: propHeight, data, ma
       };
     },
     {
-      orderBy: '',
-      orderDirection: 'asc',
+      orderBy: defaultOrderBy,
+      orderDirection: defaultOrderDirection,
       isNumeric: false
     }
   );
@@ -86,11 +95,15 @@ const EnhancedTable = ({ loading, width: propWidth, height: propHeight, data, ma
 };
 
 EnhancedTable.propTypes = {
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  defaultOrderBy: PropTypes.string,
+  defaultOrderDirection: PropTypes.string
 };
 
 EnhancedTable.defaultProps = {
-  loading: false
+  loading: false,
+  defaultOrderBy: '',
+  defaultOrderDirection: 'asc'
 };
 
 export default EnhancedTable;
