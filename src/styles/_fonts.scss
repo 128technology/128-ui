@@ -10,6 +10,15 @@
   }
 }
 
+@mixin define-ttf-font($filename, $weight, $name) {
+  @font-face {
+    font-family: $name;
+    src: url(../fonts/#{$filename}.ttf) format('truetype');
+    font-weight: $weight;
+    font-style: normal;
+  }
+}
+
 @include define-font("montserrat/montserrat-v12-latin-100", 100, "Montserrat");
 @include define-font("montserrat/montserrat-v12-latin-200", 200, "Montserrat");
 @include define-font("montserrat/montserrat-v12-latin-300", 300, "Montserrat");
@@ -18,6 +27,10 @@
 @include define-font("montserrat/montserrat-v12-latin-600", 600, "Montserrat");
 @include define-font("montserrat/montserrat-v12-latin-700", 700, "Montserrat");
 @include define-font("montserrat/montserrat-v12-latin-800", 800, "Montserrat");
-@include define-font("RbNo31/RbNo31_ExtraLight", 100, "RbNo31");
-@include define-font("RbNo31/RbNo31_Light", 200, "RbNo31");
-@include define-font("RbNo31/RbNo31_Book", 300, "RbNo31");
+@include define-ttf-font("RbNo31/RbNo31-ExtraLight", 100, "RbNo31");
+@include define-ttf-font("RbNo31/RbNo31-Light", 200, "RbNo31");
+@include define-ttf-font("RbNo31/RbNo31-Book", 300, "RbNo31");
+@include define-ttf-font("RbNo31/RbNo31-Medium", 400, "RbNo31");
+@include define-ttf-font("RbNo31/RbNo31-Bold", 500, "RbNo31");
+@include define-ttf-font("RbNo31/RbNo31-Black", 700, "RbNo31");
+
