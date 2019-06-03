@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as Immutable from 'immutable';
 import * as select from 'react-select/lib/Select';
 import { Moment } from 'moment';
+import { IMuiVirtualizedTableProps } from 'mui-virtualized-table';
 
 export interface IAutocompleteProps extends select.Props {
   options: any[];
@@ -66,44 +67,13 @@ declare class Duration extends React.Component<IDurationProps, any> {}
 
 export { Duration };
 
-type RowSelectionParams<T> = {
-  selectorType?: string | null;
-  onSelect?: (e: React.ChangeEvent, isChecked: boolean, datum: T, key: string | number) => void;
-  rowIsSelected?: (datum: T, key: string | number) => boolean;
-  onSelectAll?: (e: React.ChangeEvent, isChecked: boolean, datum: T[], key: string[]) => void;
-};
-export class RowSelection<T> extends Immutable.Record<RowSelectionParams<T>>({}) {
-  selectorType: RowSelectionParams<T>['selectorType'];
-  onSelect: RowSelectionParams<T>['onSelect'];
-  rowIsSelected: RowSelectionParams<T>['rowIsSelected'];
-  onSelectAll: RowSelectionParams<T>['onSelectAll'];
-  constructor(params?: RowSelectionParams<T>);
-  with(values: RowSelectionParams<T>): void;
-}
-
-type GenericObject = { [key: string]: any };
-type RowPropsFunction<T> = (datum: T) => GenericObject;
-
-export interface IEnhancedTableProps<T> {
-  columns: Immutable.List<Immutable.Map<string, any>>;
-  dataSource: Immutable.List<T>;
-  rowKey?: (datum: T) => string;
-  rowHeight?: number;
+export interface IEnhancedTableProps<TRowProps> extends IMuiVirtualizedTableProps<TRowProps> {
   loading?: boolean;
-  rowSelection?: RowSelection<T>;
-  rowProps?: GenericObject | RowPropsFunction<T>;
-  noDataText?: string;
-  defaultOrderDirection?: string;
   defaultOrderBy?: string;
-  rowRenderOptions?: any;
-  resizeThreshold?: number;
-  tableClassName?: string;
-  height?: string;
-  maxHeight?: number;
-  columnMinWidth?: number;
+  defaultOrderDirection?: string;
 }
 
-declare class EnhancedTable extends React.Component<IEnhancedTableProps, any> {}
+declare class EnhancedTable extends React.SFC<IEnhancedTableProps> {}
 
 export { EnhancedTable };
 
