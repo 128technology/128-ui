@@ -40,8 +40,8 @@ const styles = ({ palette, shape }: Theme) =>
   });
 
 export interface IProps extends WithStyles<typeof styles> {
-  variant: 'contained' | 'raised' | 'text';
-  color: ButtonProps['color'];
+  variant?: 'contained' | 'raised' | 'text';
+  color?: ButtonProps['color'];
   defaultOnClick?: () => void;
   dropdownIconClassName?: string;
   disabled?: boolean;
