@@ -1,1 +1,1 @@
-export { default } from './Picker';
+export { default, IProps as PickerProps } from './Picker';

@@ -202,17 +202,20 @@ function formatGroupLabel<OptionType>(data: GroupType<OptionType>) {
   );
 }
 
-export interface IProps<OptionType> extends WithStyles<typeof styles> {
+interface IDefaultOptionType {
+  label: string;
+  value: string;
+}
+
+export interface IProps<OptionType = IDefaultOptionType> extends WithStyles<typeof styles> {
   options: OptionType[];
-  accessors?: {
-    value: getOptionValue<OptionType>;
-    label: getOptionLabel<OptionType>;
-  };
+  getOptionLabel?: getOptionLabel<OptionType>;
+  getOptionValue?: getOptionValue<OptionType>;
   chipAvatar?: (d: OptionType) => React.ReactNode;
-  groupBy?: (d: OptionType) => string;
+  groupBy?: (d: OptionType) => string | undefined | null;
   creatable?: boolean;
-  loading?: boolean;
-  selection?: string | OptionType;
+  isLoading?: boolean;
+  selection?: string | ValueType<OptionType>;
   onChange?: (val: ValueType<OptionType>) => void;
   optionRenderer?: (props: OptionProps<OptionType>) => JSX.Element;
   placeholder?: string;
@@ -220,10 +223,13 @@ export interface IProps<OptionType> extends WithStyles<typeof styles> {
   visibleRows?: number;
   rowHeight?: number;
   disabled?: boolean;
+  isClearable?: boolean;
   textFieldProps?: { [key: string]: any };
+  className?: string;
+  isMulti?: boolean;
 }
 
-export function Autocomplete<OptionType extends { label: string; value: string }>(props: IProps<OptionType>) {
+export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<OptionType>) {
   const ref = React.createRef<any>();
   const [width, setWidth] = React.useState<number | null>(null);
   const [currentSelection, setCurrentSelection] = React.useState<ValueType<OptionType>>(null);
@@ -231,7 +237,6 @@ export function Autocomplete<OptionType extends { label: string; value: string }
   const {
     classes,
     creatable,
-    accessors,
     errorText,
     groupBy,
     textFieldProps,
@@ -284,7 +289,7 @@ export function Autocomplete<OptionType extends { label: string; value: string }
 
   let value: ValueType<OptionType> = null;
   if (_.isString(selection)) {
-    value = { label: selection, value: selection } as OptionType;
+    value = { label: selection, value: selection } as any;
   } else if (selection !== undefined) {
     value = selection;
   } else {
@@ -323,16 +328,24 @@ export function Autocomplete<OptionType extends { label: string; value: string }
     onChange: handleOnChange,
     formatGroupLabel: formatGroupLabel,
     selectWidth: width,
-    getOptionLabel: accessors ? accessors.label : undefined,
-    getOptionValue: accessors ? accessors.value : undefined,
     options: items
   };
 
   if (creatable) {
-    return <CreatableSelect {...common} />;
+    return <CreatableSelect<OptionType> {...common} />;
   }
 
-  return <Select {...common} />;
+  return <Select<OptionType> {...common} />;
 }
 
-export default withStyles(styles)(Autocomplete);
+const Component = withStyles(styles)(Autocomplete);
+function Wrapper<OptionType>(
+  props: Omit<IProps<OptionType>, 'classes'> & {
+    classes?: Partial<WithStyles<typeof styles>['classes']>;
+  }
+) {
+  const Moo = Component as React.ComponentType<typeof props>;
+  return <Moo {...props} />;
+}
+
+export default Wrapper;
