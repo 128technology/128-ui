@@ -76,7 +76,7 @@ describe('Enhanced Table', () => {
     expect(cells.at(3).text()).to.equal('cat');
   });
 
-  it('should should re-sort data on header click', () => {
+  it('should re-sort data on header click', () => {
     const data = [
       {
         name: 'dog'
@@ -98,7 +98,7 @@ describe('Enhanced Table', () => {
 
     const component = mount(<EnhancedTable data={data} columns={columns} loading={false} height={500} width={500} />);
     const cells = component.find(TableCell);
-    component.find(MuiTable).prop('onHeaderClick')!({ name: 'name' });
+    component.find(MuiTable).prop('columns')[0].onHeaderClick!({ name: 'name' });
     expect(cells.at(1).text()).to.equal('moo moo cow');
     expect(cells.at(2).text()).to.equal('dog');
     expect(cells.at(3).text()).to.equal('cat');

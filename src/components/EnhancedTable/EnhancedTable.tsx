@@ -6,11 +6,12 @@ import naturalSort = require('javascript-natural-sort');
 
 import Loading from '../Loading';
 
-export interface IProps<TRow> extends Omit<IMuiVirtualizedTableProps<TRow>, 'width'> {
+export interface IProps<TRow> extends Omit<IMuiVirtualizedTableProps<TRow>, 'width' | 'columns'> {
   loading?: boolean;
-  defaultOrderBy?: string;
+  defaultOrderBy?: keyof TRow;
   defaultOrderDirection?: 'asc' | 'desc';
   width?: number;
+  columns: Array<IMuiVirtualizedTableColumn<TRow> & { disableSort?: boolean }>;
 }
 
 export function EnhancedTable<TRow>({
@@ -21,13 +22,14 @@ export function EnhancedTable<TRow>({
   width: propWidth,
   height: propHeight,
   maxHeight,
+  columns,
   ...tableProps
 }: IProps<TRow>) {
   type SortParams = { orderBy: keyof TRow; orderDirection?: 'asc' | 'desc' };
   const [sortParams, setSortParams] = React.useState<SortParams | null>(
     defaultOrderBy
       ? {
-          orderBy: defaultOrderBy as keyof TRow,
+          orderBy: defaultOrderBy,
           orderDirection: defaultOrderDirection
         }
       : null
@@ -71,6 +73,10 @@ export function EnhancedTable<TRow>({
     });
   }, []);
 
+  const mappedColumns = React.useMemo(() => {
+    return columns.map(x => (x.disableSort ? x : { ...x, onHeaderClick }));
+  }, [columns, onHeaderClick]);
+
   return (
     <React.Fragment>
       {loading && <Loading />}
@@ -86,8 +92,8 @@ export function EnhancedTable<TRow>({
               width={propWidth || width}
               height={propHeight || height}
               maxHeight={maxHeight}
-              onHeaderClick={onHeaderClick}
               includeHeaders={true}
+              columns={mappedColumns}
             />
           )}
         </AutoSizer>
