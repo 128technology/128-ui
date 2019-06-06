@@ -38,10 +38,8 @@ Multi-select:
       isMulti={true}
       options={data}
       chipAvatar={d => <Avatar>{d.name.slice(0, 1)}</Avatar>}
-      accessors={{
-        value: d => d.value.age,
-        label: d => `The ${d.name}`
-      }}
+      getOptionLabel={d => `The ${d.name}`}
+      getOptionValue={d => d.value.age}
       groupBy={d => d.species}
     />
 
@@ -81,10 +79,8 @@ Single-select:
 
     <Autocomplete
       options={data}
-      accessors={{
-        value: d => d.value.age,
-        label: d => `The ${d.name}`
-      }}
+      getOptionLabel={d => `The ${d.name}`}
+      getOptionValue={d => d.value.age}
     />
 
 Single-select Disabled:
@@ -124,10 +120,8 @@ Single-select Disabled:
     <Autocomplete
       options={data}
       disabled={true}
-      accessors={{
-        value: d => d.value.age,
-        label: d => `The ${d.name}`
-      }}
+      getOptionLabel={d => `The ${d.name}`}
+      getOptionValue={d => d.value.age}
     />
 
 Single-select Large Dataset:
@@ -174,10 +168,8 @@ Single-select with an error:
     <Autocomplete
       options={data}
       errorText={"There was an error!"}
-      accessors={{
-        value: d => d.value.age,
-        label: d => `The ${d.name}`
-      }}
+      getOptionLabel={d => `The ${d.name}`}
+      getOptionValue={d => d.value.age}
     />
 
 Single-select (controlled):
@@ -216,10 +208,8 @@ Single-select (controlled):
 
     <Autocomplete
       options={data}
-      accessors={{
-        value: d => d.value.age,
-        label: d => `The ${d.name}`
-      }}
+      getOptionLabel={d => `The ${d.name}`}
+      getOptionValue={d => d.value.age}
       selection={data[1]}
     />
 
@@ -299,10 +289,8 @@ Creatable Single-select:
 
     <Autocomplete
       options={data}
-      accessors={{
-        value: d => d.value.age,
-        label: d => `The ${d.name}`
-      }}
+      getOptionLabel={d => `The ${d.name}`}
+      getOptionValue={d => d.value.age}
       creatable={true}
       onChange={d => console.log(d)}
     />
@@ -349,10 +337,8 @@ Async Creatable Single-select with Promise:
 
     <Autocomplete
       defaultOptions={true}
-      accessors={{
-        value: d => d.value.age,
-        label: d => `The ${d.name}`
-      }}
+      getOptionLabel={d => `The ${d.name}`}
+      getOptionValue={d => d.value.age}
       creatable={true}
       async={true}
       onChange={d => console.log(d)}
@@ -401,10 +387,8 @@ Async Creatable Single-select with Callback:
 
     <Autocomplete
       defaultOptions={true}
-      accessors={{
-        value: d => d.value.age,
-        label: d => `The ${d.name}`
-      }}
+      getOptionLabel={d => `The ${d.name}`}
+      getOptionValue={d => d.value.age}
       creatable={true}
       async={true}
       onChange={d => console.log(d)}
@@ -460,10 +444,8 @@ Async Creatable Multi-select with Promise:
     <Autocomplete
       isMulti={true}
       defaultOptions={true}
-      accessors={{
-        value: d => d.value.age,
-        label: d => `The ${d.name}`
-      }}
+      getOptionLabel={d => `The ${d.name}`}
+      getOptionValue={d => d.value.age}
       creatable={true}
       async={true}
       onChange={d => console.log(d)}
@@ -504,7 +486,7 @@ Single-select Controlled:
       species: 'Dog'
     }];
 
-    class AutocompleteControlled extends React.Component { 
+    class AutocompleteControlled extends React.Component {
       constructor(props) {
         super(props);
         this.state = { selection: null };
@@ -524,9 +506,7 @@ Single-select Controlled:
     };
 
     <AutocompleteControlled
-      accessors={{
-        value: d => d.value.age,
-        label: d => `The ${d.name}`
-      }}
+      getOptionLabel={d => `The ${d.name}`}
+      getOptionValue={d => d.value.age}
       options={data}
     />

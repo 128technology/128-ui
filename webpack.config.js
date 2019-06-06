@@ -10,7 +10,7 @@ const components = fs.readdirSync(path.join(APP_PATH, 'components'));
 const entries = _.reduce(
   components,
   (acc, x) => {
-    acc[`${x}/index`] = path.join(APP_PATH, `components/${x}/index.js`);
+    acc[`${x}/index`] = path.join(APP_PATH, `components/${x}/index.ts`);
     return acc;
   },
   {}
@@ -20,7 +20,7 @@ const config = {
   entry: Object.assign(
     {},
     {
-      index: path.join(APP_PATH, 'index.js')
+      index: path.join(APP_PATH, 'index.ts')
     },
     entries
   ),
@@ -32,7 +32,7 @@ const config = {
     umdNamedDefine: true
   },
   resolve: {
-    extensions: ['.jsx', '.js'],
+    extensions: ['.jsx', '.js', '.ts', '.tsx'],
     alias: {
       react: path.resolve(__dirname, './node_modules/react'),
       'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
@@ -57,6 +57,16 @@ const config = {
         test: /\.jsx?$/,
         include: [APP_PATH],
         use: ['babel-loader']
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: [/node_modules/],
+        use: [
+          'babel-loader',
+          {
+            loader: 'ts-loader'
+          }
+        ]
       },
       {
         test: /\.*css$/,

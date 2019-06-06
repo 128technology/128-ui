@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "commonjs",
+    "declaration": true,
+    "lib": ["es2017", "dom", "esnext.asynciterable"],
+    "strict": true,
+    "outDir": "dist",
+    "noImplicitAny": true,
+    "jsx": "preserve",
+    "noEmitOnError": true,
+    "noUnusedLocals": false
+  },
+  "include": ["src/**/*", "types/**/*"],
+  "exclude": ["node_modules"]
+}
