@@ -1,7 +1,11 @@
 import * as _ from 'lodash';
 import * as React from 'react';
 import { AutoSizer } from 'react-virtualized';
-import MuiTable, { IMuiVirtualizedTableProps, IMuiVirtualizedTableColumn } from 'mui-virtualized-table';
+import MuiTable, {
+  IMuiVirtualizedTableProps,
+  IMuiVirtualizedTableColumn,
+  IHeaderClickProps
+} from 'mui-virtualized-table';
 import naturalSort = require('javascript-natural-sort');
 
 import Loading from '../Loading';
@@ -60,22 +64,18 @@ export function EnhancedTable<TRow>({
     });
   }, [data, sortParams]);
 
-  const onHeaderClick = React.useCallback((col: IMuiVirtualizedTableColumn<TRow>) => {
+  const onHeaderClick = React.useCallback((e: React.MouseEvent<HTMLElement>, props: IHeaderClickProps<TRow>) => {
     setSortParams(s => {
-      if (s && s.orderBy === col.name) {
+      if (s && s.orderBy === props.column.name) {
         return { ...s, orderDirection: s.orderDirection === 'asc' ? 'desc' : 'asc' };
       }
 
       return {
-        orderBy: col.name as keyof TRow,
+        orderBy: props.column.name as keyof TRow,
         orderDirection: 'desc'
       };
     });
   }, []);
-
-  const mappedColumns = React.useMemo(() => {
-    return columns.map(x => (x.disableSort ? x : { ...x, onHeaderClick }));
-  }, [columns, onHeaderClick]);
 
   return (
     <React.Fragment>
@@ -93,7 +93,8 @@ export function EnhancedTable<TRow>({
               height={propHeight || height}
               maxHeight={maxHeight}
               includeHeaders={true}
-              columns={mappedColumns}
+              columns={columns}
+              onHeaderClick={onHeaderClick}
             />
           )}
         </AutoSizer>

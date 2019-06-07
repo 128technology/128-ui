@@ -55,7 +55,7 @@ class PickerListItem extends React.Component<IProps> {
         button={true}
         onClick={this.handleOnClick}
       >
-        <Typography color={this.getColor()} variant={selected ? 'title' : 'button'}>
+        <Typography color={this.getColor()} variant={selected ? 'h6' : 'button'}>
           {children}
         </Typography>
       </ListItem>

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
 import TableCell from '@material-ui/core/TableCell';
-import MuiTable from 'mui-virtualized-table';
+import MuiTable, { IHeaderClickProps } from 'mui-virtualized-table';
 
 import EnhancedTable from '../EnhancedTable';
 
@@ -98,7 +98,7 @@ describe('Enhanced Table', () => {
 
     const component = mount(<EnhancedTable data={data} columns={columns} loading={false} height={500} width={500} />);
     const cells = component.find(TableCell);
-    component.find(MuiTable).prop('columns')[0].onHeaderClick!({ name: 'name' });
+    component.find(MuiTable).prop('onHeaderClick')!({ a: 'a' } as any, { column: { name: 'name' } });
     expect(cells.at(1).text()).to.equal('moo moo cow');
     expect(cells.at(2).text()).to.equal('dog');
     expect(cells.at(3).text()).to.equal('cat');

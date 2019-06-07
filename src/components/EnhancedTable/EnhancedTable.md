@@ -6,7 +6,7 @@ Example:
     }, {
       name: 'healthy',
       header:'Healthy',
-      disableSort: true
+      onHeaderClick: false
     }, {
       name: 'cals',
       header: 'Calories'

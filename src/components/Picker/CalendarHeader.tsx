@@ -11,7 +11,7 @@ const styles = ({ palette, spacing, shadows }: Theme) =>
   createStyles({
     container: {
       backgroundColor: palette.primary.main,
-      padding: `${spacing.unit * 2}px ${spacing.unit * 2}px`,
+      padding: `${spacing(2)}px ${spacing(2)}px`,
       boxShadow: shadows[1],
       position: 'relative',
       display: 'flex',
@@ -22,8 +22,8 @@ const styles = ({ palette, spacing, shadows }: Theme) =>
       zIndex: 10
     },
     dateContainer: {
-      paddingLeft: spacing.unit,
-      paddingRight: spacing.unit,
+      paddingLeft: spacing(1),
+      paddingRight: spacing(1),
       flexGrow: 1,
       flexShrink: 0,
       width: '40%',
@@ -46,8 +46,8 @@ const styles = ({ palette, spacing, shadows }: Theme) =>
       width: '20%'
     },
     colon: {
-      marginLeft: spacing.unit * 0.35,
-      marginRight: spacing.unit * 0.35,
+      marginLeft: spacing(0.35),
+      marginRight: spacing(0.35),
       fontSize: 28
     },
     alignRight: {
@@ -81,21 +81,21 @@ const CalendarHeader: React.FunctionComponent<IProps> = ({
   <div className={classes.container}>
     <div className={classes.dateContainer}>
       <CalendarHeaderButton
-        variant="subheading"
+        variant="subtitle1"
         selected={selectedView === VIEWS.START_YEAR}
         onClick={_.partialRight(selectViewOnClick, VIEWS.START_YEAR)}
       >
         {formatOrElse(startDate, 'YYYY', '')}
       </CalendarHeaderButton>
       <CalendarHeaderButton
-        variant="headline"
+        variant="h5"
         selected={selectedView === VIEWS.START_DATE}
         onClick={_.partialRight(selectViewOnClick, VIEWS.START_DATE)}
       >
         {formatOrElse(startDate, 'MMM DD', 'Start')}
       </CalendarHeaderButton>
       <CalendarHeaderButton
-        variant="headline"
+        variant="h5"
         selected={selectedView === VIEWS.START_TIME}
         onClick={_.partialRight(selectViewOnClick, VIEWS.START_TIME)}
       >
@@ -111,21 +111,21 @@ const CalendarHeader: React.FunctionComponent<IProps> = ({
     </div>
     <div className={classNames(classes.dateContainer, classes.alignRight)}>
       <CalendarHeaderButton
-        variant="subheading"
+        variant="subtitle1"
         selected={selectedView === VIEWS.END_YEAR}
         onClick={_.partialRight(selectViewOnClick, VIEWS.END_YEAR)}
       >
         {formatOrElse(endDate, 'YYYY', '')}
       </CalendarHeaderButton>
       <CalendarHeaderButton
-        variant="headline"
+        variant="h5"
         selected={selectedView === VIEWS.END_DATE}
         onClick={_.partialRight(selectViewOnClick, VIEWS.END_DATE)}
       >
         {formatOrElse(endDate, 'MMM DD', 'End')}
       </CalendarHeaderButton>
       <CalendarHeaderButton
-        variant="headline"
+        variant="h5"
         selected={selectedView === VIEWS.END_TIME}
         onClick={_.partialRight(selectViewOnClick, VIEWS.END_TIME)}
       >
