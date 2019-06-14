@@ -15,7 +15,7 @@ export interface IProps<TRow> extends Omit<IMuiVirtualizedTableProps<TRow>, 'wid
   defaultOrderBy?: keyof TRow;
   defaultOrderDirection?: 'asc' | 'desc';
   width?: number;
-  columns: Array<IMuiVirtualizedTableColumn<TRow> & { disableSort?: boolean }>;
+  columns: Array<IMuiVirtualizedTableColumn<TRow>>;
 }
 
 export function EnhancedTable<TRow>({
