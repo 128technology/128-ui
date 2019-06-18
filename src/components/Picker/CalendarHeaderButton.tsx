@@ -14,7 +14,9 @@ const styles = ({ palette }: Theme) =>
     }
   });
 
-export interface IProps extends WithStyles<typeof styles>, Omit<TypographyProps, 'classes'> {
+export interface IProps
+  extends WithStyles<typeof styles>,
+    Pick<TypographyProps, Exclude<keyof TypographyProps, 'classes'>> {
   className?: string;
   selected?: boolean;
 }

@@ -1,7 +1,13 @@
 import * as _ from 'lodash';
 import * as React from 'react';
 import { AutoSizer } from 'react-virtualized';
-import MuiTable, { IMuiVirtualizedTableProps, IMuiVirtualizedTableColumn } from 'mui-virtualized-table';
+import { makeStyles } from '@material-ui/core/styles';
+import MuiTable, {
+  IMuiVirtualizedTableProps,
+  IMuiVirtualizedTableColumn,
+  IHeaderClickProps
+} from 'mui-virtualized-table';
+
 import naturalSort = require('javascript-natural-sort');
 
 import Loading from '../Loading';
@@ -11,8 +17,15 @@ export interface IProps<TRow> extends Omit<IMuiVirtualizedTableProps<TRow>, 'wid
   defaultOrderBy?: keyof TRow;
   defaultOrderDirection?: 'asc' | 'desc';
   width?: number;
-  columns: Array<IMuiVirtualizedTableColumn<TRow> & { disableSort?: boolean }>;
+  columns: Array<IMuiVirtualizedTableColumn<TRow>>;
 }
+
+const useStyles = makeStyles({
+  cellHeader: {
+    backgroundColor: 'inherit !important',
+    fontSize: 'inherit !important'
+  }
+});
 
 export function EnhancedTable<TRow>({
   loading,
@@ -26,6 +39,7 @@ export function EnhancedTable<TRow>({
   ...tableProps
 }: IProps<TRow>) {
   type SortParams = { orderBy: keyof TRow; orderDirection?: 'asc' | 'desc' };
+  const classes = useStyles();
   const [sortParams, setSortParams] = React.useState<SortParams | null>(
     defaultOrderBy
       ? {
@@ -60,22 +74,18 @@ export function EnhancedTable<TRow>({
     });
   }, [data, sortParams]);
 
-  const onHeaderClick = React.useCallback((col: IMuiVirtualizedTableColumn<TRow>) => {
+  const onHeaderClick = React.useCallback((e: React.MouseEvent<HTMLElement>, props: IHeaderClickProps<TRow>) => {
     setSortParams(s => {
-      if (s && s.orderBy === col.name) {
+      if (s && s.orderBy === props.column.name) {
         return { ...s, orderDirection: s.orderDirection === 'asc' ? 'desc' : 'asc' };
       }
 
       return {
-        orderBy: col.name as keyof TRow,
+        orderBy: props.column.name as keyof TRow,
         orderDirection: 'desc'
       };
     });
   }, []);
-
-  const mappedColumns = React.useMemo(() => {
-    return columns.map(x => (x.disableSort ? x : { ...x, onHeaderClick }));
-  }, [columns, onHeaderClick]);
 
   return (
     <React.Fragment>
@@ -93,7 +103,9 @@ export function EnhancedTable<TRow>({
               height={propHeight || height}
               maxHeight={maxHeight}
               includeHeaders={true}
-              columns={mappedColumns}
+              columns={columns}
+              classes={classes}
+              onHeaderClick={onHeaderClick}
             />
           )}
         </AutoSizer>

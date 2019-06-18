@@ -1,6 +1,6 @@
 {
   "name": "@128technology/ui",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "128 Technology UI component library.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -35,7 +35,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
-    "@material-ui/core": "^3.1.0",
+    "@material-ui/core": "^4.0.1",
     "@types/chai": "^4.1.7",
     "@types/classnames": "^2.2.8",
     "@types/enzyme": "^3.9.3",
@@ -88,7 +88,7 @@
   "peerDependencies": {
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "@material-ui/core": "^3.1.0"
+    "@material-ui/core": "^4.0.1"
   },
   "dependencies": {
     "@mdi/font": "^2.7.94",
@@ -97,7 +97,7 @@
     "immutable": "^4.0.0-rc.9",
     "javascript-natural-sort": "^0.7.1",
     "moment": "^2.22.2",
-    "mui-virtualized-table": "^2.2.3",
+    "mui-virtualized-table": "^3.0.0-2",
     "prop-types": "^15.5.8",
     "react-immutable-proptypes": "^2.1.0",
     "react-resize-detector": "^4.1.3",

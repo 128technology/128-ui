@@ -22,8 +22,8 @@ const styles = ({ typography, spacing }: Theme) => ({
     width: 284
   },
   calendarContainer: {
-    padding: spacing.unit * 2,
-    paddingTop: spacing.unit
+    padding: spacing(2),
+    paddingTop: spacing(1)
   }
 });
 

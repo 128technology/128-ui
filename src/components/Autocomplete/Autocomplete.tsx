@@ -5,7 +5,6 @@ import Select from 'react-select';
 import CreatableSelect from 'react-select/lib/Creatable';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import classNames from 'classnames';
@@ -40,12 +39,12 @@ const styles = ({ spacing, palette }: Theme) =>
       color: palette.primary.contrastText
     },
     chip: {
-      marginRight: spacing.unit * 0.5,
-      marginBottom: spacing.unit * 0.5
+      marginRight: spacing(0.5),
+      marginBottom: spacing(0.5)
     },
     noOptionsMessage: {
       boxSizing: 'border-box',
-      padding: spacing.unit,
+      padding: spacing(1),
       display: 'flex',
       alignItems: 'center'
     },
@@ -68,12 +67,13 @@ const styles = ({ spacing, palette }: Theme) =>
   });
 
 function InputComponent({ inputRef, ...rest }: any) {
-  return <div ref={inputRef} {...rest} />;
+  return <div style={{ height: 'auto' }} ref={inputRef} {...rest} />;
 }
 
 function NoOptionsMessage<OptionType>({ children, selectProps, innerProps }: NoticeProps<OptionType>) {
   return (
     <Typography
+      variant="body2"
       color="textSecondary"
       className={selectProps.classes.noOptionsMessage}
       style={{ height: selectProps.rowHeight }}
@@ -126,14 +126,16 @@ function Option<OptionType>(props: OptionProps<OptionType>) {
       style={{ height: selectProps.rowHeight }}
       {...innerProps}
     >
-      {_.isFunction(selectProps.optionRenderer) ? selectProps.optionRenderer(props) : children}
+      <Typography variant="body2" color="textPrimary" className={selectProps.classes.placeholder}>
+        {_.isFunction(selectProps.optionRenderer) ? selectProps.optionRenderer(props) : children}
+      </Typography>
     </MenuItem>
   );
 }
 
 function Placeholder<OptionType>({ selectProps, innerProps, children }: PlaceholderProps<OptionType>) {
   return (
-    <Typography color="textSecondary" className={selectProps.classes.placeholder} {...innerProps}>
+    <Typography variant="body2" color="textSecondary" className={selectProps.classes.placeholder} {...innerProps}>
       {children}
     </Typography>
   );
@@ -181,22 +183,9 @@ function MenuList<OptionType>({ selectProps, children }: MenuListComponentProps<
   );
 }
 
-function Menu<OptionType>({ selectProps, children, innerProps }: MenuProps<OptionType>) {
-  return (
-    <Paper
-      elevation={1}
-      className={selectProps.classes.paper}
-      style={{ maxWidth: selectProps.selectWidth, width: selectProps.selectWidth || 'auto' }}
-      {...innerProps}
-    >
-      {children}
-    </Paper>
-  );
-}
-
 function formatGroupLabel<OptionType>(data: GroupType<OptionType>) {
   return (
-    <Typography color="textSecondary" variant="subheading">
+    <Typography color="textSecondary" variant="subtitle1">
       {data.label}
     </Typography>
   );
@@ -308,7 +297,6 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
     components: {
       ...virtualized,
       Control,
-      Menu,
       MultiValue,
       NoOptionsMessage,
       Option,
@@ -340,7 +328,7 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
 
 const Component = withStyles(styles)(Autocomplete);
 function Wrapper<OptionType>(
-  props: Omit<IProps<OptionType>, 'classes'> & {
+  props: Pick<IProps<OptionType>, Exclude<keyof IProps<OptionType>, 'classes'>> & {
     classes?: Partial<WithStyles<typeof styles>['classes']>;
   }
 ) {

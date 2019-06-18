@@ -16,7 +16,7 @@ const styles = ({ typography, palette, spacing }: Theme) =>
     },
     dotw: {
       width: 36,
-      padding: `${spacing.unit}px 0`,
+      padding: `${spacing(1)}px 0`,
       textAlign: 'center'
     }
   });
