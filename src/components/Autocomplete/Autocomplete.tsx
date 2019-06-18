@@ -5,8 +5,6 @@ import Select from 'react-select';
 import CreatableSelect from 'react-select/lib/Creatable';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import Popover from '@material-ui/core/Popover';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import classNames from 'classnames';
