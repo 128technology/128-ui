@@ -1,11 +1,13 @@
 import * as _ from 'lodash';
 import * as React from 'react';
 import { AutoSizer } from 'react-virtualized';
+import { makeStyles } from '@material-ui/core/styles';
 import MuiTable, {
   IMuiVirtualizedTableProps,
   IMuiVirtualizedTableColumn,
   IHeaderClickProps
 } from 'mui-virtualized-table';
+
 import naturalSort = require('javascript-natural-sort');
 
 import Loading from '../Loading';
@@ -17,6 +19,13 @@ export interface IProps<TRow> extends Omit<IMuiVirtualizedTableProps<TRow>, 'wid
   width?: number;
   columns: Array<IMuiVirtualizedTableColumn<TRow>>;
 }
+
+const useStyles = makeStyles({
+  cellHeader: {
+    backgroundColor: 'inherit !important',
+    fontSize: 'inherit !important'
+  }
+});
 
 export function EnhancedTable<TRow>({
   loading,
@@ -30,6 +39,7 @@ export function EnhancedTable<TRow>({
   ...tableProps
 }: IProps<TRow>) {
   type SortParams = { orderBy: keyof TRow; orderDirection?: 'asc' | 'desc' };
+  const classes = useStyles();
   const [sortParams, setSortParams] = React.useState<SortParams | null>(
     defaultOrderBy
       ? {
@@ -94,6 +104,7 @@ export function EnhancedTable<TRow>({
               maxHeight={maxHeight}
               includeHeaders={true}
               columns={columns}
+              classes={classes}
               onHeaderClick={onHeaderClick}
             />
           )}

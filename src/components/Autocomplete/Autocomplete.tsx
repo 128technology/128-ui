@@ -6,6 +6,7 @@ import CreatableSelect from 'react-select/lib/Creatable';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
+import Popover from '@material-ui/core/Popover';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import classNames from 'classnames';
@@ -127,7 +128,9 @@ function Option<OptionType>(props: OptionProps<OptionType>) {
       style={{ height: selectProps.rowHeight }}
       {...innerProps}
     >
-      {_.isFunction(selectProps.optionRenderer) ? selectProps.optionRenderer(props) : children}
+      <Typography variant="body2" color="textPrimary" className={selectProps.classes.placeholder}>
+        {_.isFunction(selectProps.optionRenderer) ? selectProps.optionRenderer(props) : children}
+      </Typography>
     </MenuItem>
   );
 }
@@ -179,19 +182,6 @@ function MenuList<OptionType>({ selectProps, children }: MenuListComponentProps<
         );
       }}
     />
-  );
-}
-
-function Menu<OptionType>({ selectProps, children, innerProps }: MenuProps<OptionType>) {
-  return (
-    <Paper
-      elevation={1}
-      className={selectProps.classes.paper}
-      style={{ maxWidth: selectProps.selectWidth, width: selectProps.selectWidth || 'auto' }}
-      {...innerProps}
-    >
-      {children}
-    </Paper>
   );
 }
 
@@ -309,7 +299,6 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
     components: {
       ...virtualized,
       Control,
-      Menu,
       MultiValue,
       NoOptionsMessage,
       Option,

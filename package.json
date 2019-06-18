@@ -97,7 +97,7 @@
     "immutable": "^4.0.0-rc.9",
     "javascript-natural-sort": "^0.7.1",
     "moment": "^2.22.2",
-    "mui-virtualized-table": "^3.0.0-1",
+    "mui-virtualized-table": "^3.0.0-2",
     "prop-types": "^15.5.8",
     "react-immutable-proptypes": "^2.1.0",
     "react-resize-detector": "^4.1.3",
