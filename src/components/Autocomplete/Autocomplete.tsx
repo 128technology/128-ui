@@ -2,11 +2,13 @@ import * as _ from 'lodash';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Select from 'react-select';
+import TetherComponent from 'react-tether';
 import CreatableSelect from 'react-select/lib/Creatable';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
+import Paper from '@material-ui/core/Paper';
 import classNames from 'classnames';
 import { List } from 'react-virtualized';
 import { withStyles, Theme, WithStyles, createStyles } from '@material-ui/core/styles';
@@ -183,6 +185,33 @@ function MenuList<OptionType>({ selectProps, children }: MenuListComponentProps<
   );
 }
 
+function Menu<OptionType>({ selectProps, children, innerProps }: MenuProps<OptionType>) {
+  return (
+    <TetherComponent
+      attachment="top center"
+      constraints={[
+        {
+          to: 'window',
+          attachment: 'together'
+        }
+      ]}
+      style={{ zIndex: 1500 }}
+      renderTarget={ref => <div ref={ref as any} />}
+      renderElement={ref => (
+        <Paper
+          ref={ref}
+          elevation={1}
+          className={selectProps.classes.paper}
+          style={{ maxWidth: selectProps.selectWidth, width: selectProps.selectWidth || 'auto' }}
+          {...innerProps}
+        >
+          {children}
+        </Paper>
+      )}
+    />
+  );
+}
+
 function formatGroupLabel<OptionType>(data: GroupType<OptionType>) {
   return (
     <Typography color="textSecondary" variant="subtitle1">
@@ -298,6 +327,7 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
       ...virtualized,
       Control,
       MultiValue,
+      Menu,
       NoOptionsMessage,
       Option,
       Placeholder,
