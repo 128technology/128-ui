@@ -42,7 +42,7 @@ const styles = ({ palette, shape }: Theme) =>
 export interface IProps extends WithStyles<typeof styles> {
   variant?: 'contained' | 'raised' | 'text';
   color?: ButtonProps['color'];
-  defaultOnClick?: () => void;
+  defaultOnClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   dropdownIconClassName?: string;
   disabled?: boolean;
   dropdownDisabled?: boolean;
