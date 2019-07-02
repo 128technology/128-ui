@@ -10,25 +10,30 @@ import MuiTable, {
 
 import naturalSort = require('javascript-natural-sort');
 
-import Loading from '../Loading';
+import Loading, { LoadingProps } from '../Loading';
 
 export interface IProps<TRow> extends Omit<IMuiVirtualizedTableProps<TRow>, 'width' | 'columns'> {
-  loading?: boolean;
+  columns: Array<IMuiVirtualizedTableColumn<TRow>>;
   defaultOrderBy?: keyof TRow;
   defaultOrderDirection?: 'asc' | 'desc';
+  loading?: boolean;
+  loadingProps?: LoadingProps;
   width?: number;
-  columns: Array<IMuiVirtualizedTableColumn<TRow>>;
 }
 
 const useStyles = makeStyles({
   cellHeader: {
     backgroundColor: 'inherit !important',
     fontSize: 'inherit !important'
+  },
+  cellContents: {
+    width: 'auto'
   }
 });
 
 export function EnhancedTable<TRow>({
   loading,
+  loadingProps,
   defaultOrderBy,
   defaultOrderDirection,
   data,
@@ -89,11 +94,12 @@ export function EnhancedTable<TRow>({
 
   return (
     <React.Fragment>
-      {loading && <Loading />}
+      {loading && <Loading {...loadingProps} />}
       {!loading && data && (
         <AutoSizer disableHeight={!_.isNil(maxHeight || propHeight)} disableWidth={!_.isNil(propWidth)}>
           {({ width, height }) => (
             <MuiTable
+              classes={classes}
               {...tableProps}
               fixedRowCount={1}
               orderBy={sortParams ? (sortParams.orderBy as string) : undefined}
@@ -104,7 +110,6 @@ export function EnhancedTable<TRow>({
               maxHeight={maxHeight}
               includeHeaders={true}
               columns={columns}
-              classes={classes}
               onHeaderClick={onHeaderClick}
             />
           )}
