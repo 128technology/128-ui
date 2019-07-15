@@ -6,7 +6,7 @@ import MuiTable, {
   IMuiVirtualizedTableProps,
   IMuiVirtualizedTableColumn,
   IHeaderClickProps
-} from 'mui-virtualized-table';
+} from '@128technology/mui-virtualized-table';
 
 import naturalSort = require('javascript-natural-sort');
 

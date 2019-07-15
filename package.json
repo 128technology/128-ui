@@ -91,12 +91,12 @@
     "@material-ui/core": "^4.0.1"
   },
   "dependencies": {
+    "@128technology/mui-virtualized-table": "file:../mui-virtualized-table",
     "@mdi/font": "^2.7.94",
     "@types/react-select": "^2.0.6",
     "classnames": "^2.2.5",
     "javascript-natural-sort": "^0.7.1",
     "moment": "^2.22.2",
-    "mui-virtualized-table": "^3.0.0-2",
     "prop-types": "^15.5.8",
     "react-select": "^2.0.0",
     "react-tether": "^2.0.3",
