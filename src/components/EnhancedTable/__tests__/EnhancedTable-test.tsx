@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 
 import TableCell from '@material-ui/core/TableCell';
-import MuiTable, { IHeaderClickProps } from 'mui-virtualized-table';
+import MuiTable, { IHeaderClickProps } from '@128technology/mui-virtualized-table';
 
 import EnhancedTable from '../EnhancedTable';
 
