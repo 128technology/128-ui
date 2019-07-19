@@ -27,7 +27,12 @@ const styles = ({ spacing, palette }: Theme) =>
   createStyles({
     input: {
       display: 'flex',
-      padding: 0,
+      '& > div:first-child > div:last-child': {
+        marginTop: 0,
+        marginBottom: 0,
+        paddingTop: 0,
+        paddingBottom: 0
+      },
       '& > div:last-child > span': {
         backgroundColor: 'transparent'
       }
@@ -35,6 +40,7 @@ const styles = ({ spacing, palette }: Theme) =>
     valueContainer: {
       display: 'flex',
       flexWrap: 'wrap',
+      alignSelf: 'center',
       flex: 1,
       alignItems: 'center'
     },
@@ -55,7 +61,9 @@ const styles = ({ spacing, palette }: Theme) =>
     menuItem: {
       boxSizing: 'border-box'
     },
-    placeholder: {},
+    placeholder: {
+      userSelect: 'none'
+    },
     inputUnderline: {
       borderBottom: '0',
       '&::before': {
@@ -69,12 +77,19 @@ const styles = ({ spacing, palette }: Theme) =>
       }
     },
     outlinedInput: {
-      paddingLeft: 12
+      '& > div:last-child > div': {
+        padding: 0
+      }
+    },
+    filledInput: {
+      '& > div:first-child > div': {
+        transform: 'none'
+      }
     }
   });
 
 function InputComponent({ inputRef, ...rest }: any) {
-  return <div style={{ height: 'auto' }} ref={inputRef} {...rest} />;
+  return <div ref={inputRef} {...rest} />;
 }
 
 function NoOptionsMessage<OptionType>({ children, selectProps, innerProps }: NoticeProps<OptionType>) {
@@ -102,7 +117,8 @@ function Control<OptionType>({ selectProps, innerRef, innerProps, children }: Co
       input: classNames(
         inputPropsClasses.input,
         selectProps.classes.input,
-        rest.variant && selectProps.classes.outlinedInput
+        rest.variant === 'outlined' && selectProps.classes.outlinedInput,
+        rest.variant === 'filled' && selectProps.classes.filledInput
       ),
       ...inputPropsClasses
     },
@@ -121,7 +137,7 @@ function Control<OptionType>({ selectProps, innerRef, innerProps, children }: Co
     );
   }
 
-  return <TextField fullWidth={true} InputProps={inputProps} {...rest} />;
+  return <TextField label={selectProps.label} margin="dense" fullWidth InputProps={inputProps} {...rest} />;
 }
 
 function Option<OptionType>(props: OptionProps<OptionType>) {
@@ -254,6 +270,7 @@ export interface IProps<OptionType = IDefaultOptionType> extends WithStyles<type
   textFieldProps?: TextFieldProps;
   className?: string;
   isMulti?: boolean;
+  label?: string;
 }
 
 export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<OptionType>) {
@@ -343,7 +360,6 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
       ValueContainer
     },
     textFieldProps: {
-      label: '',
       InputLabelProps: {
         shrink: true
       },
