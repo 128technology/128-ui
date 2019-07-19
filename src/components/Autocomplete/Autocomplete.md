@@ -386,6 +386,7 @@ Async Creatable Single-select with Callback:
     };
 
     <Autocomplete
+      label="Select An Item"
       textFieldProps={{ variant: 'filled' }}
       defaultOptions={true}
       getOptionLabel={d => `The ${d.name}`}
@@ -507,6 +508,7 @@ Single-select Controlled:
     };
 
     <AutocompleteControlled
+      label="Select an item"
       textFieldProps={{ variant: 'outlined' }}
       getOptionLabel={d => `The ${d.name}`}
       getOptionValue={d => d.value.age}
