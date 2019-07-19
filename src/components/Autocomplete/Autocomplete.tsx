@@ -5,7 +5,7 @@ import Select from 'react-select';
 import TetherComponent from 'react-tether';
 import CreatableSelect from 'react-select/lib/Creatable';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
+import TextField, { TextFieldProps } from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
@@ -20,6 +20,8 @@ import { NoticeProps, MenuListComponentProps, MenuProps } from 'react-select/lib
 import { MultiValueProps } from 'react-select/lib/components/MultiValue';
 import { getOptionValue, getOptionLabel } from 'react-select/lib/builtins';
 import { ControlProps } from 'react-select/lib/components/Control';
+
+import './Autocomplete.scss';
 
 const styles = ({ spacing, palette }: Theme) =>
   createStyles({
@@ -65,6 +67,9 @@ const styles = ({ spacing, palette }: Theme) =>
       '&::before': {
         borderBottom: '1px dotted rgba(0, 0, 0, 0.42) !important'
       }
+    },
+    outlinedInput: {
+      paddingLeft: 12
     }
   });
 
@@ -90,30 +95,33 @@ function Control<OptionType>({ selectProps, innerRef, innerProps, children }: Co
   const { InputProps = {}, ...rest } = selectProps.textFieldProps;
   const inputPropsClasses = InputProps.classes || {};
 
-  return (
-    <TextField
-      fullWidth={true}
-      InputProps={{
-        ...InputProps,
-        inputComponent: InputComponent,
-        classes: {
-          input: classNames(inputPropsClasses.input, selectProps.classes.input),
-          underline: classNames(
-            inputPropsClasses.underline,
-            selectProps.classes.inputUnderline,
-            selectProps.isDisabled && selectProps.classes.inputUnderlineDisabled
-          ),
-          ...inputPropsClasses
-        },
-        inputProps: {
-          inputRef: innerRef,
-          children: children,
-          ...innerProps
-        }
-      }}
-      {...rest}
-    />
-  );
+  const inputProps = {
+    ...InputProps,
+    inputComponent: InputComponent,
+    classes: {
+      input: classNames(
+        inputPropsClasses.input,
+        selectProps.classes.input,
+        rest.variant && selectProps.classes.outlinedInput
+      ),
+      ...inputPropsClasses
+    },
+    inputProps: {
+      inputRef: innerRef,
+      children: children,
+      ...innerProps
+    }
+  };
+
+  if (rest.variant !== 'outlined') {
+    inputProps.classes.underline = classNames(
+      inputPropsClasses.underline,
+      selectProps.classes.inputUnderline,
+      selectProps.isDisabled && selectProps.classes.inputUnderlineDisabled
+    );
+  }
+
+  return <TextField fullWidth={true} InputProps={inputProps} {...rest} />;
 }
 
 function Option<OptionType>(props: OptionProps<OptionType>) {
@@ -188,6 +196,7 @@ function MenuList<OptionType>({ selectProps, children }: MenuListComponentProps<
 function Menu<OptionType>({ selectProps, children, innerProps }: MenuProps<OptionType>) {
   return (
     <TetherComponent
+      className="ui-128__autocomplete-tether"
       attachment="top center"
       constraints={[
         {
@@ -242,7 +251,7 @@ export interface IProps<OptionType = IDefaultOptionType> extends WithStyles<type
   rowHeight?: number;
   disabled?: boolean;
   isClearable?: boolean;
-  textFieldProps?: { [key: string]: any };
+  textFieldProps?: TextFieldProps;
   className?: string;
   isMulti?: boolean;
 }
