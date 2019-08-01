@@ -20,6 +20,8 @@ import { NoticeProps, MenuListComponentProps, MenuProps } from 'react-select/lib
 import { MultiValueProps } from 'react-select/lib/components/MultiValue';
 import { getOptionValue, getOptionLabel } from 'react-select/lib/builtins';
 import { ControlProps } from 'react-select/lib/components/Control';
+import { StylesConfig } from 'react-select/lib/styles';
+import { SelectComponents } from 'react-select/lib/components';
 
 import './Autocomplete.scss';
 
@@ -271,6 +273,8 @@ export interface IProps<OptionType = IDefaultOptionType> extends WithStyles<type
   className?: string;
   isMulti?: boolean;
   label?: string;
+  components?: Partial<SelectComponents<OptionType>>;
+  styles?: StylesConfig;
 }
 
 export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<OptionType>) {
@@ -290,6 +294,7 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
     options,
     rowHeight = 48,
     visibleRows = 5,
+    components,
     ...rest
   } = props;
 
@@ -357,7 +362,8 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
       NoOptionsMessage,
       Option,
       Placeholder,
-      ValueContainer
+      ValueContainer,
+      ...components
     },
     textFieldProps: {
       InputLabelProps: {
