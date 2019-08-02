@@ -37,6 +37,8 @@ Multi-select:
     <Autocomplete
       isMulti={true}
       options={data}
+      label="Select multiple"
+      textFieldProps={{ variant: 'outlined' }}
       chipAvatar={d => <Avatar>{d.name.slice(0, 1)}</Avatar>}
       getOptionLabel={d => `The ${d.name}`}
       getOptionValue={d => d.value.age}
