@@ -477,7 +477,7 @@ Single-select Controlled:
       },
       species: 'Human'
     }, {
-      name: 'Scruffy',
+      name: 'Scruffy The Very Big Dog That Never Stops Barking',
       value: {
         age: '15'
       },

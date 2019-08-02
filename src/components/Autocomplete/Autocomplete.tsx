@@ -57,7 +57,8 @@ const styles = ({ spacing, palette, transitions }: Theme) =>
       alignSelf: 'center',
       lineHeight: 'inherit',
       flex: 1,
-      alignItems: 'center'
+      alignItems: 'center',
+      position: 'relative'
     },
     chipFocused: {
       backgroundColor: palette.primary.main,
@@ -315,7 +316,7 @@ export interface IProps<OptionType = IDefaultOptionType> extends WithStyles<type
 }
 
 export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<OptionType>) {
-  const ref = React.createRef<any>();
+  const ref = React.useRef<any>();
   const [width, setWidth] = React.useState<number | null>(null);
   const [currentSelection, setCurrentSelection] = React.useState<ValueType<OptionType>>(null);
 
@@ -337,7 +338,7 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
 
   React.useEffect(() => {
     const assignWidth = () => {
-      const node = ReactDOM.findDOMNode(ref.current);
+      const node = ref.current;
       if (node && 'clientWidth' in node) {
         setWidth(node.clientWidth);
       }
@@ -387,8 +388,10 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
   const common = {
     ...rest,
     isDisabled: disabled,
-    ref,
     rowHeight,
+    ref: (x: any) => {
+      ref.current = ReactDOM.findDOMNode(x);
+    },
     visibleRows,
     classes,
     components: {
