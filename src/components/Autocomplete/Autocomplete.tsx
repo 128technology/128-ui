@@ -9,6 +9,7 @@ import TextField, { TextFieldProps } from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
+import Icon from '@material-ui/core/Icon';
 import classNames from 'classnames';
 import { List } from 'react-virtualized';
 import { withStyles, Theme, WithStyles, createStyles } from '@material-ui/core/styles';
@@ -20,39 +21,51 @@ import { NoticeProps, MenuListComponentProps, MenuProps } from 'react-select/lib
 import { MultiValueProps } from 'react-select/lib/components/MultiValue';
 import { getOptionValue, getOptionLabel } from 'react-select/lib/builtins';
 import { ControlProps } from 'react-select/lib/components/Control';
+import { IndicatorProps } from 'react-select/lib/components/indicators';
 import { StylesConfig } from 'react-select/lib/styles';
 import { SelectComponents } from 'react-select/lib/components';
 
 import './Autocomplete.scss';
 
-const styles = ({ spacing, palette }: Theme) =>
+const styles = ({ spacing, palette, transitions }: Theme) =>
   createStyles({
     input: {
+      height: 'auto',
       display: 'flex',
       '& > div:first-child > div:last-child': {
         marginTop: 0,
         marginBottom: 0,
         paddingTop: 0,
-        paddingBottom: 0
+        paddingBottom: 0,
+        lineHeight: 'inherit'
+      },
+      '& > div:last-child': {
+        cursor: 'pointer'
       },
       '& > div:last-child > span': {
         backgroundColor: 'transparent'
+      },
+      '& > div:last-child > div': {
+        paddingTop: 0,
+        paddingBottom: 0,
+        height: 19
       }
     },
     valueContainer: {
       display: 'flex',
       flexWrap: 'wrap',
       alignSelf: 'center',
+      lineHeight: 'inherit',
       flex: 1,
-      alignItems: 'center'
+      alignItems: 'center',
+      position: 'relative'
     },
     chipFocused: {
       backgroundColor: palette.primary.main,
       color: palette.primary.contrastText
     },
     chip: {
-      marginRight: spacing(0.5),
-      marginBottom: spacing(0.5)
+      marginRight: spacing(0.5)
     },
     noOptionsMessage: {
       boxSizing: 'border-box',
@@ -87,8 +100,32 @@ const styles = ({ spacing, palette }: Theme) =>
       '& > div:first-child > div': {
         transform: 'none'
       }
+    },
+    dropdownChevron: {
+      height: 19,
+      transition: transitions.create(['transform'], {
+        easing: transitions.easing.easeInOut,
+        duration: transitions.duration.shortest
+      })
+    },
+    dropdownChevronFocused: {
+      transform: 'rotate(180deg)'
     }
   });
+
+function DropdownIndicator<OptionType>({ selectProps, isFocused }: IndicatorProps<OptionType>) {
+  return (
+    <Icon
+      fontSize="small"
+      className={classNames(
+        selectProps.classes.dropdownChevron,
+        isFocused && selectProps.classes.dropdownChevronFocused,
+        'mdi',
+        'mdi-chevron-down'
+      )}
+    />
+  );
+}
 
 function InputComponent({ inputRef, ...rest }: any) {
   return <div ref={inputRef} {...rest} />;
@@ -179,6 +216,7 @@ function MultiValue<OptionType>({ children, selectProps, isFocused, removeProps,
       avatar={selectProps.chipAvatar ? selectProps.chipAvatar(data) : undefined}
       tabIndex={-1}
       label={children}
+      size="small"
       className={classNames(selectProps.classes.chip, {
         [selectProps.classes.chipFocused]: isFocused
       })}
@@ -278,7 +316,7 @@ export interface IProps<OptionType = IDefaultOptionType> extends WithStyles<type
 }
 
 export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<OptionType>) {
-  const ref = React.createRef<any>();
+  const ref = React.useRef<any>();
   const [width, setWidth] = React.useState<number | null>(null);
   const [currentSelection, setCurrentSelection] = React.useState<ValueType<OptionType>>(null);
 
@@ -300,7 +338,7 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
 
   React.useEffect(() => {
     const assignWidth = () => {
-      const node = ReactDOM.findDOMNode(ref.current);
+      const node = ref.current;
       if (node && 'clientWidth' in node) {
         setWidth(node.clientWidth);
       }
@@ -350,8 +388,10 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
   const common = {
     ...rest,
     isDisabled: disabled,
-    ref,
     rowHeight,
+    ref: (x: any) => {
+      ref.current = ReactDOM.findDOMNode(x);
+    },
     visibleRows,
     classes,
     components: {
@@ -363,6 +403,7 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
       Option,
       Placeholder,
       ValueContainer,
+      DropdownIndicator,
       ...components
     },
     textFieldProps: {
