@@ -11,6 +11,7 @@ import Chip from '@material-ui/core/Chip';
 import Paper from '@material-ui/core/Paper';
 import Icon from '@material-ui/core/Icon';
 import classNames from 'classnames';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { List } from 'react-virtualized';
 import { withStyles, Theme, WithStyles, createStyles } from '@material-ui/core/styles';
 import { ValueType, GroupType } from 'react-select/lib/types';
@@ -115,6 +116,10 @@ const styles = ({ spacing, palette, transitions }: Theme) =>
       transform: 'rotate(180deg)'
     }
   });
+
+function LoadingIndicator() {
+  return <CircularProgress size={19} />;
+}
 
 function DropdownIndicator<OptionType>({ selectProps, isFocused, ...rest }: IndicatorProps<OptionType>) {
   return (
@@ -407,6 +412,7 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
       Placeholder,
       ValueContainer,
       DropdownIndicator,
+      LoadingIndicator,
       ...components
     },
     textFieldProps: {
