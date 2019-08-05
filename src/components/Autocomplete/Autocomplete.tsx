@@ -77,6 +77,7 @@ const styles = ({ spacing, palette, transitions }: Theme) =>
       boxSizing: 'border-box'
     },
     placeholder: {
+      lineHeight: 'inherit',
       userSelect: 'none'
     },
     inputUnderline: {
@@ -102,6 +103,8 @@ const styles = ({ spacing, palette, transitions }: Theme) =>
       }
     },
     dropdownChevron: {
+      display: 'flex',
+      alignItems: 'center',
       height: 19,
       transition: transitions.create(['transform'], {
         easing: transitions.easing.easeInOut,
@@ -113,7 +116,7 @@ const styles = ({ spacing, palette, transitions }: Theme) =>
     }
   });
 
-function DropdownIndicator<OptionType>({ selectProps, isFocused }: IndicatorProps<OptionType>) {
+function DropdownIndicator<OptionType>({ selectProps, isFocused, ...rest }: IndicatorProps<OptionType>) {
   return (
     <Icon
       fontSize="small"
