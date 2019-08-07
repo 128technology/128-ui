@@ -199,7 +199,7 @@ function Option<OptionType>(props: OptionProps<OptionType>) {
       style={{ height: selectProps.rowHeight }}
       {...innerProps}
     >
-      <Typography variant="body2" color="textPrimary" className={selectProps.classes.placeholder}>
+      <Typography component="div" variant="body2" color="textPrimary" className={selectProps.classes.placeholder}>
         {_.isFunction(selectProps.optionRenderer) ? selectProps.optionRenderer(props) : children}
       </Typography>
     </MenuItem>
@@ -341,6 +341,7 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
     rowHeight = 48,
     visibleRows = 5,
     components,
+    isMulti,
     ...rest
   } = props;
 
@@ -427,7 +428,9 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
     onChange: handleOnChange,
     formatGroupLabel: formatGroupLabel,
     selectWidth: width,
-    options: items
+    options: items,
+    closeMenuOnSelect: !isMulti,
+    isMulti: isMulti
   };
 
   if (creatable) {
