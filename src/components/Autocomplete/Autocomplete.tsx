@@ -430,7 +430,7 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
     selectWidth: width,
     options: items,
     closeMenuOnSelect: !isMulti,
-    isMulti: isMulti
+    isMulti
   };
 
   if (creatable) {
