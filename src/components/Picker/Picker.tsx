@@ -27,6 +27,8 @@ const styles = ({ typography, spacing }: Theme) => ({
   }
 });
 
+export type Colors = 'primary' | 'secondary';
+
 export interface IProps extends WithStyles<typeof styles> {
   open?: boolean;
   startDate?: moment.Moment;
@@ -46,6 +48,7 @@ export interface IProps extends WithStyles<typeof styles> {
   textFieldOnFocus?: () => void;
   popoverAnchorOrigin?: PopoverOrigin;
   popoverTransformOrigin?: PopoverOrigin;
+  color: Colors;
   textFieldRenderer?: (
     startDate: moment.Moment | null,
     endDate: moment.Moment | null,
@@ -64,6 +67,10 @@ export interface IState {
 }
 
 export class Picker extends React.Component<IProps, IState> {
+  static defaultProps = {
+    color: 'primary' as Colors
+  };
+
   private anchorEl?: HTMLElement | null;
 
   constructor(props: IProps) {
@@ -253,6 +260,7 @@ export class Picker extends React.Component<IProps, IState> {
   }
 
   dayRenderer: CalendarProps['dayRenderer'] = (date, dayProps, symbol) => {
+    const { color } = this.props;
     const startDate = this.getVisibleStartDate();
     const endDate = this.getVisibleEndDate();
 
@@ -264,6 +272,7 @@ export class Picker extends React.Component<IProps, IState> {
         endDate={endDate || undefined}
         onClick={this.handleDayOnClick}
         onMouseEnter={this.handleDayOnMouseEnter}
+        color={color}
       >
         {symbol}
       </CalendarDay>
@@ -283,7 +292,8 @@ export class Picker extends React.Component<IProps, IState> {
       textFieldRenderer,
       disableDate,
       popoverAnchorOrigin,
-      popoverTransformOrigin
+      popoverTransformOrigin,
+      color
     } = this.props;
 
     const { visibleDate, selectedView } = this.state;
@@ -299,6 +309,7 @@ export class Picker extends React.Component<IProps, IState> {
           </div>
         ) : (
           <TextField
+            color={color}
             inputRef={this.setPopoverAnchor}
             onFocus={this.handleTextFieldFocus}
             value={this.getFormattedDateRange()}
@@ -325,6 +336,7 @@ export class Picker extends React.Component<IProps, IState> {
               selectViewOnClick={this.handleSelectViewOnClick}
               startDate={startDate || undefined}
               endDate={endDate || undefined}
+              color={color}
             />
             {(selectedView === VIEWS.START_DATE || selectedView === VIEWS.END_DATE) && (
               <div className={classes.calendarContainer} onMouseLeave={this.handleOnMouseLeave}>
@@ -335,6 +347,7 @@ export class Picker extends React.Component<IProps, IState> {
                 />
                 <Calendar
                   date={visibleDate}
+                  color={color}
                   dayRenderer={this.dayRenderer}
                   selectDay={this.selectDay}
                   disableDay={this.disableDay}

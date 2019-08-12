@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import classNames from 'classnames';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles, Theme, WithStyles, createStyles } from '@material-ui/core/styles';
+import { Colors } from './Calendar';
 
 const styles = ({ palette, typography }: Theme) =>
   createStyles({
@@ -16,16 +17,17 @@ const styles = ({ palette, typography }: Theme) =>
     outsideOfMonth: {
       opacity: 0
     },
-    selected: {
-      color: palette.primary.contrastText,
-      backgroundColor: palette.primary.main,
+    selected: ({ color }: IProps) => ({
+      color: palette[color].contrastText,
+      backgroundColor: palette[color].main,
       '&:hover': {
-        backgroundColor: palette.primary.dark
+        backgroundColor: palette[color].dark
       }
-    }
+    })
   });
 
-export interface IProps extends WithStyles<typeof styles> {
+export interface IProps {
+  color: Colors;
   date?: moment.Moment;
   inCurrentMonth?: boolean;
   disabled?: boolean;
@@ -33,7 +35,9 @@ export interface IProps extends WithStyles<typeof styles> {
   renderer?: (date: moment.Moment, props: IProps, symbol: React.ReactNode) => JSX.Element;
 }
 
-export const Day: React.FunctionComponent<IProps> = (props: IProps) => {
+type Props = IProps & WithStyles<typeof styles>;
+
+export const Day: React.SFC<Props> = props => {
   const { date = moment(), classes, inCurrentMonth, renderer, disabled, selected } = props;
   const dayClasses = classNames(classes.day, !inCurrentMonth && classes.outsideOfMonth, selected && classes.selected);
 

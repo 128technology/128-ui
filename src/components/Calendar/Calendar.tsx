@@ -5,14 +5,23 @@ import * as moment from 'moment';
 import Week, { IProps as WeekProps } from './Week';
 import Dotw from './Dotw';
 
+export type Colors = 'primary' | 'secondary';
+
 export interface IProps {
   date?: moment.Moment;
   dayRenderer?: WeekProps['dayRenderer'];
   selectDay?: WeekProps['selectDay'];
   disableDay?: WeekProps['disableDay'];
+  color?: Colors;
 }
 
-const Calendar: React.FunctionComponent<IProps> = ({ date = moment(), dayRenderer, disableDay, selectDay }) => {
+const Calendar: React.FunctionComponent<IProps> = ({
+  date = moment(),
+  dayRenderer,
+  disableDay,
+  selectDay,
+  color = 'primary'
+}) => {
   const monthRange = getNestedDateRange(date);
 
   return (
@@ -26,6 +35,7 @@ const Calendar: React.FunctionComponent<IProps> = ({ date = moment(), dayRendere
           dayRenderer={dayRenderer}
           disableDay={disableDay}
           selectDay={selectDay}
+          color={color}
         />
       ))}
     </div>

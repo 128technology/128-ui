@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { withStyles, createStyles, WithStyles } from '@material-ui/core/styles';
 
 import Day, { IProps as DayProps } from './Day';
+import { Colors } from './Calendar';
 
 const styles = createStyles({
   week: {
@@ -21,6 +22,7 @@ export interface IProps extends WithStyles<typeof styles> {
   date: moment.Moment;
   dayRenderer: DayProps['renderer'];
   days: ReadonlyArray<moment.Moment>;
+  color: Colors;
   disableDay?: (day: moment.Moment, inCurrentMonth: boolean) => boolean;
   selectDay?: (day: moment.Moment) => boolean;
 }
@@ -30,6 +32,7 @@ export const CalendarWeek: React.FunctionComponent<IProps> = ({
   days,
   classes,
   dayRenderer,
+  color,
   disableDay = () => false,
   selectDay = () => false
 }) => (
@@ -38,6 +41,7 @@ export const CalendarWeek: React.FunctionComponent<IProps> = ({
       <Day
         key={d.toString()}
         date={d}
+        color={color}
         inCurrentMonth={inCurrentMonth(date, d)}
         renderer={dayRenderer}
         disabled={disableDay(d, inCurrentMonth(date, d))}
