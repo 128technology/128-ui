@@ -2,6 +2,10 @@ Date Time Range Picker:
 
     <Picker onChange={console.log} />
 
+Date Time Range Picker Secondary:
+
+    <Picker onChange={console.log} color="secondary" />
+
 Disabled dates:
 
     const moment = require('moment');

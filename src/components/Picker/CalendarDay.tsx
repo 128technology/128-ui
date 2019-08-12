@@ -3,12 +3,30 @@ import * as classNames from 'classnames';
 import * as moment from 'moment';
 import { withStyles, Theme, WithStyles } from '@material-ui/core/styles';
 
+import { Colors } from './Picker';
+
+interface IProps {
+  date: moment.Moment;
+  startDate?: moment.Moment;
+  endDate?: moment.Moment;
+  color: Colors;
+  dayProps?: {
+    selected?: boolean;
+    inCurrentMonth?: boolean;
+    disabled?: boolean;
+  };
+  onClick?: (e: React.MouseEvent<HTMLElement>, date: moment.Moment) => void;
+  onMouseEnter?: (e: React.MouseEvent<HTMLElement>, date: moment.Moment) => void;
+}
+
+type Props = IProps & WithStyles<typeof styles>;
+
 const styles = ({ palette, shape }: Theme) => ({
-  betweenDate: {
+  betweenDate: ({ color }: IProps) => ({
     height: 36,
     width: 36,
-    backgroundColor: palette.primary.light
-  },
+    backgroundColor: palette[color].light
+  }),
   leftEndCap: {
     borderTopLeftRadius: '50%',
     borderBottomLeftRadius: '50%'
@@ -27,20 +45,7 @@ const styles = ({ palette, shape }: Theme) => ({
   }
 });
 
-interface IProps extends WithStyles<typeof styles> {
-  date: moment.Moment;
-  startDate?: moment.Moment;
-  endDate?: moment.Moment;
-  dayProps?: {
-    selected?: boolean;
-    inCurrentMonth?: boolean;
-    disabled?: boolean;
-  };
-  onClick?: (e: React.MouseEvent<HTMLElement>, date: moment.Moment) => void;
-  onMouseEnter?: (e: React.MouseEvent<HTMLElement>, date: moment.Moment) => void;
-}
-
-class CalendarDay extends React.Component<IProps> {
+class CalendarDay extends React.Component<Props> {
   public render() {
     const { dayProps = {}, children, date, startDate, endDate, classes } = this.props;
     const betweenDate =

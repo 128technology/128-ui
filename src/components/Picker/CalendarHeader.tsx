@@ -4,14 +4,27 @@ import * as moment from 'moment';
 import * as classNames from 'classnames';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core/styles';
 
+import { Colors } from './Picker';
 import CalendarHeaderButton from './CalendarHeaderButton';
 import { VIEWS } from './constants';
 
+type ViewsType = typeof VIEWS;
+
+interface IProps {
+  selectedView: ViewsType[keyof ViewsType];
+  startDate?: moment.Moment;
+  endDate?: moment.Moment;
+  color: Colors;
+  selectViewOnClick: (evt: React.MouseEvent<HTMLElement>, view: ViewsType[keyof ViewsType]) => void;
+}
+
+type Props = IProps & WithStyles<typeof styles>;
+
 const styles = ({ palette, spacing, shadows }: Theme) =>
   createStyles({
-    container: {
-      backgroundColor: palette.primary.main,
-      padding: `${spacing(2)}px ${spacing(2)}px`,
+    container: ({ color }: IProps) => ({
+      backgroundColor: palette[color].main,
+      padding: `${spacing(2)}px ${spacing(1.5)}px`,
       boxShadow: shadows[1],
       position: 'relative',
       display: 'flex',
@@ -20,7 +33,7 @@ const styles = ({ palette, spacing, shadows }: Theme) =>
       minHeight: 122,
       boxSizing: 'border-box',
       zIndex: 10
-    },
+    }),
     dateContainer: {
       paddingLeft: spacing(1),
       paddingRight: spacing(1),
@@ -29,22 +42,22 @@ const styles = ({ palette, spacing, shadows }: Theme) =>
       width: '40%',
       boxSizing: 'border-box'
     },
-    circle: {
-      border: `2px solid ${palette.primary.light}`,
+    circle: ({ color }: IProps) => ({
+      border: `2px solid ${palette[color].light}`,
       height: 6,
       width: 6,
       margin: 3,
       borderRadius: '100%'
-    },
-    dotsContainer: {
+    }),
+    dotsContainer: ({ color }: IProps) => ({
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      color: palette.primary.light,
+      color: palette[color].light,
       fontSize: 20,
       flexShrink: 0,
       width: '20%'
-    },
+    }),
     colon: {
       marginLeft: spacing(0.35),
       marginRight: spacing(0.35),
@@ -62,16 +75,7 @@ function formatOrElse(cond: moment.Moment, format: string, onElse: string) {
   return cond ? cond.format(format) : onElse;
 }
 
-type ViewsType = typeof VIEWS;
-
-interface IProps extends WithStyles<typeof styles> {
-  selectedView: ViewsType[keyof ViewsType];
-  startDate?: moment.Moment;
-  endDate?: moment.Moment;
-  selectViewOnClick: (evt: React.MouseEvent<HTMLElement>, view: ViewsType[keyof ViewsType]) => void;
-}
-
-const CalendarHeader: React.FunctionComponent<IProps> = ({
+const CalendarHeader: React.FunctionComponent<Props> = ({
   classes,
   selectedView,
   selectViewOnClick,
