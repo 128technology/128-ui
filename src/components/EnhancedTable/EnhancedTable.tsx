@@ -62,12 +62,13 @@ export function EnhancedTable<TRow>({
     const { orderBy, orderDirection } = sortParams;
 
     return [...data].sort((first, second) => {
-      const a = first[orderBy];
-      const b = second[orderBy];
-      if (_.isNil(a)) {
+      const a = _.get(first, orderBy);
+      const b = _.get(second, orderBy);
+      // Check if value is either {}, [], undefined, null, but NOT 0 or ''.
+      if (_.isNil(a) || (_.isObject(a) && _.isEmpty(a))) {
         return 1;
       }
-      if (_.isNil(b)) {
+      if (_.isNil(b) || (_.isObject(b) && _.isEmpty(b))) {
         return -1;
       }
 
