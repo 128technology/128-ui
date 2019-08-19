@@ -103,4 +103,46 @@ describe('Enhanced Table', () => {
     expect(cells.at(2).text()).to.equal('dog');
     expect(cells.at(3).text()).to.equal('cat');
   });
+
+  it('should sort based on custom sorter function', () => {
+    const data = [
+      {
+        softwareVersion: '4.2.0'
+      },
+      {
+        softwareVersion: '2.2.0'
+      },
+      {
+        softwareVersion: '3.2.0'
+      }
+    ];
+
+    const columns = [
+      {
+        header: 'Version',
+        name: 'softwareVersion',
+        customSorter: ({ orderDirection }: any) => (a: any, b: any) => {
+          const s =
+            parseInt(a.softwareVersion.split('.')[0], 10) > parseInt(b.softwareVersion.split('.')[0], 10) ? 1 : -1;
+          return s ? (orderDirection === 'desc' ? s * -1 : s) : 0;
+        }
+      }
+    ];
+
+    const component = mount(
+      <EnhancedTable
+        defaultOrderDirection={'desc'}
+        defaultOrderBy={'softwareVersion'}
+        data={data}
+        columns={columns}
+        loading={false}
+        height={500}
+        width={500}
+      />
+    );
+    const cells = component.find(TableCell);
+    expect(cells.at(1).text()).to.equal('4.2.0');
+    expect(cells.at(2).text()).to.equal('3.2.0');
+    expect(cells.at(3).text()).to.equal('2.2.0');
+  });
 });
