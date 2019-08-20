@@ -13,7 +13,14 @@ import naturalSort = require('javascript-natural-sort');
 import Loading, { LoadingProps } from '../Loading';
 
 export interface IProps<TRow> extends Omit<IMuiVirtualizedTableProps<TRow>, 'width' | 'columns'> {
-  columns: Array<IMuiVirtualizedTableColumn<TRow>>;
+  columns: Array<
+    IMuiVirtualizedTableColumn<TRow> & {
+      customSorter?: (sortParams: {
+        orderBy: keyof TRow;
+        orderDirection?: 'asc' | 'desc';
+      }) => (a: TRow, b: TRow) => number;
+    }
+  >;
   defaultOrderBy?: keyof TRow;
   defaultOrderDirection?: 'asc' | 'desc';
   loading?: boolean;
@@ -59,15 +66,14 @@ export function EnhancedTable<TRow>({
       return data;
     }
 
-    const { orderBy, orderDirection } = sortParams;
-
-    return [...data].sort((first, second) => {
-      const a = first[orderBy];
-      const b = second[orderBy];
-      if (_.isNil(a)) {
+    const defaultSorter = (first: TRow, second: TRow) => {
+      const a = _.get(first, orderBy);
+      const b = _.get(second, orderBy);
+      // Check if value is either {}, [], undefined, null, but NOT 0 or ''.
+      if (_.isNil(a) || (_.isObject(a) && _.isEmpty(a))) {
         return 1;
       }
-      if (_.isNil(b)) {
+      if (_.isNil(b) || (_.isObject(b) && _.isEmpty(b))) {
         return -1;
       }
 
@@ -76,8 +82,16 @@ export function EnhancedTable<TRow>({
       } else {
         return naturalSort(_.toString(a), _.toString(b));
       }
-    });
-  }, [data, sortParams]);
+    };
+
+    const { orderBy, orderDirection } = sortParams;
+
+    const curColumn = _.find(columns, ['name', orderBy]);
+    const customSorter = curColumn ? curColumn.customSorter : null;
+    const sorter = customSorter ? customSorter(sortParams) : defaultSorter;
+
+    return [...data].sort(sorter);
+  }, [columns, data, sortParams]);
 
   const onHeaderClick = React.useCallback((e: React.MouseEvent<HTMLElement>, props: IHeaderClickProps<TRow>) => {
     setSortParams(s => {
