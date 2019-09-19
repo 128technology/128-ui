@@ -61,6 +61,12 @@ const styles = ({ spacing, palette, transitions }: Theme) =>
       alignItems: 'center',
       position: 'relative'
     },
+    valueContainerWithItems: {
+      marginTop: -spacing(0.8),
+      '& > div': {
+        marginTop: `${spacing(0.8)}px !important`
+      }
+    },
     chipFocused: {
       backgroundColor: palette.primary.main,
       color: palette.primary.contrastText
@@ -214,8 +220,16 @@ function Placeholder<OptionType>({ selectProps, innerProps, children }: Placehol
   );
 }
 
-function ValueContainer<OptionType>({ selectProps, children }: ValueContainerProps<OptionType>) {
-  return <div className={selectProps.classes.valueContainer}>{children}</div>;
+function ValueContainer<OptionType>({
+  selectProps: { isMulti, classes },
+  children,
+  hasValue
+}: ValueContainerProps<OptionType>) {
+  return (
+    <div className={classNames(classes.valueContainer, isMulti && hasValue && classes.valueContainerWithItems)}>
+      {children}
+    </div>
+  );
 }
 
 function MultiValue<OptionType>({ children, selectProps, isFocused, removeProps, data }: MultiValueProps<OptionType>) {
