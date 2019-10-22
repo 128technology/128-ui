@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import * as classNames from 'classnames';
+import { styled } from '@material-ui/core/styles';
 
 import Spinner from '../Spinner';
 import './Loading.scss';
@@ -8,13 +9,18 @@ import './Loading.scss';
 export interface IProps {
   size?: 'small' | 'medium' | 'large' | 'huge';
   block?: boolean;
-  showLoadingText?: boolean;
   horizontal?: boolean;
   loadingText?: string;
   className?: string;
+  icon?: React.ReactNode;
 }
 
-function Loading({ size, block, horizontal, showLoadingText, loadingText, className }: IProps) {
+const LoadingText = styled('div')(({ theme }) => ({
+  color: theme.palette.primary.main,
+  fontFamily: theme.typography.subtitle1.fontFamily
+}));
+
+function Loading({ size, block, horizontal, loadingText, className, icon }: IProps) {
   const classes = classNames(
     className,
     {
@@ -30,8 +36,8 @@ function Loading({ size, block, horizontal, showLoadingText, loadingText, classN
 
   return (
     <div className={classes}>
-      <Spinner size={size} />
-      {showLoadingText ? <div className="ui-128__loading__text">{loadingText}</div> : null}
+      <Spinner size={size} icon={icon} />
+      {loadingText ? <LoadingText className="ui-128__loading__text">{loadingText}</LoadingText> : null}
     </div>
   );
 }
@@ -39,7 +45,6 @@ function Loading({ size, block, horizontal, showLoadingText, loadingText, classN
 Loading.propTypes = {
   size: PropTypes.oneOf(['small', 'medium', 'large', 'huge']),
   block: PropTypes.bool,
-  showLoadingText: PropTypes.bool,
   horizontal: PropTypes.bool,
   loadingText: PropTypes.string
 };
@@ -47,9 +52,7 @@ Loading.propTypes = {
 Loading.defaultProps = {
   size: 'medium',
   block: false,
-  horizontal: false,
-  showLoadingText: true,
-  loadingText: 'Loading'
+  horizontal: false
 };
 
 export default Loading;

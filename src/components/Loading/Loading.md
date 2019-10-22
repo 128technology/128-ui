@@ -16,17 +16,17 @@ Small:
 
 Small Horizontal:
     <div style={{ position: 'relative', height: '300px' }}>
-        <Loading horizontal={true} size="small" />
+        <Loading horizontal={true} size="small" loadingText="Loading..." />
     </div>
 
 Medium:
     <div style={{ position: 'relative', height: '300px' }}>
-        <Loading size="medium" />
+        <Loading size="medium" loadingText="Loading..." />
     </div>
 
 Large:
     <div style={{ position: 'relative', height: '300px' }}>
-        <Loading size="large" />
+        <Loading size="large" loadingText="Loading..." />
     </div>
 
 Huge:

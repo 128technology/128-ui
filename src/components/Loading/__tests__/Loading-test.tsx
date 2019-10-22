@@ -45,9 +45,4 @@ describe('Loading', () => {
     const component = shallow(<Loading size="large" />);
     expect(component.hasClass('ui-128__loading--large')).to.equal(true);
   });
-
-  it('should hide loading text', () => {
-    const component = shallow(<Loading showLoadingText={false} />);
-    expect(component.find('.ui-128__loading__text').exists()).to.equal(false);
-  });
 });

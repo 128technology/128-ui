@@ -4,6 +4,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { withStyles, WithStyles, createStyles } from '@material-ui/core/styles';
 
+import { ChevronLeft, ChevronRight } from '../Icons';
+
 const styles = createStyles({
   container: {
     display: 'flex',
@@ -34,13 +36,13 @@ const CalendarController: React.FunctionComponent<IProps> = ({
   return (
     <div className={classes.container}>
       <IconButton className={classes.iconButton} onClick={prevMonthOnClick}>
-        <i className="mdi mdi-chevron-left" />
+        <ChevronLeft />
       </IconButton>
       <Typography align="center" variant="body1">
         {date.format(format)}
       </Typography>
       <IconButton className={classes.iconButton} onClick={nextMonthOnClick}>
-        <i className="mdi mdi-chevron-right" />
+        <ChevronRight />
       </IconButton>
     </div>
   );

@@ -25,16 +25,11 @@ $spinner-icon-margin: 10px;
   width: $spinner-medium-size;
   height: $spinner-medium-size;
 
-  .ui-128__spinner-icon-piece {
-    fill: $white;
-  }
-
   .ui-128__spinner-icon {
     position: absolute;
     z-index: 2;
     top: 50%;
-    transform: translate(0, -50%) scale(0.75);
-    margin-left: 2px;
+    transform: translate(1%, -50%) scale(0.65);
   }
 
   .ui-128__spinner-pulse-outer,
@@ -45,7 +40,6 @@ $spinner-icon-margin: 10px;
     top: 0;
     left: 0;
     border-radius: 50%;
-    background-color: $cyan-128;
     height: $spinner-medium-size;
     width: $spinner-medium-size;
   }
@@ -62,7 +56,6 @@ $spinner-icon-margin: 10px;
     position: absolute;
     border-radius: 50%;
     z-index: 1;
-    background-color: $cyan-128;
     height: $spinner-medium-size;
     width: $spinner-medium-size;
     box-shadow: 1px 0 5px 0 rgba(0, 0, 0, 0.2);

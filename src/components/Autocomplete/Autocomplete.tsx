@@ -26,6 +26,7 @@ import { IndicatorProps } from 'react-select/lib/components/indicators';
 import { StylesConfig } from 'react-select/lib/styles';
 import { SelectComponents } from 'react-select/lib/components';
 
+import { ChevronDown } from '../Icons';
 import './Autocomplete.scss';
 
 const styles = ({ spacing, palette, transitions }: Theme) =>
@@ -133,11 +134,11 @@ function DropdownIndicator<OptionType>({ selectProps, isFocused, ...rest }: Indi
       fontSize="small"
       className={classNames(
         selectProps.classes.dropdownChevron,
-        isFocused && selectProps.classes.dropdownChevronFocused,
-        'mdi',
-        'mdi-chevron-down'
+        isFocused && selectProps.classes.dropdownChevronFocused
       )}
-    />
+    >
+      <ChevronDown />
+    </Icon>
   );
 }
 

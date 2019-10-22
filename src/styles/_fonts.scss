@@ -1,5 +1,3 @@
-@import "~@mdi/font/css/materialdesignicons.css";
-
 @mixin define-font($filename, $weight, $name) {
   @font-face {
     font-family: $name;

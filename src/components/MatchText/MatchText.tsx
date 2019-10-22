@@ -1,8 +1,9 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import * as classNames from 'classnames';
 import * as _ from 'lodash';
 
-import './MatchText.scss';
+import { makeStyles } from '@material-ui/core';
 
 const CASE_SENSITIVE = 'CaseSensitive';
 const WHOLE_WORD = 'WholeWord';
@@ -14,6 +15,14 @@ export interface IProps {
   matchTypes?: ReadonlyArray<'CaseSensitive' | 'WholeWord' | 'Regex'>;
 }
 
+const useStyles = makeStyles(theme => ({
+  matched: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    borderRadius: 3
+  }
+}));
+
 /**
  * Performs a case-insensitive search against an input string and highlights
  * the matches.
@@ -22,6 +31,7 @@ export interface IProps {
  * "Unmatched" text can also be selected using `.ui-128__match-text--unmatched`.
  */
 function MatchText({ text, searchString, matchTypes }: IProps) {
+  const classes = useStyles();
   const matchModesSet = new Set(matchTypes);
   const textString = _.toString(text);
 
@@ -52,7 +62,7 @@ function MatchText({ text, searchString, matchTypes }: IProps) {
     ));
 
     const matched = _.map(matchedPieces, (str, i) => (
-      <span className="ui-128__match-text--matched" key={`matched/${str}/${i}`}>
+      <span className={classNames('ui-128__match-text--match', classes.matched)} key={`matched/${str}/${i}`}>
         {str}
       </span>
     ));
