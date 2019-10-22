@@ -20,7 +20,7 @@ describe('MatchText Component', () => {
   it('should render matched items', () => {
     const matchText = shallow(<MatchText text="A matchable search string..." searchString="search" />);
 
-    const matched = matchText.find({ className: 'ui-128__match-text--matched' });
+    const matched = matchText.find('.ui-128__match-text--matched');
 
     expect(matched.text()).to.equal('search');
   });
@@ -28,7 +28,7 @@ describe('MatchText Component', () => {
   it('should do a parial, case-insensitive match', () => {
     const matchText = shallow(<MatchText text="A matchable search string..." searchString="Sea" />);
 
-    const matched = matchText.find({ className: 'ui-128__match-text--matched' });
+    const matched = matchText.find('.ui-128__match-text--matched');
 
     expect(matched.text()).to.equal('sea');
   });
@@ -44,7 +44,7 @@ describe('MatchText Component', () => {
   it("shouldn't match or unmatch an empty search string", () => {
     const matchText = shallow(<MatchText text="A matchable search string..." searchString="" />);
 
-    const matched = matchText.find({ className: 'ui-128__match-text--matched' });
+    const matched = matchText.find('.ui-128__match-text--matched');
     const unmatched = matchText.find({ className: 'ui-128__match-text--unmatched' });
 
     expect(matched).to.have.lengthOf(0);
@@ -57,7 +57,7 @@ describe('MatchText Component', () => {
         <MatchText text="A matchable search string..." searchString="m." matchTypes={['Regex']} />
       );
 
-      const matched = matchText.find({ className: 'ui-128__match-text--matched' });
+      const matched = matchText.find('.ui-128__match-text--matched');
       const unmatched = matchText.find({ className: 'ui-128__match-text--unmatched' });
 
       expect(unmatched.at(0).text()).to.equal('A ');
@@ -80,7 +80,7 @@ describe('MatchText Component', () => {
         <MatchText text="A matchable search string..." searchString="m$" matchTypes={['Regex']} />
       );
 
-      const matched = matchText.find({ className: 'ui-128__match-text--matched' });
+      const matched = matchText.find('.ui-128__match-text--matched');
       const unmatched = matchText.find({ className: 'ui-128__match-text--unmatched' });
 
       expect(unmatched).to.have.lengthOf(1);
@@ -94,7 +94,7 @@ describe('MatchText Component', () => {
         <MatchText text="A matchable search string..." searchString="search" matchTypes={['WholeWord']} />
       );
 
-      const matched = matchText.find({ className: 'ui-128__match-text--matched' });
+      const matched = matchText.find('.ui-128__match-text--matched');
       const unmatched = matchText.find({ className: 'ui-128__match-text--unmatched' });
 
       expect(unmatched.at(0).text()).to.equal('A matchable ');
@@ -107,7 +107,7 @@ describe('MatchText Component', () => {
         <MatchText text="A matchable search string..." searchString="searc" matchTypes={['WholeWord']} />
       );
 
-      const matched = matchText.find({ className: 'ui-128__match-text--matched' });
+      const matched = matchText.find('.ui-128__match-text--matched');
       const unmatched = matchText.find({ className: 'ui-128__match-text--unmatched' });
 
       expect(unmatched).to.have.lengthOf(1);
@@ -121,7 +121,7 @@ describe('MatchText Component', () => {
         <MatchText text="A matchable search string..." searchString="sea" matchTypes={['CaseSensitive']} />
       );
 
-      const matched = matchText.find({ className: 'ui-128__match-text--matched' });
+      const matched = matchText.find('.ui-128__match-text--matched');
       const unmatched = matchText.find({ className: 'ui-128__match-text--unmatched' });
 
       expect(unmatched.at(0).text()).to.equal('A matchable ');
@@ -134,7 +134,7 @@ describe('MatchText Component', () => {
         <MatchText text="A matchable search string..." searchString="Searc" matchTypes={['CaseSensitive']} />
       );
 
-      const matched = matchText.find({ className: 'ui-128__match-text--matched' });
+      const matched = matchText.find('.ui-128__match-text--matched');
       const unmatched = matchText.find({ className: 'ui-128__match-text--unmatched' });
 
       expect(unmatched).to.have.lengthOf(1);
@@ -152,7 +152,7 @@ describe('MatchText Component', () => {
         />
       );
 
-      const matched = matchText.find({ className: 'ui-128__match-text--matched' });
+      const matched = matchText.find('.ui-128__match-text--matched');
       const unmatched = matchText.find({ className: 'ui-128__match-text--unmatched' });
 
       expect(unmatched.at(0).text()).to.equal('A matchable ');
@@ -169,7 +169,7 @@ describe('MatchText Component', () => {
         />
       );
 
-      const matched = matchText.find({ className: 'ui-128__match-text--matched' });
+      const matched = matchText.find('.ui-128__match-text--matched');
       const unmatched = matchText.find({ className: 'ui-128__match-text--unmatched' });
 
       expect(unmatched).to.have.lengthOf(1);
@@ -185,7 +185,7 @@ describe('MatchText Component', () => {
         />
       );
 
-      const matched = matchText.find({ className: 'ui-128__match-text--matched' });
+      const matched = matchText.find('.ui-128__match-text--matched');
       const unmatched = matchText.find({ className: 'ui-128__match-text--unmatched' });
 
       expect(unmatched).to.have.lengthOf(1);

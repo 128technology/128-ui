@@ -62,7 +62,7 @@ function MatchText({ text, searchString, matchTypes }: IProps) {
     ));
 
     const matched = _.map(matchedPieces, (str, i) => (
-      <span className={classNames('ui-128__match-text--match', classes.matched)} key={`matched/${str}/${i}`}>
+      <span className={classNames('ui-128__match-text--matched', classes.matched)} key={`matched/${str}/${i}`}>
         {str}
       </span>
     ));
