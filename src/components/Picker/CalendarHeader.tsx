@@ -4,9 +4,10 @@ import * as moment from 'moment';
 import * as classNames from 'classnames';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core/styles';
 
-import { Colors } from './Picker';
 import CalendarHeaderButton from './CalendarHeaderButton';
+import { Colors } from './Picker';
 import { VIEWS } from './constants';
+import { DotsHorizontal } from '../Icons';
 
 type ViewsType = typeof VIEWS;
 
@@ -50,6 +51,7 @@ const styles = ({ palette, spacing, shadows }: Theme) =>
       borderRadius: '100%'
     }),
     dotsContainer: ({ color }: IProps) => ({
+      fill: palette[color].light,
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -110,7 +112,7 @@ const CalendarHeader: React.FunctionComponent<Props> = ({
     </div>
     <div className={classes.dotsContainer}>
       <div className={classes.circle} />
-      <i className="mdi mdi-dots-horizontal" />
+      <DotsHorizontal />
       <div className={classes.circle} />
     </div>
     <div className={classNames(classes.dateContainer, classes.alignRight)}>

@@ -2,6 +2,7 @@ Controlled:
 
     const Paper = require('@material-ui/core/Paper').default;
     const moment = require('moment');
+    const Icons = require('../Icons');
 
     class CalendarTest extends React.Component {
       constructor(props) {
@@ -21,9 +22,9 @@ Controlled:
         return (
           <Paper>
             <div style={{ display: 'flex' }}>
-              <i className="mdi mdi-chevron-left" onClick={this.prevMonth.bind(this)} />
+              <span onClick={this.prevMonth.bind(this)}><Icons.ChevronLeft /></span>
               <div>{this.state.date.format('MMM')}</div>
-              <i className="mdi mdi-chevron-right" onClick={this.nextMonth.bind(this)}/>
+              <span onClick={this.nextMonth.bind(this)}><Icons.ChevronRight /></span>
             </div>
             <Calendar date={this.state.date} />
           </Paper>
@@ -37,6 +38,7 @@ Custom day component:
 
     const Paper = require('@material-ui/core/Paper').default;
     const moment = require('moment');
+    const Icons = require('../Icons');
 
     class CalendarTest extends React.Component {
       constructor(props) {
@@ -68,9 +70,9 @@ Custom day component:
         return (
           <Paper>
             <div style={{ display: 'flex' }}>
-              <i className="mdi mdi-chevron-left" onClick={this.prevMonth.bind(this)} />
+              <span onClick={this.prevMonth.bind(this)}><Icons.ChevronLeft /></span>
               <div>{this.state.date.format('MMM')}</div>
-              <i className="mdi mdi-chevron-right" onClick={this.nextMonth.bind(this)}/>
+              <span onClick={this.nextMonth.bind(this)}><Icons.ChevronRight /></span>
             </div>
             <Calendar
               date={this.state.date}
