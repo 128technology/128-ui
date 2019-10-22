@@ -10,7 +10,9 @@ const components = fs.readdirSync(path.join(APP_PATH, 'components'));
 const entries = _.reduce(
   components,
   (acc, x) => {
-    acc[`${x}/index`] = path.join(APP_PATH, `components/${x}/index.ts`);
+    if (!fs.statSync(`${path.join(APP_PATH, 'components')}/${x}`).isFile()) {
+      acc[`${x}/index`] = path.join(APP_PATH, `components/${x}/index.ts`);
+    }
     return acc;
   },
   {}
