@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Select from 'react-select';
 import TetherComponent from 'react-tether';
-import CreatableSelect from 'react-select/lib/Creatable';
+import CreatableSelect, { Props as CreatableSelectProps } from 'react-select/lib/Creatable';
 import Typography from '@material-ui/core/Typography';
 import TextField, { TextFieldProps } from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -14,7 +14,7 @@ import classNames from 'classnames';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { List } from 'react-virtualized';
 import { withStyles, Theme, WithStyles, createStyles } from '@material-ui/core/styles';
-import { ValueType, GroupType } from 'react-select/lib/types';
+import { ValueType, GroupType, GroupedOptionsType } from 'react-select/lib/types';
 import { ValueContainerProps } from 'react-select/lib/components/containers';
 import { PlaceholderProps } from 'react-select/lib/components/Placeholder';
 import { OptionProps } from 'react-select/lib/components/Option';
@@ -313,29 +313,19 @@ interface IDefaultOptionType {
   value: string;
 }
 
-export interface IProps<OptionType = IDefaultOptionType> extends WithStyles<typeof styles> {
-  options: OptionType[];
-  getOptionLabel?: getOptionLabel<OptionType>;
-  getOptionValue?: getOptionValue<OptionType>;
+export interface IProps<OptionType = IDefaultOptionType> extends WithStyles<typeof styles>, CreatableSelectProps<OptionType> {
   chipAvatar?: (d: OptionType) => React.ReactNode;
   groupBy?: (d: OptionType) => string | undefined | null;
   creatable?: boolean;
-  isLoading?: boolean;
   selection?: string | ValueType<OptionType>;
   onChange?: (val: ValueType<OptionType>) => void;
   optionRenderer?: (props: OptionProps<OptionType>) => JSX.Element;
-  placeholder?: string;
   errorText?: string;
   visibleRows?: number;
   rowHeight?: number;
   disabled?: boolean;
-  isClearable?: boolean;
   textFieldProps?: TextFieldProps;
-  className?: string;
-  isMulti?: boolean;
   label?: string;
-  components?: Partial<SelectComponents<OptionType>>;
-  styles?: StylesConfig;
 }
 
 export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<OptionType>) {
@@ -395,7 +385,7 @@ export function Autocomplete<OptionType = IDefaultOptionType>(props: IProps<Opti
     return _.map(groups, (x, k) => ({
       label: k,
       options: x
-    }));
+    })) as GroupedOptionsType<OptionType>;
   }, [groupBy, options]);
 
   let value: ValueType<OptionType> = null;
