@@ -64,6 +64,7 @@ const styles = ({ spacing, palette, transitions }: Theme) => {
       flex: 1,
       alignItems: 'center',
       position: 'relative',
+      color: palette.text.primary,
       '& > div:first-child': {
         color: palette.text.primary
       }
