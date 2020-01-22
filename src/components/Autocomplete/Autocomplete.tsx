@@ -20,20 +20,23 @@ import { PlaceholderProps } from 'react-select/lib/components/Placeholder';
 import { OptionProps } from 'react-select/lib/components/Option';
 import { NoticeProps, MenuListComponentProps, MenuProps } from 'react-select/lib/components/Menu';
 import { MultiValueProps } from 'react-select/lib/components/MultiValue';
-import { getOptionValue, getOptionLabel } from 'react-select/lib/builtins';
 import { ControlProps } from 'react-select/lib/components/Control';
 import { IndicatorProps } from 'react-select/lib/components/indicators';
-import { StylesConfig } from 'react-select/lib/styles';
-import { SelectComponents } from 'react-select/lib/components';
 
 import { ChevronDown } from '../Icons';
 import './Autocomplete.scss';
 
-const styles = ({ spacing, palette, transitions }: Theme) =>
-  createStyles({
+const styles = ({ spacing, palette, transitions }: Theme) => {
+  const borderColor =
+    palette.type === 'light' ? 'rgba(0, 0, 0, 0.42)' : 'rgba(255, 255, 255, 0.7)';
+
+  return createStyles({
     input: {
       height: 'auto',
       display: 'flex',
+      '&:hover $dropdownChevron': {
+        fill: palette.text.primary
+      },
       '& > div:first-child > div:last-child': {
         marginTop: 0,
         marginBottom: 0,
@@ -60,7 +63,8 @@ const styles = ({ spacing, palette, transitions }: Theme) =>
       lineHeight: 'inherit',
       flex: 1,
       alignItems: 'center',
-      position: 'relative'
+      position: 'relative',
+      color: palette.text.primary
     },
     valueContainerWithItems: {
       marginTop: -spacing(0.8),
@@ -91,13 +95,13 @@ const styles = ({ spacing, palette, transitions }: Theme) =>
     inputUnderline: {
       borderBottom: '0',
       '&::before': {
-        borderBottom: '1px solid rgba(0, 0, 0, 0.42) !important'
+        borderBottom: `1px solid ${borderColor} !important`
       }
     },
     inputUnderlineDisabled: {
       borderBottom: '0',
       '&::before': {
-        borderBottom: '1px dotted rgba(0, 0, 0, 0.42) !important'
+        borderBottom: `1px dotted ${borderColor} !important`
       }
     },
     outlinedInput: {
@@ -114,21 +118,24 @@ const styles = ({ spacing, palette, transitions }: Theme) =>
       display: 'flex',
       alignItems: 'center',
       height: 19,
-      transition: transitions.create(['transform'], {
+      fill: borderColor,
+      transition: transitions.create(['transform', 'fill'], {
         easing: transitions.easing.easeInOut,
         duration: transitions.duration.shortest
       })
     },
     dropdownChevronFocused: {
-      transform: 'rotate(180deg)'
+      transform: 'rotate(180deg)',
+      fill: palette.text.primary
     }
   });
+}
 
 function LoadingIndicator() {
   return <CircularProgress size={19} />;
 }
 
-function DropdownIndicator<OptionType>({ selectProps, isFocused, ...rest }: IndicatorProps<OptionType>) {
+function DropdownIndicator<OptionType>({ selectProps, isFocused }: IndicatorProps<OptionType>) {
   return (
     <Icon
       fontSize="small"
