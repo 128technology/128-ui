@@ -64,7 +64,10 @@ const styles = ({ spacing, palette, transitions }: Theme) => {
       flex: 1,
       alignItems: 'center',
       position: 'relative',
-      color: palette.text.primary
+      color: palette.text.primary,
+      '& > div:first-child': {
+        color: palette.text.primary
+      }
     },
     valueContainerWithItems: {
       marginTop: -spacing(0.8),
