@@ -17,6 +17,10 @@ import { VIEWS } from './constants';
 import { Button } from '@material-ui/core';
 
 const styles = ({ typography, spacing, palette }: Theme) => ({
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
   contentContainer: {
     overflow: 'hidden',
     fontFamily: typography.fontFamily,
@@ -44,6 +48,8 @@ export interface IProps extends WithStyles<typeof styles> {
   timeErrorMessage?: string | Error;
   closeOnBackgroundClick?: boolean;
   errorOnNullDate?: boolean;
+  cancelButtonText?: string;
+  confirmButtonText?: string;
   onSetTimeError?: () => void;
   onChange?: (startDate: moment.Moment | null, endDate: moment.Moment | null) => void;
   popoverOnClose?: (startDate: moment.Moment | null, endDate: moment.Moment | null) => void;
@@ -431,12 +437,12 @@ export class Picker extends React.Component<IProps, IState> {
               />
             )}
             {this.props.closeOnBackgroundClick === false && (
-            <React.Fragment>
-              <Button color="secondary" onClick={this.onCancel}>Cancel</Button>
-              <Button color="primary" onClick={this.onConfirm} disabled={!this.state.startDate || !this.state.endDate}>Confirm</Button>
-              </React.Fragment>
-              )}
-               {this.state.error && this.props.timeErrorMessage && <div className={classes.errorMessage}>{this.props.timeErrorMessage}</div>}
+              <div className={classes.buttonContainer}>
+                <Button color="secondary" onClick={this.onCancel}>{this.props.cancelButtonText || 'Cancel'}</Button>
+                <Button color="primary" onClick={this.onConfirm} disabled={!this.state.startDate || !this.state.endDate}>{this.props.confirmButtonText || 'Confirm'}</Button>
+              </div>
+            )}
+            {this.state.error && this.props.timeErrorMessage && <div className={classes.errorMessage}>{this.props.timeErrorMessage}</div>}
           </Paper>
         </Popover>
       </div>
