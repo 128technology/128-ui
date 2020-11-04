@@ -1,8 +1,12 @@
 Date Time Range Picker:
 
-    <Picker onChange={console.log} timeErrorMessage="You must select two dates." closeOnBackgroundClick={true} />
+    <Picker onChange={console.log} />
 
-Date Time Range Picker With Confirm/Cancel:
+Date Time Range Picker with Error (will not pass null to popoverOnClose):
+
+    <Picker onChange={console.log} errorOnNullDate={true} timeErrorMessage="You must select two dates." />
+
+Date Time Range Picker with Confirm/Cancel:
 
     <Picker onChange={console.log} closeOnBackgroundClick={false} />
 

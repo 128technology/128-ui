@@ -43,6 +43,7 @@ export interface IProps extends WithStyles<typeof styles> {
   maxDate?: moment.Moment;
   timeErrorMessage?: string | Error;
   closeOnBackgroundClick?: boolean;
+  errorOnNullDate?: boolean;
   onSetTimeError?: () => void;
   onChange?: (startDate: moment.Moment | null, endDate: moment.Moment | null) => void;
   popoverOnClose?: (startDate: moment.Moment | null, endDate: moment.Moment | null) => void;
@@ -227,7 +228,7 @@ export class Picker extends React.Component<IProps, IState> {
   }
 
   handlePopoverOnClose = (event: {}, reason: 'backdropClick' | 'escapeKeyDown') => {
-    const { popoverOnClose, onSetTimeError, closeOnBackgroundClick } = this.props;
+    const { popoverOnClose, onSetTimeError, closeOnBackgroundClick, errorOnNullDate } = this.props;
     const { startDate, endDate } = this.state;
     if (reason === 'backdropClick' && closeOnBackgroundClick === false) {
       return;
@@ -238,7 +239,7 @@ export class Picker extends React.Component<IProps, IState> {
       return;
     }
     
-    if (!startDate || !endDate) {
+    if ((!startDate || !endDate) && errorOnNullDate) {
       if (onSetTimeError) {
         onSetTimeError();
       }
