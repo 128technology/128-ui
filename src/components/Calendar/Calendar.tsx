@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import Week, { IProps as WeekProps } from './Week';
 import Dotw from './Dotw';
 
-export type Colors = 'primary' | 'secondary';
+export type Colors = 'primary' | 'secondary' | 'error';
 
 export interface IProps {
   date?: moment.Moment;

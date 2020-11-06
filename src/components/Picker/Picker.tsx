@@ -14,8 +14,13 @@ import TimePicker from './TimePicker';
 import * as stateHandlers from './stateHandlers';
 import Calendar, { CalendarProps } from '../Calendar';
 import { VIEWS } from './constants';
+import { Button } from '@material-ui/core';
 
-const styles = ({ typography, spacing }: Theme) => ({
+const styles = ({ typography, spacing, palette }: Theme) => ({
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
   contentContainer: {
     overflow: 'hidden',
     fontFamily: typography.fontFamily,
@@ -24,10 +29,15 @@ const styles = ({ typography, spacing }: Theme) => ({
   calendarContainer: {
     padding: spacing(2),
     paddingTop: spacing(1)
+  },
+  errorMessage: {
+    color: palette.error.main,
+    fontStyle: 'italic',
+    textAlign: 'center' as any
   }
 });
 
-export type Colors = 'primary' | 'secondary';
+export type Colors = 'primary' | 'secondary' | 'error';
 
 export interface IProps extends WithStyles<typeof styles> {
   open?: boolean;
@@ -35,6 +45,12 @@ export interface IProps extends WithStyles<typeof styles> {
   endDate?: moment.Moment;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
+  timeErrorMessage?: string | Error;
+  closeOnBackgroundClick?: boolean;
+  errorOnNullDate?: boolean;
+  cancelButtonText?: string;
+  confirmButtonText?: string;
+  onSetTimeError?: () => void;
   onChange?: (startDate: moment.Moment | null, endDate: moment.Moment | null) => void;
   popoverOnClose?: (startDate: moment.Moment | null, endDate: moment.Moment | null) => void;
   hourOnClick?: (e: React.MouseEvent<HTMLElement>, date: moment.Moment) => void;
@@ -64,11 +80,13 @@ export interface IState {
   hoveredDate: moment.Moment | null;
   open: boolean;
   selectedView: string;
+  error?: boolean;
 }
 
 export class Picker extends React.Component<IProps, IState> {
   static defaultProps = {
-    color: 'primary' as Colors
+    color: 'primary' as Colors,
+    closeOnBackgroundClick: true
   };
 
   private anchorEl?: HTMLElement | null;
@@ -84,7 +102,8 @@ export class Picker extends React.Component<IProps, IState> {
       startDate,
       endDate: props.endDate ? props.endDate.clone() : moment(),
       open: false,
-      hoveredDate: null
+      hoveredDate: null,
+      error: false
     };
   }
 
@@ -105,10 +124,14 @@ export class Picker extends React.Component<IProps, IState> {
 
   handlePickerOnChange() {
     const { onChange } = this.props;
+    const { startDate, endDate } = this.state;
 
     if (onChange) {
-      const { startDate, endDate } = this.state;
       onChange(startDate, endDate);
+    }
+
+    if (startDate && endDate) {
+      this.resetError();
     }
   }
 
@@ -187,11 +210,52 @@ export class Picker extends React.Component<IProps, IState> {
     this.openPopover();
   };
 
-  handlePopoverOnClose = () => {
+  onConfirm = () => {
+    const { startDate, endDate } = this.state;
     const { popoverOnClose } = this.props;
 
     if (popoverOnClose) {
-      const { startDate, endDate } = this.state;
+      popoverOnClose(startDate, endDate);
+    }
+
+    this.closePopover();
+  }
+  
+  onCancel = () => {
+    this.closePopover();
+  }
+
+  setError = () => {
+    this.setState({ error: true });
+  }
+
+  resetError = () => {
+    this.setState({ error: false });
+  }
+
+  handlePopoverOnClose = (event: {}, reason: 'backdropClick' | 'escapeKeyDown') => {
+    const { popoverOnClose, onSetTimeError, closeOnBackgroundClick, errorOnNullDate } = this.props;
+    const { startDate, endDate } = this.state;
+    if (reason === 'backdropClick' && closeOnBackgroundClick === false) {
+      return;
+    }
+
+    if (reason === 'escapeKeyDown') {
+      this.closePopover();
+      return;
+    }
+    
+    if ((!startDate || !endDate) && errorOnNullDate) {
+      if (onSetTimeError) {
+        onSetTimeError();
+      }
+      this.setError();
+      return;
+    }
+
+    this.resetError();
+
+    if (popoverOnClose) {
       popoverOnClose(startDate, endDate);
     }
 
@@ -331,12 +395,13 @@ export class Picker extends React.Component<IProps, IState> {
           }}
         >
           <Paper elevation={1} className={classes.contentContainer}>
+       
             <CalendarHeader
               selectedView={selectedView}
               selectViewOnClick={this.handleSelectViewOnClick}
               startDate={startDate || undefined}
               endDate={endDate || undefined}
-              color={color}
+              color={this.state.error ? 'error' : color}
             />
             {(selectedView === VIEWS.START_DATE || selectedView === VIEWS.END_DATE) && (
               <div className={classes.calendarContainer} onMouseLeave={this.handleOnMouseLeave}>
@@ -371,6 +436,13 @@ export class Picker extends React.Component<IProps, IState> {
                 disableDate={disableDate}
               />
             )}
+            {this.props.closeOnBackgroundClick === false && (
+              <div className={classes.buttonContainer}>
+                <Button color="secondary" onClick={this.onCancel}>{this.props.cancelButtonText || 'Cancel'}</Button>
+                <Button color="primary" onClick={this.onConfirm} disabled={!this.state.startDate || !this.state.endDate}>{this.props.confirmButtonText || 'Confirm'}</Button>
+              </div>
+            )}
+            {this.state.error && this.props.timeErrorMessage && <div className={classes.errorMessage}>{this.props.timeErrorMessage}</div>}
           </Paper>
         </Popover>
       </div>
