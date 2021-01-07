@@ -1,28 +1,27 @@
-import * as _ from 'lodash';
-import * as React from 'react';
-import { AutoSizer } from 'react-virtualized';
-import { makeStyles } from '@material-ui/core/styles';
+import * as _ from "lodash";
+import * as React from "react";
+import { AutoSizer } from "react-virtualized";
+import { makeStyles } from "@material-ui/core/styles";
 import MuiTable, {
   IMuiVirtualizedTableProps,
   IMuiVirtualizedTableColumn,
   IHeaderClickProps
-} from '@128technology/mui-virtualized-table';
+} from "@128technology/mui-virtualized-table";
 
-import naturalSort = require('javascript-natural-sort');
+import Loading, { LoadingProps } from "../Loading";
 
-import Loading, { LoadingProps } from '../Loading';
-
-export interface IProps<TRow> extends Omit<IMuiVirtualizedTableProps<TRow>, 'width' | 'columns'> {
+export interface IProps<TRow>
+  extends Omit<IMuiVirtualizedTableProps<TRow>, "width" | "columns"> {
   columns: Array<
     IMuiVirtualizedTableColumn<TRow> & {
       customSorter?: (sortParams: {
         orderBy: keyof TRow;
-        orderDirection?: 'asc' | 'desc';
+        orderDirection?: "asc" | "desc";
       }) => (a: TRow, b: TRow) => number;
     }
   >;
   defaultOrderBy?: keyof TRow;
-  defaultOrderDirection?: 'asc' | 'desc';
+  defaultOrderDirection?: "asc" | "desc";
   loading?: boolean;
   loadingProps?: LoadingProps;
   width?: number;
@@ -30,11 +29,11 @@ export interface IProps<TRow> extends Omit<IMuiVirtualizedTableProps<TRow>, 'wid
 
 const useStyles = makeStyles({
   cellHeader: {
-    backgroundColor: 'inherit !important',
-    fontSize: 'inherit !important'
+    backgroundColor: "inherit !important",
+    fontSize: "inherit !important"
   },
   cellContents: {
-    width: 'auto'
+    width: "auto"
   }
 });
 
@@ -50,7 +49,7 @@ export function EnhancedTable<TRow>({
   columns,
   ...tableProps
 }: IProps<TRow>) {
-  type SortParams = { orderBy: keyof TRow; orderDirection?: 'asc' | 'desc' };
+  type SortParams = { orderBy: keyof TRow; orderDirection?: "asc" | "desc" };
   const classes = useStyles();
   const [sortParams, setSortParams] = React.useState<SortParams | null>(
     defaultOrderBy
@@ -60,6 +59,11 @@ export function EnhancedTable<TRow>({
         }
       : null
   );
+
+  const naturalSort = React.useMemo(
+    () => new Intl.Collator(undefined, { numeric: true, sensitivity: "base" }),
+    []
+  ).compare;
 
   const sortedData = React.useMemo(() => {
     if (!sortParams) {
@@ -77,7 +81,7 @@ export function EnhancedTable<TRow>({
         return -1;
       }
 
-      if (orderDirection === 'desc') {
+      if (orderDirection === "desc") {
         return naturalSort(_.toString(b), _.toString(a));
       } else {
         return naturalSort(_.toString(a), _.toString(b));
@@ -86,38 +90,49 @@ export function EnhancedTable<TRow>({
 
     const { orderBy, orderDirection } = sortParams;
 
-    const curColumn = _.find(columns, ['name', orderBy]);
+    const curColumn = _.find(columns, ["name", orderBy]);
     const customSorter = curColumn ? curColumn.customSorter : null;
     const sorter = customSorter ? customSorter(sortParams) : defaultSorter;
 
     return [...data].sort(sorter);
   }, [columns, data, sortParams]);
 
-  const onHeaderClick = React.useCallback((e: React.MouseEvent<HTMLElement>, props: IHeaderClickProps<TRow>) => {
-    setSortParams(s => {
-      if (s && s.orderBy === props.column.name) {
-        return { ...s, orderDirection: s.orderDirection === 'asc' ? 'desc' : 'asc' };
-      }
+  const onHeaderClick = React.useCallback(
+    (e: React.MouseEvent<HTMLElement>, props: IHeaderClickProps<TRow>) => {
+      setSortParams(s => {
+        if (s && s.orderBy === props.column.name) {
+          return {
+            ...s,
+            orderDirection: s.orderDirection === "asc" ? "desc" : "asc"
+          };
+        }
 
-      return {
-        orderBy: props.column.name as keyof TRow,
-        orderDirection: 'desc'
-      };
-    });
-  }, []);
+        return {
+          orderBy: props.column.name as keyof TRow,
+          orderDirection: "desc"
+        };
+      });
+    },
+    []
+  );
 
   return (
     <React.Fragment>
       {loading && <Loading {...loadingProps} />}
       {!loading && data && (
-        <AutoSizer disableHeight={!_.isNil(maxHeight || propHeight)} disableWidth={!_.isNil(propWidth)}>
+        <AutoSizer
+          disableHeight={!_.isNil(maxHeight || propHeight)}
+          disableWidth={!_.isNil(propWidth)}
+        >
           {({ width, height }) => (
             <MuiTable
               classes={classes}
               {...tableProps}
               fixedRowCount={1}
               orderBy={sortParams ? (sortParams.orderBy as string) : undefined}
-              orderDirection={sortParams ? sortParams.orderDirection : undefined}
+              orderDirection={
+                sortParams ? sortParams.orderDirection : undefined
+              }
               data={sortedData}
               width={propWidth || width}
               height={propHeight || height}
