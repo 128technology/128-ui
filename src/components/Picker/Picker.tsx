@@ -219,19 +219,19 @@ export class Picker extends React.Component<IProps, IState> {
     }
 
     this.closePopover();
-  }
-  
+  };
+
   onCancel = () => {
     this.closePopover();
-  }
+  };
 
   setError = () => {
     this.setState({ error: true });
-  }
+  };
 
   resetError = () => {
     this.setState({ error: false });
-  }
+  };
 
   handlePopoverOnClose = (event: {}, reason: 'backdropClick' | 'escapeKeyDown') => {
     const { popoverOnClose, onSetTimeError, closeOnBackgroundClick, errorOnNullDate } = this.props;
@@ -244,7 +244,7 @@ export class Picker extends React.Component<IProps, IState> {
       this.closePopover();
       return;
     }
-    
+
     if ((!startDate || !endDate) && errorOnNullDate) {
       if (onSetTimeError) {
         onSetTimeError();
@@ -395,7 +395,6 @@ export class Picker extends React.Component<IProps, IState> {
           }}
         >
           <Paper elevation={1} className={classes.contentContainer}>
-       
             <CalendarHeader
               selectedView={selectedView}
               selectViewOnClick={this.handleSelectViewOnClick}
@@ -438,11 +437,21 @@ export class Picker extends React.Component<IProps, IState> {
             )}
             {this.props.closeOnBackgroundClick === false && (
               <div className={classes.buttonContainer}>
-                <Button color="secondary" onClick={this.onCancel}>{this.props.cancelButtonText || 'Cancel'}</Button>
-                <Button color="primary" onClick={this.onConfirm} disabled={!this.state.startDate || !this.state.endDate}>{this.props.confirmButtonText || 'Confirm'}</Button>
+                <Button color="secondary" onClick={this.onCancel}>
+                  {this.props.cancelButtonText || 'Cancel'}
+                </Button>
+                <Button
+                  color="primary"
+                  onClick={this.onConfirm}
+                  disabled={!this.state.startDate || !this.state.endDate}
+                >
+                  {this.props.confirmButtonText || 'Confirm'}
+                </Button>
               </div>
             )}
-            {this.state.error && this.props.timeErrorMessage && <div className={classes.errorMessage}>{this.props.timeErrorMessage}</div>}
+            {this.state.error && this.props.timeErrorMessage && (
+              <div className={classes.errorMessage}>{this.props.timeErrorMessage}</div>
+            )}
           </Paper>
         </Popover>
       </div>

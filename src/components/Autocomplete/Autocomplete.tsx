@@ -27,8 +27,7 @@ import { ChevronDown } from '../Icons';
 import './Autocomplete.scss';
 
 const styles = ({ spacing, palette, transitions }: Theme) => {
-  const borderColor =
-    palette.type === 'light' ? 'rgba(0, 0, 0, 0.42)' : 'rgba(255, 255, 255, 0.7)';
+  const borderColor = palette.type === 'light' ? 'rgba(0, 0, 0, 0.42)' : 'rgba(255, 255, 255, 0.7)';
 
   return createStyles({
     input: {
@@ -132,7 +131,7 @@ const styles = ({ spacing, palette, transitions }: Theme) => {
       fill: palette.text.primary
     }
   });
-}
+};
 
 function LoadingIndicator() {
   return <CircularProgress size={19} />;
@@ -323,7 +322,9 @@ interface IDefaultOptionType {
   value: string;
 }
 
-export interface IProps<OptionType = IDefaultOptionType> extends WithStyles<typeof styles>, CreatableSelectProps<OptionType> {
+export interface IProps<OptionType = IDefaultOptionType>
+  extends WithStyles<typeof styles>,
+    CreatableSelectProps<OptionType> {
   chipAvatar?: (d: OptionType) => React.ReactNode;
   groupBy?: (d: OptionType) => string | undefined | null;
   creatable?: boolean;
