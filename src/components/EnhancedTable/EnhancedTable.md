@@ -56,3 +56,26 @@ Example:
     }];
 
     <EnhancedTable data={data} columns={columns} height={200} />
+
+Example (controlled orderBy):
+
+    const columns = [{
+      header: 'Name',
+      name: 'name'
+    }, {
+      header: 'Healthy',
+      name: 'healthy'
+    }];
+
+    const data = [{
+      name: 'Burger',
+      healthy: 'Kinda'
+    }, {
+      name: 'Carrot',
+      healthy: 'Yes'
+    }, {
+      name: 'Cookie',
+      healthy: 'No'
+    }];
+
+    <EnhancedTable data={data} columns={columns} height={200} orderBy="healthy" orderDirection="asc" />

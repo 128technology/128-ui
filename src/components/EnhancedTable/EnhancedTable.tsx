@@ -36,6 +36,8 @@ const useStyles = makeStyles({
   }
 });
 
+type SortParams<T> = { orderBy: keyof T; orderDirection?: 'asc' | 'desc' };
+
 export function EnhancedTable<TRow>({
   loading,
   loadingProps,
@@ -46,11 +48,13 @@ export function EnhancedTable<TRow>({
   height: propHeight,
   maxHeight,
   columns,
+  orderBy: orderByProp,
+  orderDirection: orderDirectionProp,
+  onHeaderClick: onHeaderClickProp,
   ...tableProps
 }: IProps<TRow>) {
-  type SortParams = { orderBy: keyof TRow; orderDirection?: 'asc' | 'desc' };
   const classes = useStyles();
-  const [sortParams, setSortParams] = React.useState<SortParams | null>(
+  const [sortParams, setSortParams] = React.useState<SortParams<TRow> | null>(
     defaultOrderBy
       ? {
           orderBy: defaultOrderBy,
@@ -62,14 +66,17 @@ export function EnhancedTable<TRow>({
   const naturalSort = React.useMemo(() => new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' }), [])
     .compare;
 
+  const orderByValue = orderByProp ? orderByProp : sortParams ? (sortParams.orderBy as string) : undefined;
+  const orderDirectionValue = orderDirectionProp ? orderDirectionProp : sortParams ? sortParams.orderDirection : undefined
+
   const sortedData = React.useMemo(() => {
-    if (!sortParams) {
+    if (!orderByValue) {
       return data;
     }
 
     const defaultSorter = (first: TRow, second: TRow) => {
-      const a = _.get(first, orderBy);
-      const b = _.get(second, orderBy);
+      const a = _.get(first, orderByValue);
+      const b = _.get(second, orderByValue);
       // Check if value is either {}, [], undefined, null, but NOT 0 or ''.
       if (_.isNil(a) || (_.isObject(a) && _.isEmpty(a))) {
         return 1;
@@ -78,23 +85,24 @@ export function EnhancedTable<TRow>({
         return -1;
       }
 
-      if (orderDirection === 'desc') {
+      if (orderDirectionValue === 'desc') {
         return naturalSort(_.toString(b), _.toString(a));
       } else {
         return naturalSort(_.toString(a), _.toString(b));
       }
     };
 
-    const { orderBy, orderDirection } = sortParams;
+    const currentSortParams = { orderBy: orderByValue as keyof TRow, orderDirection: orderDirectionValue }
 
-    const curColumn = _.find(columns, ['name', orderBy]);
+    const curColumn = _.find(columns, ['name', orderByValue]);
     const customSorter = curColumn ? curColumn.customSorter : null;
-    const sorter = customSorter ? customSorter(sortParams) : defaultSorter;
+    const sorter = customSorter ? customSorter(currentSortParams) : defaultSorter;
 
     return [...data].sort(sorter);
-  }, [columns, data, sortParams]);
+  }, [columns, data, orderByValue, orderDirectionValue]);
 
   const onHeaderClick = React.useCallback((e: React.MouseEvent<HTMLElement>, props: IHeaderClickProps<TRow>) => {
+    onHeaderClickProp && onHeaderClickProp(e, props);
     setSortParams(s => {
       if (s && s.orderBy === props.column.name) {
         return {
@@ -110,6 +118,7 @@ export function EnhancedTable<TRow>({
     });
   }, []);
 
+
   return (
     <React.Fragment>
       {loading && <Loading {...loadingProps} />}
@@ -120,8 +129,8 @@ export function EnhancedTable<TRow>({
               classes={classes}
               {...tableProps}
               fixedRowCount={1}
-              orderBy={sortParams ? (sortParams.orderBy as string) : undefined}
-              orderDirection={sortParams ? sortParams.orderDirection : undefined}
+              orderBy={orderByValue}
+              orderDirection={orderDirectionValue}
               data={sortedData}
               width={propWidth || width}
               height={propHeight || height}
