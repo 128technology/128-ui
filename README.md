@@ -9,7 +9,3 @@ Please be sure to run the following command when you update styleguide markdown 
 ```
 npm run styleguide:build
 ```
-
-## License
-
-Copyright (c) 2017 128 Technology, Inc. All rights reserved.
