@@ -19,6 +19,7 @@
     "format": "prettier --print-width 120 --single-quote --trailing-comma none --write \"src/components/**/*.{ts,tsx}\""
   },
   "publishConfig": {
+    "access": "public",
     "registry": "https://registry.npmjs.org"
   },
   "repository": {

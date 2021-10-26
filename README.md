@@ -1,10 +1,10 @@
-# 128-UI [![Build Status](https://travis-ci.org/128technology/128-ui.svg?branch=master)](https://travis-ci.org/128technology/128-ui) [![npm version](https://badge.fury.io/js/%40128technology%2Fui.svg)](https://badge.fury.io/js/%40128technology%2Fui)
+# 128-UI ![Node.js CI](https://github.com/128technology/128-ui/workflows/Node.js%20CI/badge.svg)  [![npm version](https://badge.fury.io/js/%40128technology%2Fui.svg)](https://badge.fury.io/js/%40128technology%2Fui)
 
 The 128 Technology, Inc. UI component library. [Styleguide](https://128technology.github.io/128-ui/).
 
 ## Contributing
 
-Please be sure to run the following command when you update stylguide markdown documents. 
+Please be sure to run the following command when you update styleguide markdown documents. 
 
 ```
 npm run styleguide:build
