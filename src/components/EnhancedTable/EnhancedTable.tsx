@@ -116,7 +116,8 @@ export function EnhancedTable<TRow>({
         orderDirection: 'desc'
       };
     });
-  }, []);
+  }, [onHeaderClickProp]);
+
 
 
   return (
