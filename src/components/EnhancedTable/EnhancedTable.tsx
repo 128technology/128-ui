@@ -119,6 +119,7 @@ export function EnhancedTable<TRow>({
   }, [onHeaderClickProp]);
 
 
+
   return (
     <React.Fragment>
       {loading && <Loading {...loadingProps} />}
